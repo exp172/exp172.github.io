@@ -1,8 +1,70 @@
-#mainCanvas {
-    width: 384px;
-    height: 384px;
-    image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-crisp-edges;
-        image-rendering: pixelated;
-        image-rendering: crisp-edges;
+.map_container {
+  height: 0;
+  overflow: hidden;
+  padding-top: calc(0.5 * 100%);
+  background: white;
+  position: relative;
+}
+
+.map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 100% auto;
+}
+
+.map.biome {
+  background-image: url('../img/map_biomes.bmp');
+}
+
+.map.altitude {
+  background-image: url('../img/map.bmp');
+}
+
+.map .key {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  /* width: 643px; */
+  width: 321px;
+  /* height: 124px; */
+  height: 62px;
+  background-image: url('../img/key.png');
+  background-size: 100% auto;
+  opacity: 0.5;
+}
+
+.map.altitude .key {
+  display: none;
+}
+
+.map.biome .key {
+  display: block;
+}
+
+.hex_group.selected {
+  fill: #ff0000;
+}
+
+.hex.selected {
+  fill-opacity: 0.6;
+  stroke-width: 0;
+}
+
+.color_controls {
+  position: absolute;
+  display: flex;
+  background-color: white;
+  height: 140px;
+  width: 280px;
+  top: 0px;
+  right: 0px;
+}
+
+.button_color {
+  height: 10px;
+  width: 10px;
+  border: 2px solid #888888;
 }
