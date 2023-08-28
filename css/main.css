@@ -2,7 +2,7 @@ body{
     font-family:arial;
 }
 
-.title{
+.page_title{
     font-size:30px;
     font-weight:bold;
     margin:10px 0;
@@ -60,6 +60,15 @@ body{
 
 .scenario_modifier{
     display:none;
+}
+
+
+.faction_modifier_total_container .title{
+    font-weight:bold;
+    margin:5px 0px;
+}
+.faction_modifier_total_container .subtitle{
+    margin:5px 0px;
 }
 
 .modifier_container{
