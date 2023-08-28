@@ -22,6 +22,8 @@ const attackerWeaponSelectEl = document.querySelector('#attackers_weapon_select'
 
 const defenderTags = document.querySelector('#defenderTags')
 
+const informationContainer = document.querySelector('#informationContainer');
+
 //modifier elements
 let halfRangeContainer = document.getElementById("halfRange");
 let halfRangeInput = document.getElementById("halfRangeInput");
@@ -53,6 +55,8 @@ let selectedAttackerWeapon = '';
 let selectedAttackerWeaponDetails = {};
 
 let weaponMeleeRanged = 'ranged';
+
+let informationHTML = '';
 
 //some dudes dice code so we can roll dice!
 function rollDice(min, max) {
@@ -1332,6 +1336,20 @@ function simulateAttackSequence() {
 
     console.log('');
 
+    let necronReanimationString = '';
+    if(necronsReanimation){
+        necronReanimationString = `<div>on average <span class="value">${averageReanimations}</span> models reanimated</div>`;
+    }
+
+    let hazardousString = '';
+    if(hazardous){
+        hazardousString = `<div>And has a 16.6% of killing itself or causing itself harm</div>`;
+    }
+
+    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${(100/simulations)*defenderWipedArr.length}%</span></div>${hazardousString}`;
+
+    informationContainer.innerHTML = informationHTML;
+
     //make the chart
     counter = {};
     resultsArr.forEach(ele => {
@@ -1657,9 +1675,11 @@ function resetModifiers(target){
 
 function toggleModifiersVisible(){
     if(document.getElementById('modifiers').style.height == '0px'){
-        document.getElementById('modifiers').style.height = '604px';
+        document.getElementById('modifiers').style.height = '624px';
+        document.getElementById('modifiers').style.padding = '10px 10px';
     }else{
         document.getElementById('modifiers').style.height = '0px';
+        document.getElementById('modifiers').style.padding = '0px 10px';
     }
 }
 
