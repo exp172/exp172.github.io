@@ -706,9 +706,40 @@ function simulateAttackSequence() {
     }
 
     //rapid fire
+    let rollRapidFire = false;
+    if(rapidFireCount.includes("d") || rapidFireCount.includes("D")){
+        rollRapidFire = true;
+    }
+
     let halfRange = halfRangeInput.checked;
     if(rapidFire && halfRange){
-        if(rollAttacks){
+
+        if(rollRapidFire && rollAttacks){
+
+            //roll both
+            let splitAttackString = attackString.split('+');
+            let splitRapidFireString = rapidFireCount.split('+');
+            if(splitAttackString.length == 2){
+                splitAttackString[1] = parseInt(splitAttackString[1]) + rapidFireCount;
+                attackString = splitAttackString.join('+');
+            }else{
+                attackString = splitAttackString[0] + '+' + rapidFireCount;
+            }
+
+        }else if(rollRapidFire){
+
+            //roll rapid fire, regular attack amount
+            let splitRapidFireString = rapidFireCount.split('+');
+            if(splitRapidFireString.length == 2){
+                splitRapidFireString[1] = parseInt(splitRapidFireString[1]) + attackString;
+                attackString = splitRapidFireString.join('+');
+            }else{
+                attackString = splitRapidFireString[0] + '+' + attackString;
+            }
+
+        }else if(rollAttacks){
+
+            //standard rapid fire amount, roll attack amount
             let splitAttackString = attackString.split('+');
             if(splitAttackString.length == 2){
                 splitAttackString[1] = parseInt(splitAttackString[1]) + rapidFireCount;
@@ -716,9 +747,15 @@ function simulateAttackSequence() {
             }else{
                 attackString = splitAttackString[0] + '+' + rapidFireCount;
             }
+
         }else{
+
+            //standard rapid fire, standard attacks
             attackString += rapidFireCount;
+
         }
+
+        console.log(`Attack String: ${attackString}`);
     }
 
     //melta
@@ -1288,7 +1325,7 @@ function simulateAttackSequence() {
         resultsArr.push(finalWoundsDealt);
 
         //if we killed more than the units members just cap it
-        if(deadDefenders > defenderCount){
+        if(deadDefenders >= defenderCount){
             deadDefenders = defenderCount;
             defenderWipedArr.push('wiped');
         }
@@ -1309,8 +1346,8 @@ function simulateAttackSequence() {
         totalSimulationDamage += result;
     });
     let average = totalSimulationDamage/simulations;
-    console.log(`true average damage over ${simulations} simulations: ${average}`);
-    console.log(`rounded average damage over ${simulations} simulations: ${Math.round(average)}`);
+    // console.log(`true average damage over ${simulations} simulations: ${average}`);
+    // console.log(`rounded average damage over ${simulations} simulations: ${Math.round(average)}`);
 
     let totalSimulationKills = 0;
     deadDefenderResultsArr.forEach((result) => { 
@@ -1323,18 +1360,18 @@ function simulateAttackSequence() {
             totalSimulationReanimations += result;
         });
         let averageReanimations = totalSimulationReanimations/simulations;
-        console.log(`on average ${averageReanimations} models reanimated`);
+        // console.log(`on average ${averageReanimations} models reanimated`);
     }
-    console.log(`true average kills over ${simulations} simulations: ${averageKills}`);
-    console.log(`rounded average kills over ${simulations} simulations: ${Math.round(averageKills)}`);
+    // console.log(`true average kills over ${simulations} simulations: ${averageKills}`);
+    // console.log(`rounded average kills over ${simulations} simulations: ${Math.round(averageKills)}`);
 
-    console.log(`percentage chance to fully wipe the target unit: ${(100/simulations)*defenderWipedArr.length}%`);
+    // console.log(`percentage chance to fully wipe the target unit: ${(100/simulations)*defenderWipedArr.length}%`);
 
-    if(hazardous){
-        console.log('And has a 16.6% of killing itself or causing itself harm');
-    }
+    // if(hazardous){
+        // console.log('And has a 16.6% of killing itself or causing itself harm');
+    // }
 
-    console.log('');
+    // console.log('');
 
     let necronReanimationString = '';
     if(necronsReanimation){
@@ -1391,11 +1428,13 @@ function generateFactionSelectHtml(){
     let defenderHTMLOut = '<option value="null">-</option>';
     let attackerHTMLOut = '<option value="null">-</option>';
 
-    for (const faction in data){
-        let factionData = data[faction];
-        defenderHTMLOut += `<option value="${faction}">${factionData.name}</option>`;
-        attackerHTMLOut += `<option value="${faction}">${factionData.name}</option>`
-    }
+    Object.keys(data)
+        .sort()
+        .forEach(function(faction, i) {
+            let factionData = data[faction];
+            defenderHTMLOut += `<option value="${faction}">${factionData.name}</option>`;
+            attackerHTMLOut += `<option value="${faction}">${factionData.name}</option>`;
+        });
 
     return {
         defender: defenderHTMLOut,
@@ -1407,10 +1446,12 @@ function generateUnitSelectHtml(selectedFaction){
     let HTMLOut = '<option value="null">-</option>';
     let factionData = data[selectedFaction]
 
-    for (const unit in factionData.units){
-        let unitData = factionData.units[unit];
-        HTMLOut += `<option value="${unit}">${unitData.name}</option>`;
-    }
+    Object.keys(factionData.units)
+        .sort()
+        .forEach(function(unit, i) {
+            let unitData = factionData.units[unit];
+            HTMLOut += `<option value="${unit}">${unitData.name}</option>`;
+        });
 
     return HTMLOut;
 }
