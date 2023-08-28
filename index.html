@@ -11,6 +11,16 @@
   <body>
     <div class="container">
         <div class="title">Warhammer 40k Attack Simulator</div>
+        <div class="note">
+            <div>V1.0</div>
+            <div>
+                Welcome to the Warhammer 40k attack simulator! This page lets you simulate an attack against an enemy unit. Use the drop downs to select your faction, your unit, and (for the attacker) which weapon the unit is using.
+                <br/>
+                In V1 the only step you might need to take is changing the 'Number of Weapons' section of some of the weapons, as the way these were taken from the idnex cards means they aren't accurate.
+                <br/>
+                The data was last updated on 26/08/2023
+            </div>
+        </div>
         <div class="bold">Simulations to run?</div>
         <input id="simulations" value="1000"/>
         <!-- <input id="simulations" value="1"/> -->
@@ -58,10 +68,10 @@
         <div class="bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
             <div class="scenarioAttacker">
-                <div class="modifier_container" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
-                <div class="modifier_container" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
-                <div class="modifier_container" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
-                <div class="modifier_container" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
+                <div class="scenario_modifier" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
+                <div class="scenario_modifier" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
+                <div class="scenario_modifier" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
+                <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
             </div>
             <div class="scenarioDefender">
             </div>
@@ -322,75 +332,75 @@
         <div class="bold">Modifiers</div><button class="button" id="modifierToggle">toggle</button>
         <div class="flex_container modifier_container" id="modifiers" style="height:0px;">
             <div class="attacker">
-                <div class="bold">attacker</div>
-                <div>
+                <div class="modifier_title bold">Attacker</div>
+                <div class="modifier_item">
                     <div>Critical Hit</div>
                     <input type="text" id="criticalHit" value="6"/>
                 </div>
-                <div>
+                <div class="modifier_item">
                     <div>Critical Wound</div>
                     <input type="text" id="criticalWound" value="6"/>
                 </div>
-                <div><input type="checkbox" id="assault" /> Assault</div>
-                <div>
+                <div class="modifier_item"><input type="checkbox" id="assault" /> Assault</div>
+                <div class="modifier_item">
                     <input type="checkbox" id="rapidFire" /> Rapid Fire
                     <input type="text" id="rapidFireCount" />
                 </div>
-                <div><input type="checkbox" id="ignoresCover" /> Ignores Cover</div>
-                <div><input type="checkbox" id="twinLinked" /> Twin Linked</div>
-                <div><input type="checkbox" id="pistol" /> Pistol</div>
-                <div><input type="checkbox" id="torrent" /> Torrent</div>
-                <div><input type="checkbox" id="lethalHits" /> Lethal Hits</div>
-                <div><input type="checkbox" id="lance" /> Lance</div>
-                <div><input type="checkbox" id="indirectFire" /> Indirect Fire</div>
-                <div><input type="checkbox" id="precision" /> Precision</div>
-                <div><input type="checkbox" id="psychic" /> Psychic</div>
-                <div><input type="checkbox" id="blast" /> Blast</div>
-                <div>
+                <div class="modifier_item"><input type="checkbox" id="ignoresCover" /> Ignores Cover</div>
+                <div class="modifier_item"><input type="checkbox" id="twinLinked" /> Twin Linked</div>
+                <div class="modifier_item"><input type="checkbox" id="pistol" /> Pistol</div>
+                <div class="modifier_item"><input type="checkbox" id="torrent" /> Torrent</div>
+                <div class="modifier_item"><input type="checkbox" id="lethalHits" /> Lethal Hits</div>
+                <div class="modifier_item"><input type="checkbox" id="lance" /> Lance</div>
+                <div class="modifier_item"><input type="checkbox" id="indirectFire" /> Indirect Fire</div>
+                <div class="modifier_item"><input type="checkbox" id="precision" /> Precision</div>
+                <div class="modifier_item"><input type="checkbox" id="psychic" /> Psychic</div>
+                <div class="modifier_item"><input type="checkbox" id="blast" /> Blast</div>
+                <div class="modifier_item">
                     <input type="checkbox" id="melta" /> Melta
                     <input type="text" id="meltaCount" />
                 </div>
-                <div><input type="checkbox" id="heavy" /> heavy</div>
-                <div><input type="checkbox" id="hazardous" /> hazardous</div>
-                <div><input type="checkbox" id="devastatingWounds" /> Devastating Wounds</div>
-                <div>
+                <div class="modifier_item"><input type="checkbox" id="heavy" /> heavy</div>
+                <div class="modifier_item"><input type="checkbox" id="hazardous" /> hazardous</div>
+                <div class="modifier_item"><input type="checkbox" id="devastatingWounds" /> Devastating Wounds</div>
+                <div class="modifier_item">
                     <input type="checkbox" id="sustainedHits" /> Sustained Hits
                     <input type="text" id="sustainedHitsCount" />
                 </div>
-                <div><input type="checkbox" id="extraAttacks" /> Extra Attacks</div>
-                <div>
+                <div class="modifier_item"><input type="checkbox" id="extraAttacks" /> Extra Attacks</div>
+                <div class="modifier_item">
                     <input type="checkbox" id="anti" /> Anti
                     <input type="text" id="antiType" />
                     <input type="text" id="antiValue" />
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="reroll1HitRoll" /> Reroll a single hit roll
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="reroll1Hits" /> Reroll hits of 1
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="rerollAllHits" /> Reroll all hits
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="reroll1WoundRoll" /> Reroll a single wound roll
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="reroll1Wounds" /> Reroll wounds of 1
                 </div>
-                <div>
+                <div class="modifier_item">
                     <input type="checkbox" id="rerollAllWounds" /> Reroll all wounds
                 </div>
             </div>
             <div class="defender">
-                <div class="bold">defender</div>
-                <div>
+                <div class="modifier_title bold">Defender</div>
+                <div class="modifier_item">
                     Key Words
                     <input type="text" id="defenderTags" />
                 </div>
-                <div><input type="checkbox" id="cover" /> Cover</div>
-                <div><input type="checkbox" id="stealth" /> Stealth</div>
-                <div>
+                <div class="modifier_item"><input type="checkbox" id="cover" /> Cover</div>
+                <div class="modifier_item"><input type="checkbox" id="stealth" /> Stealth</div>
+                <div class="modifier_item">
                     <input type="checkbox" id="rerollAllSaves" /> Reroll all saves
                 </div>
             </div>

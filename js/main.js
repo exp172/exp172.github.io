@@ -1675,7 +1675,7 @@ function resetModifiers(target){
 
 function toggleModifiersVisible(){
     if(document.getElementById('modifiers').style.height == '0px'){
-        document.getElementById('modifiers').style.height = '624px';
+        document.getElementById('modifiers').style.height = modifierAttackerHeight+'px';
         document.getElementById('modifiers').style.padding = '10px 10px';
     }else{
         document.getElementById('modifiers').style.height = '0px';
@@ -1749,5 +1749,6 @@ indirectFireEl.addEventListener("change", showHideLos);
 heavyEl.addEventListener("change", showHideMoved);
 mechanicusAttackerProtectorEl.addEventListener("change", showHideMoved);
 
+let modifierAttackerHeight = document.querySelector('#modifiers').querySelector('.attacker').scrollHeight;
 
 console.log(data);
