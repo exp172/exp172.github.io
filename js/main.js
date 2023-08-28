@@ -209,7 +209,7 @@ function simulateAttackSequence() {
     }
     let assault = document.getElementById("assault").checked; /* doesnt actually modify the results */
     let rapidFire = rapidFireEl.checked;
-    let rapidFireCount = parseInt(document.getElementById("rapidFireCount").value);
+    let rapidFireCount = document.getElementById("rapidFireCount").value;
     let ignoresCover = document.getElementById("ignoresCover").checked;
     let twinLinked = document.getElementById("twinLinked").checked;
     // let pistol = document.getElementById("pistol").checked; /* doesnt actually modify the results */
@@ -494,14 +494,11 @@ function simulateAttackSequence() {
     }
 
     //Imperial Knights
-    let impKnightsAttackerHonored = document.getElementById("imperialKnightsArmyRuleAttackerHonored").checked;
+    // let impKnightsAttackerHonored = document.getElementById("imperialKnightsArmyRuleAttackerHonored").checked;
     let impKnightsLayLow = document.getElementById("imperialKnightsArmyRuleLayLow").checked;
     let impKnightsDefenderHonored = document.getElementById("imperialKnightsArmyRuleDefenderHonored").checked;
     let impKnightsIndomitable = document.getElementById("imperialKnightsDetachmentIndomitable").checked;
 
-    if(impKnightsAttackerHonored){
-
-    }
     if(impKnightsLayLow){
         rerollSingleHit = true;
         rerollSingleWound = true;
@@ -706,56 +703,10 @@ function simulateAttackSequence() {
     }
 
     //rapid fire
-    let rollRapidFire = false;
-    if(rapidFireCount.includes("d") || rapidFireCount.includes("D")){
-        rollRapidFire = true;
-    }
-
     let halfRange = halfRangeInput.checked;
-    if(rapidFire && halfRange){
-
-        if(rollRapidFire && rollAttacks){
-
-            //roll both
-            let splitAttackString = attackString.split('+');
-            let splitRapidFireString = rapidFireCount.split('+');
-            if(splitAttackString.length == 2){
-                splitAttackString[1] = parseInt(splitAttackString[1]) + rapidFireCount;
-                attackString = splitAttackString.join('+');
-            }else{
-                attackString = splitAttackString[0] + '+' + rapidFireCount;
-            }
-
-        }else if(rollRapidFire){
-
-            //roll rapid fire, regular attack amount
-            let splitRapidFireString = rapidFireCount.split('+');
-            if(splitRapidFireString.length == 2){
-                splitRapidFireString[1] = parseInt(splitRapidFireString[1]) + attackString;
-                attackString = splitRapidFireString.join('+');
-            }else{
-                attackString = splitRapidFireString[0] + '+' + attackString;
-            }
-
-        }else if(rollAttacks){
-
-            //standard rapid fire amount, roll attack amount
-            let splitAttackString = attackString.split('+');
-            if(splitAttackString.length == 2){
-                splitAttackString[1] = parseInt(splitAttackString[1]) + rapidFireCount;
-                attackString = splitAttackString.join('+');
-            }else{
-                attackString = splitAttackString[0] + '+' + rapidFireCount;
-            }
-
-        }else{
-
-            //standard rapid fire, standard attacks
-            attackString += rapidFireCount;
-
-        }
-
-        console.log(`Attack String: ${attackString}`);
+    let rollRapidFire = false;
+    if(rapidFireCount.toUpperCase().includes('D')){
+        rollRapidFire = true;
     }
 
     //melta
@@ -884,6 +835,21 @@ function simulateAttackSequence() {
             attacks =  parseInt(attackString) * attackerCount;
             // console.log(`attacks: ${attacks}`)
         }
+
+        // console.log(`attacks without additions: ${attacks}`)
+
+        //add the rapid fire attacks
+        if(halfRange && rapidFire){
+            if(rollRapidFire){
+                for(let i=0,j=attackerCount;i<j;i++){
+                    attacks += calcDiceRollsInString(rapidFireCount);
+                }
+            }else{
+                attacks =  parseInt(rapidFireCount) * attackerCount;
+            }
+        }
+
+        // console.log(`attacks after rapid fire: ${attacks}`)
 
         //add 1 additional attack for every 5 defender models
         if(blast){
@@ -1383,7 +1349,7 @@ function simulateAttackSequence() {
         hazardousString = `<div>And has a 16.6% of killing itself or causing itself harm</div>`;
     }
 
-    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${(100/simulations)*defenderWipedArr.length}%</span></div>${hazardousString}`;
+    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${((100/simulations)*defenderWipedArr.length).toFixed(2)*1}%</span></div>${hazardousString}`;
 
     informationContainer.innerHTML = informationHTML;
 
@@ -1791,5 +1757,15 @@ heavyEl.addEventListener("change", showHideMoved);
 mechanicusAttackerProtectorEl.addEventListener("change", showHideMoved);
 
 let modifierAttackerHeight = document.querySelector('#modifiers').querySelector('.attacker').scrollHeight;
+
+/* CHECK TO CATCH ANY DATA WHERE UNIT SIZE = 0 */
+// for(const faction in data){
+//     for(const unit in data[faction].units){
+//         if(data[faction].units[unit].size == 0){
+//             console.log(data[faction].units[unit].name);
+//             console.log(data[faction].units[unit].size);
+//         }
+//     }
+// }
 
 console.log(data);
