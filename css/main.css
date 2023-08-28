@@ -1,70 +1,75 @@
-.map_container {
-  height: 0;
-  overflow: hidden;
-  padding-top: calc(0.5 * 100%);
-  background: white;
-  position: relative;
+body{
+    font-family:arial;
 }
 
-.map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: 100% auto;
+.flex_container{
+    display:flex;
 }
 
-.map.biome {
-  background-image: url('../img/map_biomes.bmp');
+.flex_container .attacker, .flex_container .defender, .flex_container .factionAttacker, .flex_container .factionDefender, .flex_container .scenarioAttacker, .flex_container .scenarioDefender{
+    flex-grow:1;
+    flex:1;
 }
 
-.map.altitude {
-  background-image: url('../img/map.bmp');
+.flex_container .defender{
+    margin-left:10px;
 }
 
-.map .key {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  /* width: 643px; */
-  width: 321px;
-  /* height: 124px; */
-  height: 62px;
-  background-image: url('../img/key.png');
-  background-size: 100% auto;
-  opacity: 0.5;
+.scenario_modifier_total_container .modifier_container{
+    display:none;
 }
 
-.map.altitude .key {
-  display: none;
+.modifier_container{
+    overflow:hidden;
+    transition: height 1s; 
 }
 
-.map.biome .key {
-  display: block;
+.modifiers{
+    margin:10px 0;
 }
 
-.hex_group.selected {
-  fill: #ff0000;
+.select_container{
+    height:calc(25px * 3);
+    margin-top:5px;
 }
 
-.hex.selected {
-  fill-opacity: 0.6;
-  stroke-width: 0;
+    .select_container select{
+        display:block;
+        margin-bottom:5px;
+    }
+
+.button_calculate{
+    margin-top:10px;
 }
 
-.color_controls {
-  position: absolute;
-  display: flex;
-  background-color: white;
-  height: 140px;
-  width: 280px;
-  top: 0px;
-  right: 0px;
+.chart_container{
+    margin-top:20px;
 }
 
-.button_color {
-  height: 10px;
-  width: 10px;
-  border: 2px solid #888888;
-}
+    .chart_container .chart{
+        width:calc(100% - 20px);
+        aspect-ratio: 8 / 5;
+        background-color: antiquewhite;
+        padding:30px 10px 10px 10px;
+        display:flex;
+        align-items:flex-end;
+    }
+
+    .bar{
+        background-color:darkgoldenrod;
+    }
+
+    .bar.average{
+        background-color:darkorange;
+    }
+
+        .bar .label{
+            text-align:center;
+            margin-top:-20px;
+        }
+
+        .bar .sublabel{
+            font-size:10px;
+            padding-left:5px;
+            color:#888888;   
+        }
