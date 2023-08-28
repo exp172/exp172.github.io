@@ -1505,7 +1505,8 @@ function attackerFactionChange(){
 
     //faction abilities should turn on
     switch (selectedAttackerFaction) {
-        case 'adeptusCustodes':
+        case 'aeldari':
+            document.querySelector(`#aeldariDetachmentUF`).checked = true;
             break;
         case 'orks':
             document.querySelector(`#orksDetachmentGetStuckIn`).checked = true;
@@ -1534,9 +1535,11 @@ function defenderFactionChange(){
         case 'adeptusCustodes':
             document.querySelector(`#custodesDetachmentRuleAegis`).checked = true;
             break;
-        case 'orks':
-          break;
-        case 'tauEmpire':
+        case 'imperialKnights':
+            document.querySelector(`#imperialKnightsDetachmentIndomitable`).checked = true;
+            break;
+        case 'necrons':
+            document.querySelector(`#necronsArmyRuleReanimation`).checked = true;
             break;
       }
 }
