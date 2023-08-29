@@ -265,6 +265,102 @@ function simulateAttackSequence() {
         hitModifier += 1;
     }
 
+    let sororitasBlade = document.getElementById("adeptaSororitasEnhancementBlade").checked;
+    let sororitasBladeDamaged = document.getElementById("adeptaSororitasEnhancementBladeDamaged").checked;
+    let sororitasMantle = document.getElementById("adeptaSororitasEnhancementMantle").checked;
+
+    if(sororitasBladeDamaged && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            if(rollAttacks){
+                let splitAttackString = attackString.split('+');
+                if(splitAttackString.length == 2){
+                    splitAttackString[1] = parseInt(splitAttackString[1])+2;
+                    attackString = splitAttackString.join('+');
+                }else{
+                    attackString = splitAttackString[0] + '+' + 2;
+                }
+            }else{
+                attackString += 2;
+            }
+        }
+        if(rollDamage){
+            let splitDamageString = damageString.split('+');
+            if(splitDamageString.length == 2){
+                splitDamageString[1] = parseInt(splitDamageString[1]) + 2;
+                damageString = splitDamageString.join('+');
+            }else{
+                damageString = splitDamageString[0] + '+' + 2;
+            }
+        }else{
+            damageString += 2;
+        }
+        strength += 1;
+    }else if(sororitasBlade && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            if(rollAttacks){
+                let splitAttackString = attackString.split('+');
+                if(splitAttackString.length == 2){
+                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
+                    attackString = splitAttackString.join('+');
+                }else{
+                    attackString = splitAttackString[0] + '+' + 1;
+                }
+            }else{
+                attackString += 1;
+            }
+        }
+        if(rollDamage){
+            let splitDamageString = damageString.split('+');
+            if(splitDamageString.length == 2){
+                splitDamageString[1] = parseInt(splitDamageString[1]) + 1;
+                damageString = splitDamageString.join('+');
+            }else{
+                damageString = splitDamageString[0] + '+' + 1;
+            }
+        }else{
+            damageString += 1;
+        }
+        strength += 1;
+    }
+
+    //Adeptus Custodes
+
+    let custodesDacatari = document.getElementById("custodesArmyRuleDacatari").checked;
+    let custodesRendax = document.getElementById("custodesArmyRuleRendax").checked;
+    let custodesKaptaris = document.getElementById("custodesArmyRuleKaptaris").checked;
+    let custodesAegis = document.getElementById("custodesDetachmentRuleAegis").checked;
+
+    if(custodesDacatari && weaponMeleeRanged == 'melee' && !sustainedHits){
+        sustainedHits = true;
+        sustainedHitsCount = 1;
+    }
+
+    if(custodesRendax && weaponMeleeRanged == 'melee'){
+        lethalHits = true;
+    }
+
+    if(custodesKaptaris && weaponMeleeRanged == 'melee'){
+        hitModifier = hitModifier - 1;
+    }
+
+    let custodesBlade = document.getElementById("custodesEnhancementBlade").checked;
+
+    if(custodesBlade && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            if(rollAttacks){
+                let splitAttackString = attackString.split('+');
+                if(splitAttackString.length == 2){
+                    splitAttackString[1] = parseInt(splitAttackString[1])+2;
+                    attackString = splitAttackString.join('+');
+                }else{
+                    attackString = splitAttackString[0] + '+' + 2;
+                }
+            }else{
+                attackString += 2;
+            }
+        }
+    }
+
     //Adeptus Mechanicus
     let mechanicusAttackerProtector = mechanicusAttackerProtectorEl.checked;
     let mechanicusConqueror = document.getElementById("mechanicusArmyRuleConqueror").checked;
@@ -283,6 +379,12 @@ function simulateAttackSequence() {
         if(ap > 0){
             ap = ap - 1;
         }
+    }
+
+    let mechanicusOmni = document.getElementById("adeptusMechanicusEnhancementOmni").checked;
+    
+    if(mechanicusOmni){
+
     }
 
     //Aeldari
@@ -384,26 +486,6 @@ function simulateAttackSequence() {
             }
         }
         strength += 1;
-    }
-    
-    //Custodes
-
-    let custodesDacatari = document.getElementById("custodesArmyRuleDacatari").checked;
-    let custodesRendax = document.getElementById("custodesArmyRuleRendax").checked;
-    let custodesKaptaris = document.getElementById("custodesArmyRuleKaptaris").checked;
-    let custodesAegis = document.getElementById("custodesDetachmentRuleAegis").checked;
-
-    if(custodesDacatari && weaponMeleeRanged == 'melee' && !sustainedHits){
-        sustainedHits = true;
-        sustainedHitsCount = 1;
-    }
-
-    if(custodesRendax && weaponMeleeRanged == 'melee'){
-        lethalHits = true;
-    }
-
-    if(custodesKaptaris && weaponMeleeRanged == 'melee'){
-        hitModifier = hitModifier - 1;
     }
 
     //chaos knights
@@ -696,6 +778,24 @@ function simulateAttackSequence() {
         }
         strength += 1;
     }
+
+    //generic stratagems
+    let stratagemTankShock = document.getElementById("genericStratagemTankShock").checked;
+    let tankShockDiceToRoll = 0;
+    if(stratagemTankShock && weaponMeleeRanged == 'melee'){
+        //select the strongest melee weapon on the vehicle
+        for(const weapon in data[selectedAttackerFaction].units[selectedAttackerUnit].weapons.melee){
+            let weaponStrength = parseInt(data[selectedAttackerFaction].units[selectedAttackerUnit].weapons.melee[weapon].s);
+            if(weaponStrength > tankShockDiceToRoll){
+                tankShockDiceToRoll = weaponStrength;
+            }
+        }
+        if(tankShockDiceToRoll > toughness){
+            tankShockDiceToRoll += 2;
+        }
+    }else if(stratagemTankShock){
+        stratagemTankShock = false;
+    }
     
     //modifiers
     if(stealth && weaponMeleeRanged == 'ranged'){
@@ -807,9 +907,16 @@ function simulateAttackSequence() {
         }
     }
 
+    //goes down here to make sure no extra damage is added
+    if(sororitasMantle){
+        rollDamage = false;
+        damageString = 1;
+    }
+
     let resultsArr = [];
     let deadDefenderResultsArr = [];
     let defenderWipedArr = [];
+    let tankShockArr = [];
 
     let i = 0;
     while (i < simulations) {
@@ -820,6 +927,7 @@ function simulateAttackSequence() {
         let attacks = 0;
         let mortalWounds = 0;
         let lethalHitStorage = [];
+        let tankShockDamage = 0;
 
         // console.log(`attacks (should be 0): ${attacks}`)
 
@@ -1192,6 +1300,18 @@ function simulateAttackSequence() {
         // console.log(`mortal wounds: ${mortalWounds}`)
 
         //mortal wound stuff
+
+        if(stratagemTankShock){
+            // console.log(`tank shock dice: ${tankShockDiceToRoll}`)
+            for(let a=0,b=tankShockDiceToRoll;a<b;a++){
+                if(rollDice6() >= 5){
+                    mortalWounds += 1;
+                    tankShockDamage += 1;
+                }
+            }
+            // console.log(`mortal wounds after tank shock: ${mortalWounds}`)
+            tankShockArr.push(tankShockDamage);
+        }
         
         for(let a=0,b=mortalWounds;a<b;a++){
             if((fnp != 0 && !isNaN(fnp)) || custodesAegis){
@@ -1320,12 +1440,22 @@ function simulateAttackSequence() {
         totalSimulationKills += result;
     });
     let averageKills = totalSimulationKills/simulations;
+    let averageReanimations = 0;
     if(necronsReanimation){
         let totalSimulationReanimations = 0;
         reanimationResults.forEach((result) => { 
             totalSimulationReanimations += result;
         });
-        let averageReanimations = totalSimulationReanimations/simulations;
+        averageReanimations = totalSimulationReanimations/simulations;
+        // console.log(`on average ${averageReanimations} models reanimated`);
+    }
+    let averageTankShockDamage = 0;
+    if(stratagemTankShock){
+        let totalTankShockDamage = 0;
+        tankShockArr.forEach((result) => { 
+            totalTankShockDamage += result;
+        });
+        averageTankShockDamage = totalTankShockDamage/simulations;
         // console.log(`on average ${averageReanimations} models reanimated`);
     }
     // console.log(`true average kills over ${simulations} simulations: ${averageKills}`);
@@ -1349,7 +1479,12 @@ function simulateAttackSequence() {
         hazardousString = `<div>And has a 16.6% of killing itself or causing itself harm</div>`;
     }
 
-    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${((100/simulations)*defenderWipedArr.length).toFixed(2)*1}%</span></div>${hazardousString}`;
+    let tankShockString = '';
+    if(stratagemTankShock){
+        tankShockString = `<div>on average tank shock did <span class="value">${averageTankShockDamage}</span> mortal wounds</div>`
+    }
+
+    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${tankShockString}${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${((100/simulations)*defenderWipedArr.length).toFixed(2)*1}%</span></div>${hazardousString}`;
 
     informationContainer.innerHTML = informationHTML;
 
@@ -1549,7 +1684,30 @@ function attackerUnitChange(){
     resetModifiers('attacker');
 
     selectedAttackerUnit = attackerUnitSelectEl.value;
+    let selectedAttackerData = data[selectedAttackerFaction].units[selectedAttackerUnit].tags;
     attackerWeaponSelectEl.innerHTML = generateWeaponSelectHtml(selectedAttackerFaction, selectedAttackerUnit);
+    //enhancements
+    document.querySelector('.enhancementAttacker').querySelectorAll('.faction_enhancement_container').forEach((element) => {
+        element.style.display = 'none';
+        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+            el.checked = false;
+        });
+    });
+    let canHaveEnhancement = (selectedAttackerData.includes('Character') && !selectedAttackerData.includes('Epic Hero'));
+    if(canHaveEnhancement){
+        document.querySelector(`#attacker_enhancement-${selectedAttackerFaction}`).style.display = 'block';
+    }
+    //stratagems
+    document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_container').forEach((element) => {
+        element.style.display = 'none';
+        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+            el.checked = false;
+        });
+    });
+    if(selectedAttackerData.includes('Vehicle')){
+        document.querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#tankShockStratagem`).style.display = 'block';
+    }
 }
 
 function defenderUnitChange(){
@@ -1557,7 +1715,18 @@ function defenderUnitChange(){
     resetModifiers('defender');
 
     selectedDefenderUnit = defenderUnitSelectEl.value;
+    let selectedDefenderData = data[selectedDefenderFaction].units[selectedDefenderUnit].tags;
     populateDefender(selectedDefenderFaction, selectedDefenderUnit);
+    document.querySelector('.enhancementDefender').querySelectorAll('.faction_enhancement_container').forEach((element) => {
+        element.style.display = 'none';
+        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+            el.checked = false;
+        });
+    });
+    let canHaveEnhancement = (selectedDefenderData.includes('Character') && !selectedDefenderData.includes('Epic Hero'));
+    if(canHaveEnhancement){
+        document.querySelector(`#defender_enhancement-${selectedDefenderFaction}`).style.display = 'block';
+    }
 }
 
 function attackerWeaponChange(){
@@ -1727,6 +1896,11 @@ function showHideMoved(){
 
 //hide all faction modifier containers
 document.querySelectorAll('.faction_modifier_container').forEach((element, index) => {
+    element.style.display = 'none';
+})
+
+//hide all faction enhancement containers
+document.querySelectorAll('.faction_enhancement_container').forEach((element, index) => {
     element.style.display = 'none';
 })
 

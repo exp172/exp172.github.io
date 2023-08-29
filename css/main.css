@@ -36,7 +36,7 @@ body{
     padding:10px;
 }
 
-.flex_container .attacker, .flex_container .defender, .flex_container .factionAttacker, .flex_container .factionDefender, .flex_container .scenarioAttacker, .flex_container .scenarioDefender{
+.flex_container .attacker, .flex_container .defender{
     flex-grow:1;
     flex:1;
 }

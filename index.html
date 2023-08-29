@@ -69,18 +69,258 @@
         </div>
         <div class="bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
-            <div class="scenarioAttacker">
+            <div class="scenarioAttacker attacker">
                 <div class="scenario_modifier" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
                 <div class="scenario_modifier" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
                 <div class="scenario_modifier" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
                 <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
             </div>
-            <div class="scenarioDefender">
+            <div class="scenarioDefender defender">
+            </div>
+        </div>
+        <div class="bold">Stratagems</div>
+        <div class="flex_container stratagem_total_container" id="stratagems">
+            <div class="stratagemAttacker attacker">
+                <div id="attacker_stratagem-generic" class="faction_stratagem_container">
+                    <div class="title">Generic</div>
+                    <div id="tankShockStratagem"><input type="checkbox" id="genericStratagemTankShock" /> Tank Shock (will automatically pick the highest strength weapon even if its not the one your using)</div>
+                </div>
+            </div>
+        </div>
+        <div class="bold">Faction Enhancements</div>
+        <div class="flex_container faction_enhancement_total_container" id="factionModifiers">
+            <div class="enhancementAttacker attacker">
+                <div id="attacker_enhancement-adeptaSororitas" class="faction_enhancement_container">
+                    <div class="title">Adepta Sororitas</div>
+                    <div><input type="checkbox" id="adeptaSororitasEnhancementBlade" /> Blade of Saint Ellynor</div>
+                    <div><input type="checkbox" id="adeptaSororitasEnhancementBladeDamaged" /> Blade of Saint Ellynor (bearer has taken damage)</div>
+                </div>
+                <div id="attacker_enhancement-adeptusCustodes" class="faction_enhancement_container">
+                    <div class="title">Adeptus Custodes</div>
+                    <div><input type="checkbox" id="custodesEnhancementBlade" /> Veiled Blade (Cant go on Anathem Psykana)</div>
+                </div>
+                <div id="attacker_enhancement-adeptusMechanicus" class="faction_enhancement_container">
+                    <div class="title">Adeptus Mechanicus</div>
+                    <div><input type="checkbox" id="adeptusMechanicusEnhancementOmni" /> Omni-Steriliser</div>
+                </div>
+                <div id="attacker_enhancement-aeldari" class="faction_enhancement_container">
+                    <div class="title">Aeldari</div>
+                    <div><input type="checkbox" id="aeldariEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-agentsoftheImperium" class="faction_enhancement_container">
+                    <div class="title">Agents of the Imperium</div>
+                    <div><input type="checkbox" id="agentsoftheImperiumEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-astraMilitarum" class="faction_enhancement_container">
+                    <div class="title">Astra Militarum</div>
+                    <div><input type="checkbox" id="astraMilitarumEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-blackTemplars" class="faction_enhancement_container">
+                    <div class="title">Black Templars</div>
+                    <div><input type="checkbox" id="blackTemplarsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-bloodAngels" class="faction_enhancement_container">
+                    <div class="title">Blood Angels</div>
+                    <div><input type="checkbox" id="bloodAngelsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-chaosDaemons" class="faction_enhancement_container">
+                    <div class="title">Chaos Daemons</div>
+                    <div><input type="checkbox" id="chaosDaemonsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-chaosKnights" class="faction_enhancement_container">
+                    <div class="title">Chaos Knights</div>
+                    <div><input type="checkbox" id="chaosKnightsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-chaosSpaceMarines" class="faction_enhancement_container">
+                    <div class="title">Chaos Space Marines</div>
+                    <div><input type="checkbox" id="chaosSpaceMarinesEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-darkAngels" class="faction_enhancement_container">
+                    <div class="title">Dark Angels</div>
+                    <div><input type="checkbox" id="darkAngelsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-deathGuard" class="faction_enhancement_container">
+                    <div class="title">Death Guard</div>
+                    <div><input type="checkbox" id="deathGuardEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-deathwatch" class="faction_enhancement_container">
+                    <div class="title">Deathwatch</div>
+                    <div><input type="checkbox" id="deathwatchEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-drukhari" class="faction_enhancement_container">
+                    <div class="title">Drukhari</div>
+                    <div><input type="checkbox" id="drukhariEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-genestealerCults" class="faction_enhancement_container">
+                    <div class="title">Genestealer Cults</div>
+                    <div><input type="checkbox" id="genestealerCultsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-greyKnights" class="faction_enhancement_container">
+                    <div class="title">Grey Knights</div>
+                    <div><input type="checkbox" id="greyKnightsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-imperialKnights" class="faction_enhancement_container">
+                    <div class="title">Imperial Knights</div>
+                    <div><input type="checkbox" id="imperialKnightsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-leaguesofVotann" class="faction_enhancement_container">
+                    <div class="title">Leagues of Votann</div>
+                    <div><input type="checkbox" id="leaguesofVotannEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-necrons" class="faction_enhancement_container">
+                    <div class="title">Necrons</div>
+                    <div><input type="checkbox" id="necronsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-orks" class="faction_enhancement_container">
+                    <div class="title">Orks</div>
+                    <div><input type="checkbox" id="orksEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-adeptusAstartes" class="faction_enhancement_container">
+                    <div class="title">Adeptus Astartes</div>
+                    <div><input type="checkbox" id="adeptusAstartesEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-spaceWolves" class="faction_enhancement_container">
+                    <div class="title">Space Wolves</div>
+                    <div><input type="checkbox" id="spaceWolvesEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-tauEmpire" class="faction_enhancement_container">
+                    <div class="title">T'au Empire</div>
+                    <div><input type="checkbox" id="tauEmpireEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-thousandSons" class="faction_enhancement_container">
+                    <div class="title">Thousand Sons</div>
+                    <div><input type="checkbox" id="thousandSonsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-tyranids" class="faction_enhancement_container">
+                    <div class="title">Tyranids</div>
+                    <div><input type="checkbox" id="tyranidsEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-worldEaters" class="faction_enhancement_container">
+                    <div class="title">World Eaters</div>
+                    <div><input type="checkbox" id="worldEatersEnhancement" /> </div>
+                </div>
+                <div id="attacker_enhancement-adeptusTitanicus" class="faction_enhancement_container">
+                    <div class="title">Adeptus Titanicus</div>
+                    <div><input type="checkbox" id="adeptusTitanicusEnhancement" /> </div>
+                </div>
+            </div>
+            <div class="enhancementDefender defender">
+                <div id="defender_enhancement-adeptaSororitas" class="faction_enhancement_container">
+                    <div class="title">Adepta Sororitas</div>
+                    <div><input type="checkbox" id="adeptaSororitasEnhancementMantle" /> Mantle of Ophelia</div>
+                </div>
+                <div id="defender_enhancement-adeptusCustodes" class="faction_enhancement_container">
+                    <div class="title">Adeptus Custodes</div>
+                </div>
+                <div id="defender_enhancement-adeptusMechanicus" class="faction_enhancement_container">
+                    <div class="title">Adeptus Mechanicus</div>
+                    <div><input type="checkbox" id="adeptusMechanicusEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-aeldari" class="faction_enhancement_container">
+                    <div class="title">Aeldari</div>
+                    <div><input type="checkbox" id="aeldariEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-agentsoftheImperium" class="faction_enhancement_container">
+                    <div class="title">Agents of the Imperium</div>
+                    <div><input type="checkbox" id="agentsoftheImperiumEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-astraMilitarum" class="faction_enhancement_container">
+                    <div class="title">Astra Militarum</div>
+                    <div><input type="checkbox" id="astraMilitarumEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-blackTemplars" class="faction_enhancement_container">
+                    <div class="title">Black Templars</div>
+                    <div><input type="checkbox" id="blackTemplarsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-bloodAngels" class="faction_enhancement_container">
+                    <div class="title">Blood Angels</div>
+                    <div><input type="checkbox" id="bloodAngelsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-chaosDaemons" class="faction_enhancement_container">
+                    <div class="title">Chaos Daemons</div>
+                    <div><input type="checkbox" id="chaosDaemonsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-chaosKnights" class="faction_enhancement_container">
+                    <div class="title">Chaos Knights</div>
+                    <div><input type="checkbox" id="chaosKnightsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-chaosSpaceMarines" class="faction_enhancement_container">
+                    <div class="title">Chaos Space Marines</div>
+                    <div><input type="checkbox" id="chaosSpaceMarinesEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-darkAngels" class="faction_enhancement_container">
+                    <div class="title">Dark Angels</div>
+                    <div><input type="checkbox" id="darkAngelsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-deathGuard" class="faction_enhancement_container">
+                    <div class="title">Death Guard</div>
+                    <div><input type="checkbox" id="deathGuardEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-deathwatch" class="faction_enhancement_container">
+                    <div class="title">Deathwatch</div>
+                    <div><input type="checkbox" id="deathwatchEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-drukhari" class="faction_enhancement_container">
+                    <div class="title">Drukhari</div>
+                    <div><input type="checkbox" id="drukhariEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-genestealerCults" class="faction_enhancement_container">
+                    <div class="title">Genestealer Cults</div>
+                    <div><input type="checkbox" id="genestealerCultsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-greyKnights" class="faction_enhancement_container">
+                    <div class="title">Grey Knights</div>
+                    <div><input type="checkbox" id="greyKnightsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-imperialKnights" class="faction_enhancement_container">
+                    <div class="title">Imperial Knights</div>
+                    <div><input type="checkbox" id="imperialKnightsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-leaguesofVotann" class="faction_enhancement_container">
+                    <div class="title">Leagues of Votann</div>
+                    <div><input type="checkbox" id="leaguesofVotannEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-necrons" class="faction_enhancement_container">
+                    <div class="title">Necrons</div>
+                    <div><input type="checkbox" id="necronsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-orks" class="faction_enhancement_container">
+                    <div class="title">Orks</div>
+                    <div><input type="checkbox" id="orksEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-adeptusAstartes" class="faction_enhancement_container">
+                    <div class="title">Adeptus Astartes</div>
+                    <div><input type="checkbox" id="adeptusAstartesEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-spaceWolves" class="faction_enhancement_container">
+                    <div class="title">Space Wolves</div>
+                    <div><input type="checkbox" id="spaceWolvesEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-tauEmpire" class="faction_enhancement_container">
+                    <div class="title">T'au Empire</div>
+                    <div><input type="checkbox" id="tauEmpireEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-thousandSons" class="faction_enhancement_container">
+                    <div class="title">Thousand Sons</div>
+                    <div><input type="checkbox" id="thousandSonsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-tyranids" class="faction_enhancement_container">
+                    <div class="title">Tyranids</div>
+                    <div><input type="checkbox" id="tyranidsEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-worldEaters" class="faction_enhancement_container">
+                    <div class="title">World Eaters</div>
+                    <div><input type="checkbox" id="worldEatersEnhancement" /> </div>
+                </div>
+                <div id="defender_enhancement-adeptusTitanicus" class="faction_enhancement_container">
+                    <div class="title">Adeptus Titanicus</div>
+                    <div><input type="checkbox" id="adeptusTitanicusEnhancement" /> </div>
+                </div>
             </div>
         </div>
         <div class="bold">Faction Modifiers</div>
         <div class="flex_container faction_modifier_total_container" id="factionModifiers">
-            <div class="factionAttacker">
+            <div class="factionAttacker attacker">
                 <div id="attacker_faction-adeptusAstartes" class="faction_modifier_container">
                     <div class="title">Adeptus Astartes</div>
                     <div class="subtitle">Army Rules</div>
@@ -249,7 +489,7 @@
                     <div class="title">Adeptus Titanicus</div>
                 </div>
             </div>
-            <div class="factionDefender">
+            <div class="factionDefender defender">
                 <div id="defender_faction-adeptaSororitas" class="faction_modifier_container">
                     <div class="title">Adepta Sororitas</div>
                     
