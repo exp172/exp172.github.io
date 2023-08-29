@@ -129,6 +129,9 @@ function calcDiceRollsInString(string) {
 
 //function to add attacks to the attacks string (and account for dice rolling)
 function addToString(rollDice, string, numberToAdd){
+    // console.log(`rollDice: ${rollDice}`);
+    // console.log(`string: ${string}`);
+    // console.log(`numberToAdd: ${numberToAdd}`);
     if(rollDice){
         let splitAttackString = string.split('+');
         if(splitAttackString.length == 2){
@@ -140,6 +143,7 @@ function addToString(rollDice, string, numberToAdd){
     }else{
         string += numberToAdd;
     }
+    // console.log(`string: ${string}`);
     return string;
 }
 
@@ -587,7 +591,9 @@ function simulateAttackSequence() {
     let chaosKnightsPanoply = document.getElementById("chaosKnightsEnhancementPanoply").checked;
 
     if(chaosKnightsPanoply){
-        ap = ap - 1;
+        if(ap > 0){
+            ap = ap - 1;
+        }
     }
 
     //Chaos Space Marines
@@ -728,11 +734,36 @@ function simulateAttackSequence() {
         lethalHits = true;
     }
 
+    let deathwatchSecrets = document.getElementById("deathwatchEnhancementSecrets").checked;
+    let deathwatchSecretsKill = document.getElementById("deathwatchEnhancementSecretsKill").checked;
+
+    if(deathwatchSecretsKill && weaponMeleeRanged == 'melee'){
+        strength += 2;
+        ap += 2;
+        damageString = addToString(rollDamage, damageString, 2);
+    }else if(deathwatchSecrets && weaponMeleeRanged == 'melee'){
+        strength += 1;
+        ap += 1;
+        damageString = addToString(rollDamage, damageString, 1);
+    }
+
     //Drukhari
     let drukhariPower = document.getElementById("drukhariArmyRulePower").checked;
 
     if(drukhariPower){
         rerollAllHits = true;
+    }
+
+    let drukhariDancer = document.getElementById("drukhariEnhancementDancer").checked;
+
+    if(drukhariDancer && weaponMeleeRanged == 'melee'){
+        if(drukhariPower){
+            attackString = addToString(rollAttacks, attackString, 2);
+            ap += 2;
+        }else{
+            attackString = addToString(rollAttacks, attackString, 1);
+            ap += 1;
+        }
     }
 
     //Genestealer Cults
@@ -744,6 +775,16 @@ function simulateAttackSequence() {
             sustainedHitsCount = 1;
         }
         ignoresCover = true;
+    }
+
+    //Grey Knights
+    let greyKnightsDaemonica = document.getElementById("greyKnightsEnhancementDaemonica").checked;
+
+    if(greyKnightsDaemonica && defenderKeywordsArray.includes('Daemon') && weaponMeleeRanged == 'melee'){
+        damageString = addToString(rollDamage, damageString, 1);
+        woundModifier += 1
+    }else if(greyKnightsDaemonica && weaponMeleeRanged == 'melee'){
+        woundModifier += 1
     }
 
     //Imperial Knights
@@ -761,6 +802,14 @@ function simulateAttackSequence() {
         fnp = 5;
     }else if(impKnightsIndomitable && (fnp == 0 || isNaN(fnp))){
         fnp = 6;
+    }
+
+    let impKnightsParagon = document.getElementById("imperialKnightsEnhancementParagon").checked;
+
+    if(impKnightsParagon){
+        if(ap > 0){
+            ap = ap - 1;
+        }
     }
 
     //League of Votan
@@ -785,6 +834,21 @@ function simulateAttackSequence() {
         hitModifier += 1;
     }
     
+    let necronsAblator = document.getElementById("necronsEnhancementAblator").checked;
+    let necronsAblatorFar = document.getElementById("necronsEnhancementAblatorFar").checked;
+    let necronsWeave = document.getElementById("necronsEnhancementWeave").checked;
+
+    if(necronsAblatorFar/* && leadingUnit*/){
+        stealth = true;
+        cover = true;
+    }else if(necronsAblator){
+        stealth = true;
+    }
+
+    if(necronsWeave && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+        fnp = 4;
+    }
+
     //orks
 
     let orksWaaaghAttacker = document.getElementById("orksArmyRuleAttacker").checked;
@@ -807,6 +871,17 @@ function simulateAttackSequence() {
         sustainedHitsCount = 1;
     }
 
+    let orksKillChoppa = document.getElementById("orksEnhancementKillchoppa").checked;
+    let orksCybork = document.getElementById("orksEnhancementCybork").checked;
+
+    if(orksKillChoppa && weaponMeleeRanged == 'melee' && !extraAttacks){
+        devastatingWounds = true;
+    }
+
+    if(orksCybork && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+        fnp = 4;
+    }
+
     //adeptus astartes
 
     let adeptusAstartesOath = document.getElementById("adeptusAstartesArmyRuleAttacker").checked;
@@ -814,6 +889,44 @@ function simulateAttackSequence() {
     if(adeptusAstartesOath){
         rerollAllWounds = true;
         rerollAllHits = true;
+    }
+
+    let adeptusAstartesHonour = document.getElementById("adeptusAstartesEnhancementHonour").checked;
+    let adeptusAstartesHonourAssault = document.getElementById("adeptusAstartesEnhancementHonourAssault").checked;
+    let adeptusAstartesBolter = document.getElementById("adeptusAstartesEnhancementBolter").checked;
+    let adeptusAstartesBolterDevastator = document.getElementById("adeptusAstartesEnhancementBolterDevastator").checked;
+    let adeptusAstartesArtificer = document.getElementById("adeptusAstartesEnhancementArtificer").checked;
+
+    if(adeptusAstartesHonourAssault && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToString(rollAttacks, attackString, 2);
+        }
+        strength += 2;
+    }else if(adeptusAstartesHonour && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToString(rollAttacks, attackString, 1);
+        }
+        strength += 1;
+    }
+
+    if(adeptusAstartesBolterDevastator && weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
+        if(!sustainedHits){
+            sustainedHits = true;
+            sustainedHitsCount = 1;
+        }
+        criticalHit = 5;
+    }else if(adeptusAstartesBolter && weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
+        if(!sustainedHits){
+            sustainedHits = true;
+            sustainedHitsCount = 1;
+        }
+    }
+
+    if(adeptusAstartesArtificer){
+        save = 2;
+        if((fnp > 5 || fnp == 0 || isNaN(fnp))){
+            fnp = 5;
+        }
     }
 
     //Space Wolves
