@@ -573,6 +573,12 @@ function simulateAttackSequence() {
         hitModifier = hitModifier - 1;
     }
 
+    let chaosKnightsPanoply = document.getElementById("chaosKnightsEnhancementPanoply").checked;
+
+    if(chaosKnightsPanoply){
+        ap = ap - 1;
+    }
+
     //Chaos Space Marines
     let CSMDarkPactLethal = document.getElementById("CSMArmyRuleDarkPactLethal").checked;
     let CSMDarkPactSustained = document.getElementById("CSMArmyRuleDarkPactSustained").checked;
