@@ -131,6 +131,10 @@ function calcDiceRollsInString(string) {
 
 //function that actually does all the bits
 function simulateAttackSequence() {
+
+    // console.log('')
+    // console.log('NEW RUN')
+
     let simulations = parseInt(document.querySelector('#simulations').value);
 
 
@@ -230,7 +234,7 @@ function simulateAttackSequence() {
     let extraAttacks = document.getElementById("extraAttacks").checked;
     let anti = document.getElementById("anti").checked;
     let antiType = document.getElementById("antiType").value;
-    let antiValue = parseInt(document.querySelector('#antiValue').value);
+    let antiValue = document.querySelector('#antiValue').value;
     let rerollSingleHit = document.getElementById("reroll1HitRoll").checked;
     let reroll1Hits = document.getElementById("reroll1Hits").checked;
     let rerollAllHits = document.getElementById("rerollAllHits").checked;
@@ -383,8 +387,29 @@ function simulateAttackSequence() {
 
     let mechanicusOmni = document.getElementById("adeptusMechanicusEnhancementOmni").checked;
     
-    if(mechanicusOmni){
-
+    if(mechanicusOmni && weaponMeleeRanged == 'ranged'){
+        if(!extraAttacks){
+            if(rollAttacks){
+                let splitAttackString = attackString.split('+');
+                if(splitAttackString.length == 2){
+                    splitAttackString[1] = parseInt(splitAttackString[1]) + 3;
+                    attackString = splitAttackString.join('+');
+                }else{
+                    attackString = splitAttackString[0] + '+' + 3;
+                }
+            }else{
+                attackString += 3;
+            }
+        }
+        //add anti infantry 2 and anti monster 4
+        anti = true;
+        if(antiType == ''){
+            antiType += 'Infantry, Monster';
+            antiValue += '2, 4'
+        }else{
+            antiType += ', Infantry, Monster';
+            antiValue += ', 2, 4'
+        }
     }
 
     //Aeldari
@@ -871,19 +896,25 @@ function simulateAttackSequence() {
 
     //checking if anti applies and if so adjusting critical wound value
     if(anti){
-        // console.log(`critical wound: ${criticalWound}`);
-        let antiArray = antiType.split(', ');
-        // console.log(`anti type: ${antiType}`)
-        // console.log(`anti type array: `,antiArray)
-        // console.log(`defender tags: ${defenderKeywords}`)
-        // console.log(`defender tags array: `, defenderKeywordsArray)
-        // console.log(`anti applies: ${antiArray.some(item => defenderKeywordsArray.includes(item))}`)
 
-        //check if anti actually applies and if so modify criticalwound
-        if(antiArray.some(item => defenderKeywordsArray.includes(item))){
-            criticalWound = antiValue;
-            // console.log(`critical wound after anti check: ${criticalWound}`);
+        let antiArray = antiType.split(', ');
+        let antiValuesArray = antiValue.split(', ');
+
+        criticalWound = 6;
+        for(let a=0,b=antiArray.length;a<b;a++){
+            for(let c=0,d=defenderKeywordsArray.length;c<d;c++){
+                if(antiArray[a] == defenderKeywordsArray[c]){
+                    // console.log('these ones matched');
+                    // console.log(`anti: ${antiArray[a]}`)
+                    // console.log(`defender tag: ${defenderKeywordsArray[c]}`)
+                    // console.log(`anti value: ${antiValuesArray[a]}`)
+                    if(antiValuesArray[a] < criticalWound){
+                        criticalWound = antiValuesArray[a];
+                    }
+                }
+            }
         }
+        // console.log(`critical wound after anti check: ${criticalWound}`);
     }
     
     // calculating the save roll
@@ -921,6 +952,7 @@ function simulateAttackSequence() {
     let i = 0;
     while (i < simulations) {
 
+        // console.log('');
         // console.log('NEW SIMULATION');
 
         let diceResults = [];
@@ -1103,12 +1135,18 @@ function simulateAttackSequence() {
         
         //roll to wound
         rollDiceArray(diceResults)
-        
-        // console.log(`wound rolls: ${diceResults}`);
 
-        diceResults.forEach((result,index) => { 
-            diceResults[index] += woundModifier;
-        });
+        // console.log(`Critical Wound value: ${criticalWound}`);
+        
+        // console.log(`wound rolls: ${diceResults} length:${diceResults.length}`);
+
+        //get all critical wounds
+        let criticalWoundDice = diceResults.filter((result) => result >= criticalWound);
+        // console.log(`critical wound dice: ${criticalWoundDice.slice()} length:${criticalWoundDice.length}`);
+
+        //remove the criticals from the dice pool
+        diceResults = diceResults.filter((result) => result < criticalWound);
+        // console.log(`dice pool after criticals removed rolls: ${diceResults} length:${diceResults.length}`);
 
         //If we are twinlinked
         if(rerollAllWounds || twinLinked){
@@ -1183,10 +1221,21 @@ function simulateAttackSequence() {
 
         }
 
+        if(rerollAllWounds || twinLinked || reroll1Wounds || rerollSingleWound){
+
+            // console.log(`dice pool after rerolls: ${diceResults} length:${diceResults.length}`);
+
+            criticalWoundDice = criticalWoundDice.concat(diceResults.filter((result) => result >= criticalWound));
+
+            // console.log(`critical wound dice after any rerolls: ${criticalWoundDice.slice()} length:${criticalWoundDice.length}`);
+
+            //remove the criticals from the dice pool
+            diceResults = diceResults.filter((result) => result < criticalWound);
+
+            // console.log(`dice pool after rerolls and new criticals removed: ${diceResults} length:${diceResults.length}`);
+        }
+
         //If we have devastating wounds
-
-        let criticalWoundDice = diceResults.filter((result) => result >= criticalWound);
-
         if(devastatingWounds){
             // console.log(`critical wound rolls: ${criticalWoundDice}`);
 
@@ -1199,9 +1248,6 @@ function simulateAttackSequence() {
                 mortalWounds = criticalWoundDice.length * damageString;
             }
         }
-
-        //remove criticals from the normal pool
-        diceResults = diceResults.filter((result) => result < criticalWound);
         
         //remove any that failed to wound
         diceResults = diceResults.filter((result) => result >= wound);
@@ -1210,6 +1256,8 @@ function simulateAttackSequence() {
         if(!devastatingWounds){
             diceResults = diceResults.concat(criticalWoundDice);
         }
+
+        // console.log(`dice pool after wound maths stuff: ${diceResults} length:${diceResults.length}`);
 
         //if we have lethal hit dice to add back in do so
         // console.log(`before lethal hit dice added back: ${diceResults}`);
@@ -1756,21 +1804,54 @@ function populateAttacker(selectedFaction, selectedUnit, selectedWeapon, selecte
     inputAp.value = selectedData.ap;
     inputDamage.value = selectedData.d;
 
-    let antiTypesString = '';
     // console.log(selectedData.tags)
+
+    //we need to see how many anti tags there are as anti can be different values on different tags!
+    let hasAnti = false;
+    let antiValue = '';
+    let antiTypesString = '';
+    selectedData.tags.map(element => {
+        if(element.includes('anti')){
+            
+            hasAnti = true;
+            let antiSplit = element.split('-');
+
+            if(antiValue == ''){
+                antiValue += `${antiSplit[2]}`;
+            }else{
+                antiValue += `, ${antiSplit[2]}`;
+            }
+
+            if(antiTypesString == ''){
+                antiTypesString += `${antiSplit[1]}`;
+            }else{
+                antiTypesString += `, ${antiSplit[1]}`;
+            }
+        }
+    });
+
+    if(hasAnti){
+        document.querySelector(`#anti`).checked = true;
+        document.querySelector(`#antiValue`).value = antiValue;
+        document.querySelector(`#antiType`).value = antiTypesString;
+    }
+
+
     selectedData.tags.forEach((tag, index) => {
         let splitTag = tag.split('-'); 
         // console.log(splitTag);
 
         document.querySelector(`#${splitTag[0]}`).checked = true;
 
+        // console.log(splitTag);
+
         switch(splitTag.length){
             case 2:
                 document.querySelector(`#${splitTag[0]}Count`).value = splitTag[1];
                 break;
             case 3:
-                antiTypesString += `${ (index > 0) ? ', ' : '' }${splitTag[1]}`;
-                document.querySelector(`#antiValue`).value = splitTag[2];
+                // antiTypesString += `${ (index > 0) ? ', ' : '' }${splitTag[1]}`;
+                // document.querySelector(`#antiValue`).value = splitTag[2];
                 break;
         }
 
@@ -1798,7 +1879,7 @@ function populateAttacker(selectedFaction, selectedUnit, selectedWeapon, selecte
 
     });
 
-    document.querySelector(`#antiType`).value = antiTypesString;
+    // console.log(antiTypesString);
 }
 
 function populateDefender(selectedFaction, selectedUnit){
@@ -1945,8 +2026,8 @@ let modifierAttackerHeight = document.querySelector('#modifiers').querySelector(
 // for(const faction in data){
 //     for(const unit in data[faction].units){
 //         if(data[faction].units[unit].size == 0){
-//             console.log(data[faction].units[unit].name);
-//             console.log(data[faction].units[unit].size);
+            // console.log(data[faction].units[unit].name);
+            // console.log(data[faction].units[unit].size);
 //         }
 //     }
 // }
