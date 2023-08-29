@@ -617,6 +617,34 @@ function simulateAttackSequence() {
         reroll1Hits = true;
     }
 
+    let CSMTalisman = document.getElementById("CSMEnhancementTalisman").checked;
+    let CSMLiber = document.getElementById("CSMEnhancementLiber").checked;
+    let CSMElixir = document.getElementById("CSMEnhancementElixir").checked;
+    let addCSMTalismanAttacks = false;
+
+    if(CSMTalisman && (CSMDarkPactLethal || CSMDarkPactSustained) && weaponMeleeRanged == 'melee'){
+        addCSMTalismanAttacks = true;
+        strength += 2;
+    }else if(CSMTalisman && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToAttackString(rollAttacks, attackString, 1);
+        }
+        strength += 1;
+    }
+
+    if(CSMLiber && (CSMDarkPactLethal || CSMDarkPactSustained)){
+        lethalHits = true;
+        if(!sustainedHits){
+            sustainedHits = true;
+            sustainedHitsCount = 1;
+        }
+    }
+
+    if(CSMElixir && (fnp > 5 || fnp == 0 || isNaN(fnp))){
+        fnp = 5;
+    }
+
+
     //Death Guard
     let deathGuardGift = document.getElementById("deathGuardArmyRuleGift").checked;
 
@@ -1049,8 +1077,13 @@ function simulateAttackSequence() {
             }
         }else{
             // console.log('not rolling');
-            attacks =  parseInt(attackString) * attackerCount;
+            attacks = parseInt(attackString) * attackerCount;
             // console.log(`attacks: ${attacks}`)
+        }
+
+        //adding the chaos space marine talisman D3 attacks if needed
+        if(addCSMTalismanAttacks){
+            attacks += calcDiceRollsInString('D3');
         }
 
         // console.log(`attacks without additions: ${attacks}`)
