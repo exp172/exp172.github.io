@@ -220,6 +220,7 @@ function simulateAttackSequence() {
     //feel no pain
     let fnp = parseInt(document.querySelector('#fnp').value);
 
+
     //attacker modifiers
     let criticalHit = parseInt(document.querySelector('#criticalHit').value);
     if(isNaN(criticalHit)){
@@ -262,6 +263,8 @@ function simulateAttackSequence() {
     let rerollSingleSave = document.getElementById("reroll1Save").checked;
     let reroll1Saves = document.getElementById("reroll1Saves").checked;
     let rerollAllSaves = document.getElementById("rerollAllSaves").checked;
+    let oneRerollAttackChain = false;
+    let halveDamage = false;
 
     //defender modifiers
     let defenderKeywords = defenderTags.value;
@@ -274,6 +277,8 @@ function simulateAttackSequence() {
     let saveModifier = 0;
 
     let defenderKeywordsArray = defenderKeywords.split(', ');
+
+    let charged = chargeInput.checked;
 
     //faction modifiers
 
@@ -397,6 +402,14 @@ function simulateAttackSequence() {
     let aeldariAttackerMessenger = document.getElementById("aeldariEnhancementAttackerMessenger").checked;
     let aeldariDefenderMessenger = document.getElementById("aeldariEnhancementDefenderMessenger").checked;
 
+    if(aeldariAttackerMessenger){
+        oneRerollAttackChain = true;
+    }
+
+    if(aeldariDefenderMessenger){
+        rerollSingleSave = true;
+    }
+
     //Astra Militarum
     let militarumBayonets = document.getElementById("astraMilitarumArmyRuleAttackerBayonets").checked;
     let militarumAim = document.getElementById("astraMilitarumArmyRuleAttackerAim").checked;
@@ -442,6 +455,7 @@ function simulateAttackSequence() {
     if(templarsHonour && psychic && (fnp > 5 || fnp == 0 || isNaN(fnp))){
         fnp = 5;
     }
+
 
     if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker') && weaponMeleeRanged == 'melee'){
         anti = true;
@@ -505,10 +519,12 @@ function simulateAttackSequence() {
     }
 
     if(templarsTanhauser){
+        halveDamage = true;
         if(templarsHonour && (fnp > 5 || fnp == 0 || isNaN(fnp))/* && leadingUnit*/){
             fnp = 5;
         }
     }
+
     
     //Blood Angels
     let bloodAngelsThirst = document.getElementById("bloodAngelsDetachmentThirst").checked;
@@ -575,6 +591,7 @@ function simulateAttackSequence() {
     }else if(chaosDaemonsGift && (fnp > 5 || fnp == 0 || isNaN(fnp))){
         fnp = 5;
     }
+
 
     //chaos knights
     let chaosKnightsAttackerDoom = document.getElementById("chaosKnightsArmyRuleAttackerDoom").checked;
@@ -661,6 +678,7 @@ function simulateAttackSequence() {
         fnp = 5;
     }
 
+
     //Dark Angels
     let darkAngelsStubborn = document.getElementById("darkAngelsEnhancementStubborn").checked;
     let darkAngelsBlade = document.getElementById("darkAngelsEnhancementBlade").checked;
@@ -699,6 +717,7 @@ function simulateAttackSequence() {
             fnp = 6;
         }
     }
+
     
     //Death Guard
     let deathGuardGift = document.getElementById("deathGuardArmyRuleGift").checked;
@@ -804,6 +823,7 @@ function simulateAttackSequence() {
         fnp = 6;
     }
 
+
     let impKnightsParagon = document.getElementById("imperialKnightsEnhancementParagon").checked;
 
     if(impKnightsParagon){
@@ -849,6 +869,7 @@ function simulateAttackSequence() {
         fnp = 4;
     }
 
+
     //orks
 
     let orksWaaaghAttacker = document.getElementById("orksArmyRuleAttacker").checked;
@@ -881,6 +902,7 @@ function simulateAttackSequence() {
     if(orksCybork && (fnp > 4 || fnp == 0 || isNaN(fnp))){
         fnp = 4;
     }
+
 
     //adeptus astartes
 
@@ -929,6 +951,7 @@ function simulateAttackSequence() {
         }
     }
 
+
     //Space Wolves
 
     let spaceWolvesSagaWarrior = document.getElementById("spaceWolvesDetachmentSagaWarrior").checked;
@@ -947,6 +970,32 @@ function simulateAttackSequence() {
     if(spaceWolvesSagaBear && (fnp == 0 || isNaN(fnp)) ){
         fnp = 6;
     }
+
+
+    let spaceWolvesBlack = document.getElementById("spaceWolvesEnhancementBlack").checked;
+    let spaceWolvesFrost = document.getElementById("spaceWolvesEnhancementFrost").checked;
+    let spaceWolvesTalisman = document.getElementById("spaceWolvesEnhancementTalisman").checked;
+
+    if(spaceWolvesBlack && weaponMeleeRanged == 'melee'){
+        anti = true;
+        if(antiType == ''){
+            antiType += 'Monster, Vehicle';
+            antiValue += '4, 4'
+        }else{
+            antiType += ', Monster, Vehicle';
+            antiValue += ', 4, 4'
+        }
+    }
+
+    if(spaceWolvesFrost && weaponMeleeRanged == 'melee'){
+        strength += 1;
+        ap += 1;
+    }
+
+    if(spaceWolvesTalisman){
+        damageString = addToString(rollDamage, damageString, -1);
+    }
+
 
     //tau
 
@@ -967,6 +1016,15 @@ function simulateAttackSequence() {
             sustainedHitsCount = 2;
         }else{
             sustainedHitsCount = 1;
+        }
+    }
+
+    let tauPatient = document.getElementById("tauEmpireEnhancementPatient").checked;
+
+    if(tauPatient){
+        hitModifier += 1;
+        if(tauKauyon){
+            woundModifier += 1;
         }
     }
 
@@ -998,6 +1056,13 @@ function simulateAttackSequence() {
         devastatingWounds = true;
     }
 
+    let thousandSonsVortex = document.getElementById("thousandSonsEnhancementVortex").checked;
+
+    if(thousandSonsVortex && psychic){
+        damageString = addToString(rollDamage, damageString, 1);
+        strength += 1;
+    }
+
     //Tyranids
 
     let tyranidSwarming = document.getElementById("tyranidDetachmentSwarming").checked;
@@ -1013,6 +1078,26 @@ function simulateAttackSequence() {
         // console.log('aggression activate')
         lethalHits = true;
     }
+
+    let tyranidAdaptedAttacker = document.getElementById("tyranidsEnhancementAdaptedAttacker").checked;
+    let tyranidAdaptedDefender = document.getElementById("tyranidsEnhancementAdaptedDefender").checked;
+    let tyranidAdaptive = document.getElementById("tyranidsEnhancementAdaptive").checked;
+    let tyranidAdaptiveWounded = document.getElementById("tyranidsEnhancementAdaptiveWounded").checked;
+
+    if(tyranidAdaptedAttacker){
+        oneRerollAttackChain = true;
+    }
+
+    if(tyranidAdaptedDefender){
+        rerollSingleSave = true;
+    }
+
+    if(tyranidAdaptiveWounded && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+        fnp = 4;
+    }else if(tyranidAdaptive && (fnp > 5 || fnp == 0 || isNaN(fnp))){
+        fnp = 5;
+    }
+
 
     //World Eaters
     let worldEatersMartial = document.getElementById("worldEatersArmyRuleMartial").checked;
@@ -1037,11 +1122,29 @@ function simulateAttackSequence() {
         }
     }
 
+
     if(worldEatersRelentless && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
             attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
+    }
+
+    let worldEatersGlaive = document.getElementById("worldEatersEnhancementGlaive").checked;
+    let worldEatersHelm = document.getElementById("worldEatersEnhancementHelm").checked;
+    let worldEatersGlaiveCharged = false;
+
+    if(worldEatersGlaive && weaponMeleeRanged == 'melee'){
+        if(charged){
+            worldEatersGlaiveCharged = true;
+        }else{
+            attackString = addToString(rollAttacks, attackString, 1);
+            damageString = addToString(rollDamage, damageString, 1);
+        }
+    }
+
+    if(worldEatersHelm){
+        halveDamage = true;
     }
 
     //generic stratagems
@@ -1116,7 +1219,6 @@ function simulateAttackSequence() {
     }
 
     //lance
-    let charged = chargeInput.checked;
     if(lance && charged){
         woundModifier += 1;
         // console.log(`lance: ${lance}`)
@@ -1219,8 +1321,8 @@ function simulateAttackSequence() {
         damageString = 1;
     }
 
-    if(templarsTanhauser && !rollDamage){
-        damageString = damageString/2;
+    if(halveDamage && !rollDamage){
+        damageString = Math.ceil(damageString/2);
     }
 
     let resultsArr = [];
@@ -1229,8 +1331,15 @@ function simulateAttackSequence() {
     let tankShockArr = [];
     let grenadeArr = [];
 
+    //we need these saved for if the strings are modified during simulation
+    let originalAttackString = attackString;
+    let originalDamageString = damageString;
+
     let i = 0;
     while (i < simulations) {
+
+        attackString = originalAttackString;
+        damageString = originalDamageString;
 
         // console.log('');
         // console.log('NEW SIMULATION');
@@ -1242,8 +1351,13 @@ function simulateAttackSequence() {
         let tankShockDamage = 0;
         let grenadeDamage = 0;
 
-        let aeldariMessengerAttackerUsed = false;
-        let aeldariMessengerDefenderUsed = false;
+        if(worldEatersGlaiveCharged){
+            let tempD3 = parseInt(rollDice3());
+            attackString = addToString(rollAttacks, attackString, tempD3);
+            damageString = addToString(rollDamage, damageString, tempD3);
+        }
+
+        let usedSingleReroll = false;
 
         // console.log(`attacks (should be 0): ${attacks}`)
 
@@ -1295,17 +1409,19 @@ function simulateAttackSequence() {
         }
 
         if(!torrent){
-
             // console.log(`hit rolls: ${diceResults}`);
             // console.log(`hit rolls array length: ${diceResults.length}`);
 
-            if(aeldariAttackerMessenger){
+            if(oneRerollAttackChain && !usedSingleReroll){
+                // console.log(`usedSingleReroll: ${usedSingleReroll}`)
+                // console.log(`hit rolls: ${diceResults}`);
                 diceResults.forEach((roll, index) => {
-                    if((roll + hitModifier) < hit && !aeldariMessengerAttackerUsed){
+                    if((roll + hitModifier) < hit && !usedSingleReroll){
                         diceResults[index] = 6;
-                        aeldariMessengerAttackerUsed = true;
+                        usedSingleReroll = true;
                     }
                 })
+                // console.log(`hit rolls: ${diceResults}`);
             }
 
             if(rerollAllHits){
@@ -1440,13 +1556,16 @@ function simulateAttackSequence() {
         
         // console.log(`wound rolls: ${diceResults} length:${diceResults.length}`);
 
-        if(aeldariAttackerMessenger){
+        if(oneRerollAttackChain && !usedSingleReroll){
+            // console.log(`usedSingleReroll: ${usedSingleReroll}`)
+            // console.log(`wound rolls: ${diceResults}`);
             diceResults.forEach((roll, index) => {
-                if((roll + woundModifier) < wound && !aeldariMessengerAttackerUsed){
+                if((roll + woundModifier) < wound){
                     diceResults[index] = 6;
-                    aeldariMessengerAttackerUsed = true;
+                    usedSingleReroll = true;
                 }
             })
+            // console.log(`wound rolls: ${diceResults}`);
         }
 
         //get all critical wounds
@@ -1551,7 +1670,7 @@ function simulateAttackSequence() {
             //turn the critical wounds into mortal wounds
             if(rollDamage){
                 for(let a=0,b=criticalWoundDice.length;a<b;a++){
-                    if(templarsTanhauser){
+                    if(halveDamage){
                         mortalWounds += (Math.ceil(calcDiceRollsInString(damageString) / 2));
                     }else{
                         mortalWounds += calcDiceRollsInString(damageString);
@@ -1586,15 +1705,6 @@ function simulateAttackSequence() {
 
         // console.log(`save rolls: ${diceResults}`);
         // console.log(`target save: ${save}`);
-
-        if(aeldariDefenderMessenger){
-            diceResults.forEach((roll, index) => {
-                if(roll < save && !aeldariMessengerDefenderUsed){
-                    diceResults[index] = 6;
-                    aeldariMessengerDefenderUsed = true;
-                }
-            })
-        }
 
         if(rerollAllSaves){
             //reroll all fails
@@ -1660,7 +1770,7 @@ function simulateAttackSequence() {
         for(let a=0,b=diceResults.length;a<b;a++){
             let calcedDamage = 0;
             if(rollDamage){
-                if(templarsTanhauser){
+                if(halveDamage){
                     calcedDamage = (Math.ceil(calcDiceRollsInString(damageString) / 2));
                 }else{
                     calcedDamage = calcDiceRollsInString(damageString);
@@ -1671,11 +1781,13 @@ function simulateAttackSequence() {
 
             //do fnp stuff here for non mortal wounds
             if( (fnp != 0 && !isNaN(fnp))){
+                // console.log(`calcedDamage before fnp: ${calcedDamage}`)
                 for(let a=0,b=calcedDamage;a<b;a++){
                     if(rollDice6() >= fnp){
                         calcedDamage = calcedDamage - 1;
                     }
                 }
+                // console.log(`calcedDamage after fnp: ${calcedDamage}`)
             }
 
             //add to the total number of wounds for maths
@@ -2438,6 +2550,15 @@ mechanicusAttackerProtectorEl.addEventListener("change", showHideMoved);
 //any triggers for enhancements
 document.getElementById("bloodAngelsEnhancementAttackerShard").addEventListener("change", () => {
     if(document.getElementById("bloodAngelsEnhancementAttackerShard").checked){
+        chargedContainer.style.display = 'block';
+    }else{
+        chargedContainer.style.display = 'none';
+        chargeInput.checked = false;
+    }
+});
+
+document.getElementById("worldEatersEnhancementGlaive").addEventListener("change", () => {
+    if(document.getElementById("worldEatersEnhancementGlaive").checked){
         chargedContainer.style.display = 'block';
     }else{
         chargedContainer.style.display = 'none';
