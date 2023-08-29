@@ -70,12 +70,18 @@
         <div class="bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
             <div class="scenarioAttacker attacker">
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBattleshocked" /> Battleshocked</div>
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBelowStartingStrength" /> Below starting strength</div>
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBelowHalfStrength" /> Below half starting strength</div>
                 <div class="scenario_modifier" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
                 <div class="scenario_modifier" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
                 <div class="scenario_modifier" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
                 <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
             </div>
             <div class="scenarioDefender defender">
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBattleshocked" /> Battleshocked</div>
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBelowStartingStrength" /> Below starting strength</div>
+                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBelowHalfStrength" /> Below half starting strength</div>
             </div>
         </div>
         <div class="bold">Stratagems</div>
@@ -117,11 +123,11 @@
                 </div>
                 <div id="attacker_enhancement-agentsoftheImperium" class="faction_enhancement_container">
                     <div class="title">Agents of the Imperium</div>
-                    <div><input type="checkbox" id="agentsoftheImperiumEnhancement" /> </div>
+                    <!-- <div><input type="checkbox" id="agentsoftheImperiumEnhancement" /> </div> -->
                 </div>
                 <div id="attacker_enhancement-astraMilitarum" class="faction_enhancement_container">
                     <div class="title">Astra Militarum</div>
-                    <div><input type="checkbox" id="astraMilitarumEnhancement" /> </div>
+                    <!-- <div><input type="checkbox" id="astraMilitarumEnhancement" /> </div> -->
                 </div>
                 <div id="attacker_enhancement-blackTemplars" class="faction_enhancement_container">
                     <div class="title">Black Templars</div>
@@ -150,11 +156,13 @@
                 </div>
                 <div id="attacker_enhancement-darkAngels" class="faction_enhancement_container">
                     <div class="title">Dark Angels</div>
-                    <div><input type="checkbox" id="darkAngelsEnhancement" /> </div>
+                    <div><input type="checkbox" id="darkAngelsEnhancementStubborn" /> Stubborn Tenacity</div>
+                    <div><input type="checkbox" id="darkAngelsEnhancementBlade" /> Heavenfall Blade</div>
                 </div>
                 <div id="attacker_enhancement-deathGuard" class="faction_enhancement_container">
                     <div class="title">Death Guard</div>
-                    <div><input type="checkbox" id="deathGuardEnhancement" /> </div>
+                    <div><input type="checkbox" id="deathGuardEnhancementPathogen" /> Deadly Pathogen</div>
+                    <div><input type="checkbox" id="deathGuardEnhancementPathogenInRange" /> Deadly Pathogen (Attacker in range of infected Objective)</div>
                 </div>
                 <div id="attacker_enhancement-deathwatch" class="faction_enhancement_container">
                     <div class="title">Deathwatch</div>
@@ -263,7 +271,7 @@
                 </div>
                 <div id="defender_enhancement-darkAngels" class="faction_enhancement_container">
                     <div class="title">Dark Angels</div>
-                    <div><input type="checkbox" id="darkAngelsEnhancement" /> </div>
+                    <div><input type="checkbox" id="darkAngelsEnhancementRememberance" /> Penant of Rememberance</div>
                 </div>
                 <div id="defender_enhancement-deathGuard" class="faction_enhancement_container">
                     <div class="title">Death Guard</div>
@@ -342,8 +350,7 @@
                 <div id="attacker_faction-adeptaSororitas" class="faction_modifier_container">
                     <div class="title">Adepta Sororitas</div>
                     <div class="subtitle">Detachment Rules</div>
-                    <div><input type="checkbox" id="adeptaSororitasDetachmentBoM" /> Detachment - Blood of Martyrs (below starting strength)</div>
-                    <div><input type="checkbox" id="adeptaSororitasDetachmentBoMHalf" /> Detachment - Blood of Martyrs (below half strength)</div>
+                    <div><input type="checkbox" id="adeptaSororitasDetachmentBoM" /> Detachment - Blood of Martyrs</div>
                 </div>
                 <div id="attacker_faction-adeptusCustodes" class="faction_modifier_container">
                     <div class="title">Adeptus Custodes</div>
@@ -394,7 +401,7 @@
                 <div id="attacker_faction-chaosKnights" class="faction_modifier_container">
                     <div class="title">Chaos Knights</div>
                     <div class="subtitle">Army Rules</div>
-                    <div><input type="checkbox" id="chaosKnightsArmyRuleAttackerDoom" /> Army Rule - Doom and Darkness (Defender is battle-shocked)</div>
+                    <div><input type="checkbox" id="chaosKnightsArmyRuleAttackerDoom" /> Army Rule - Doom and Darkness</div>
                 </div>
                 <div id="attacker_faction-chaosSpaceMarines" class="faction_modifier_container">
                     <div class="title">Chaos Space Marines</div>
@@ -410,7 +417,6 @@
                 </div>
                 <div id="attacker_faction-darkAngels" class="faction_modifier_container">
                     <div class="title">Dark Angels</div>
-                    
                 </div>
                 <div id="attacker_faction-deathGuard" class="faction_modifier_container">
                     <div class="title">Death Guard</div>
@@ -549,7 +555,7 @@
                 <div id="defender_faction-chaosKnights" class="faction_modifier_container">
                     <div class="title">Chaos Knights</div>
                     <div class="subtitle">Army Rules</div>
-                    <div><input type="checkbox" id="chaosKnightsArmyRuleDefenderDoom" /> Army Rule - Doom and Darkness (Attacker is battle-shocked)</div>
+                    <div><input type="checkbox" id="chaosKnightsArmyRuleDefenderDoom" /> Army Rule - Doom and Darkness</div>
                 </div>
                 <div id="defender_faction-chaosSpaceMarines" class="faction_modifier_container">
                     <div class="title">Chaos Space Marines</div>

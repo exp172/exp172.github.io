@@ -62,6 +62,10 @@ body{
     display:none;
 }
 
+.scenario_modifier.alwaysShow{
+    display:block;
+}
+
 
 .faction_modifier_total_container .title{
     font-weight:bold;

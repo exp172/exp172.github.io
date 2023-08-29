@@ -35,8 +35,6 @@ let movedContainer = document.getElementById("moved");
 let movedInput = document.getElementById("movedInput");
 
 let mechanicusAttackerProtectorEl = document.getElementById("mechanicusArmyRuleAttackerProtector");
-let chaosKnightsAttackerDoomEl = document.getElementById("chaosKnightsArmyRuleAttackerDoom");
-let chaosKnightsDefenderDoomEl = document.getElementById("chaosKnightsArmyRuleDefenderDoom");
 
 let rapidFireEl = document.getElementById("rapidFire");
 let meltaEl = document.getElementById("melta");
@@ -130,19 +128,19 @@ function calcDiceRollsInString(string) {
 }
 
 //function to add attacks to the attacks string (and account for dice rolling)
-function addToAttackString(attackRoll, attackNumberString, numberToAdd){
-    if(attackRoll){
-        let splitAttackString = attackNumberString.split('+');
+function addToString(rollDice, string, numberToAdd){
+    if(rollDice){
+        let splitAttackString = string.split('+');
         if(splitAttackString.length == 2){
             splitAttackString[1] = parseInt(splitAttackString[1]) + numberToAdd;
-            attackNumberString = splitAttackString.join('+');
+            string = splitAttackString.join('+');
         }else{
-            attackNumberString = splitAttackString[0] + '+' + numberToAdd;
+            string = splitAttackString[0] + '+' + numberToAdd;
         }
     }else{
-        attackNumberString += numberToAdd;
+        string += numberToAdd;
     }
-    return attackNumberString;
+    return string;
 }
 
 //function that actually does all the bits
@@ -275,15 +273,31 @@ function simulateAttackSequence() {
 
     //faction modifiers
 
+    //General
+
+    let AttackerBattleshocked = document.getElementById("generalAttackerBattleshocked").checked;
+    let AttackerBelowStartingStrength = document.getElementById("generalAttackerBelowStartingStrength").checked;
+    let AttackerBelowHalfStrength = document.getElementById("generalAttackerBelowHalfStrength").checked;
+    let DefenderBattleshocked = document.getElementById("generalDefenderBattleshocked").checked;
+    let DefenderBelowStartingStrength = document.getElementById("generalDefenderBelowStartingStrength").checked;
+    let DefenderBelowHalfStrength = document.getElementById("generalDefenderBelowHalfStrength").checked;
+
+    if(AttackerBelowHalfStrength){
+        AttackerBelowStartingStrength = true;
+    }
+
+    if(DefenderBelowHalfStrength){
+        DefenderBelowStartingStrength = true;
+    }
+
     //Adepta Sororitas
     
     let sororitasBoM = document.getElementById("adeptaSororitasDetachmentBoM").checked;
-    let sororitasBoMHalf = document.getElementById("adeptaSororitasDetachmentBoMHalf").checked;
 
-    if(sororitasBoMHalf){
+    if(sororitasBoM && AttackerBelowHalfStrength){
         hitModifier += 1;
         woundModifier += 1;
-    }else if(sororitasBoM){
+    }else if(sororitasBoM && AttackerBelowStartingStrength){
         hitModifier += 1;
     }
 
@@ -293,12 +307,12 @@ function simulateAttackSequence() {
 
     if(sororitasBladeDamaged && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 2);
+            attackString = addToString(rollAttacks, attackString, 2);
         }
         strength += 1;
     }else if(sororitasBlade && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -327,7 +341,7 @@ function simulateAttackSequence() {
 
     if(custodesBlade && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 2);
+            attackString = addToString(rollAttacks, attackString, 2);
         }
     }
 
@@ -336,16 +350,16 @@ function simulateAttackSequence() {
     let mechanicusConqueror = document.getElementById("mechanicusArmyRuleConqueror").checked;
     let mechanicusDefenderProtector = document.getElementById("mechanicusArmyRuleDefenderProtector").checked;
     
-    if(mechanicusAttackerProtector){
+    if(mechanicusAttackerProtector && weaponMeleeRanged == 'ranged'){
         heavy = true;
     }
 
-    if(mechanicusConqueror){
+    if(mechanicusConqueror && weaponMeleeRanged == 'ranged'){
         assault = true;
         ap += 1;
     }
 
-    if(mechanicusDefenderProtector){
+    if(mechanicusDefenderProtector  && weaponMeleeRanged == 'ranged'){
         if(ap > 0){
             ap = ap - 1;
         }
@@ -355,7 +369,7 @@ function simulateAttackSequence() {
     
     if(mechanicusOmni && weaponMeleeRanged == 'ranged'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 3);
+            attackString = addToString(rollAttacks, attackString, 3);
         }
         //add anti infantry 2 and anti monster 4
         anti = true;
@@ -379,9 +393,6 @@ function simulateAttackSequence() {
     let aeldariAttackerMessenger = document.getElementById("aeldariEnhancementAttackerMessenger").checked;
     let aeldariDefenderMessenger = document.getElementById("aeldariEnhancementDefenderMessenger").checked;
 
-    if(aeldariDefenderMessenger){
-    }
-
     //Astra Militarum
     let militarumBayonets = document.getElementById("astraMilitarumArmyRuleAttackerBayonets").checked;
     let militarumAim = document.getElementById("astraMilitarumArmyRuleAttackerAim").checked;
@@ -400,7 +411,7 @@ function simulateAttackSequence() {
     if(militarumFire && rapidFire){
         // console.log(`attack string before First Rank Fire: ${attackString}`);
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         // console.log(`attack string after First Rank Fire: ${attackString}`);
     }
@@ -458,7 +469,7 @@ function simulateAttackSequence() {
         strength += 1;
 
         if(templarsUnclean && !extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
     }
 
@@ -482,7 +493,7 @@ function simulateAttackSequence() {
 
     if(templarsSigismund && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         if(templarsChallenge && criticalHit > 5/* && leadingUnit*/){
             criticalHit = 5;
@@ -500,7 +511,7 @@ function simulateAttackSequence() {
 
     if(bloodAngelsThirst){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -539,12 +550,12 @@ function simulateAttackSequence() {
 
     if(chaosDaemonsArgath && chaosDaemonsShadowAttacker && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 2);
+            attackString = addToString(rollAttacks, attackString, 2);
         }
         strength += 2;
     }else if(chaosDaemonsArgath && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -562,14 +573,14 @@ function simulateAttackSequence() {
     }
 
     //chaos knights
-    let chaosKnightsAttackerDoom = chaosKnightsAttackerDoomEl.checked;
-    let chaosKnightsDefenderDoom = chaosKnightsDefenderDoomEl.checked;
+    let chaosKnightsAttackerDoom = document.getElementById("chaosKnightsArmyRuleAttackerDoom").checked;
+    let chaosKnightsDefenderDoom = document.getElementById("chaosKnightsArmyRuleDefenderDoom").checked;
 
-    if(chaosKnightsAttackerDoom){
+    if(chaosKnightsAttackerDoom && DefenderBattleshocked){
         woundModifier += 1;
     }
 
-    if(chaosKnightsDefenderDoom){
+    if(chaosKnightsDefenderDoom && AttackerBattleshocked){
         hitModifier = hitModifier - 1;
     }
 
@@ -627,7 +638,7 @@ function simulateAttackSequence() {
         strength += 2;
     }else if(CSMTalisman && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -644,12 +655,65 @@ function simulateAttackSequence() {
         fnp = 5;
     }
 
+    //Dark Angels
+    let darkAngelsStubborn = document.getElementById("darkAngelsEnhancementStubborn").checked;
+    let darkAngelsBlade = document.getElementById("darkAngelsEnhancementBlade").checked;
+    let darkAngelsRememberance = document.getElementById("darkAngelsEnhancementRememberance").checked;
 
+    if(darkAngelsStubborn/* && leadingUnit*/){
+        if(AttackerBelowStartingStrength){
+            hitModifier += 1;
+        }
+        if(AttackerBattleshocked){
+            woundModifier += 1;
+        }
+
+    }
+
+    if(darkAngelsBlade){
+        if(AttackerBattleshocked){
+            if(!extraAttacks){
+                attackString = addToString(rollAttacks, attackString, 2);
+            }
+            damageString = addToString(rollAttacks, damageString, 2);
+            strength += 2;
+        }else{
+            if(!extraAttacks){
+                attackString = addToString(rollAttacks, attackString, 1);
+            }
+            damageString = addToString(rollAttacks, damageString, 1);
+            strength += 1;
+        }
+    }
+
+    if(darkAngelsRememberance/* && leadingUnit*/){
+        if(AttackerBattleshocked && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+            fnp = 4;
+        }else if(fnp == 0 || isNaN(fnp)){
+            fnp = 6;
+        }
+    }
+    
     //Death Guard
     let deathGuardGift = document.getElementById("deathGuardArmyRuleGift").checked;
 
     if(deathGuardGift){
         toughness = toughness - 1;
+    }
+
+    let deathGuardPathogen = document.getElementById("deathGuardEnhancementPathogen").checked;
+    let deathGuardPathogenInRange = document.getElementById("deathGuardEnhancementPathogenInRange").checked;
+
+    if(deathGuardPathogenInRange && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToString(rollAttacks, attackString, 2);
+        }
+        strength += 2;
+    }else if(deathGuardPathogen && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToString(rollAttacks, attackString, 1);
+        }
+        strength += 1;
     }
 
     //Death Watch
@@ -729,7 +793,7 @@ function simulateAttackSequence() {
 
     if(orksWaaaghAttacker && !extraAttacks && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -862,7 +926,7 @@ function simulateAttackSequence() {
 
     if(worldEatersRelentless && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            attackString = addToAttackString(rollAttacks, attackString, 1);
+            attackString = addToString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -1012,6 +1076,8 @@ function simulateAttackSequence() {
     }else if(woundModifier < -1){
         woundModifier = -1;
     }
+
+    // console.log(`wound modifier: ${woundModifier}`)
 
     //can never be more than 1;
     if(saveModifier > 1){
@@ -2216,7 +2282,6 @@ function showHideMoved(){
 document.querySelectorAll('.faction_modifier_container').forEach((element, index) => {
     element.style.display = 'none';
 })
-
 
 //hide all stratagems
 document.querySelectorAll('.faction_stratagem_container').forEach((element) => {
