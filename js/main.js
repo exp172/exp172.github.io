@@ -458,7 +458,7 @@ function simulateAttackSequence() {
     }
 
     if(militarumCover && save > 3){
-        saveModifier += 1;
+        save = save - 1;
     }
 
     //black templars
@@ -834,6 +834,22 @@ function simulateAttackSequence() {
     }else{
         stratagemGrenade = false;
     }
+
+    //Go to ground
+    let stratagemGround = document.getElementById("genericStratagemGround").checked;
+    if(stratagemGround && (invul == 0 || isNaN(invul)) && weaponMeleeRanged == 'ranged'){
+        invul = 6;
+        cover = true;
+    }else if(stratagemGround && weaponMeleeRanged == 'ranged'){
+        cover = true;
+    }
+
+    //Smokescreen
+    let stratagemSmoke = document.getElementById("genericStratagemSmoke").checked;
+    if(stratagemSmoke && weaponMeleeRanged == 'ranged'){
+        stealth = true;
+        cover = true;
+    }
     
     //modifiers
     if(stealth && weaponMeleeRanged == 'ranged'){
@@ -881,29 +897,6 @@ function simulateAttackSequence() {
         hitModifier += 1;
     }
 
-    //capping hit roll modifiers
-    if(hitModifier > 1){
-        hitModifier = 1;
-    }else if(hitModifier < -1){
-        hitModifier = -1;
-    }
-
-    // console.log(`hit modifier: ${hitModifier}`)
-
-    //capping wound roll modifiers
-    if(woundModifier > 1){
-        woundModifier = 1;
-    }else if(woundModifier < -1){
-        woundModifier = -1;
-    }
-
-    //can never be more than 1;
-    if(saveModifier > 1){
-        saveModifier = 1;
-    }else if(saveModifier < -1){
-        saveModifier = -1;
-    }
-
     // calculating needed wound roll
     let wound = woundRollVal(strength,toughness);
 
@@ -934,15 +927,40 @@ function simulateAttackSequence() {
     // console.log(`save: ${save}`);
     // console.log(`invul: ${invul}`);
 
-    //check if defender save is better than 3+ and attacker ap = 0
-    if(cover && (save > 3 || ap > 0) && !ignoresCover){
+    //cover
+    //defender has the benefit of cover as long as the attack isnt ap 0 while they have a save of 3+ or better
+    if(cover && (save > 3 || ap > 0) && !ignoresCover && weaponMeleeRanged == 'ranged'){
         // console.log('defender has benefits of cover')
         saveModifier += 1;
     }
 
-    // console.log(`defenders calced save: ${save}`)
+    //capping hit roll modifiers
+    if(hitModifier > 1){
+        hitModifier = 1;
+    }else if(hitModifier < -1){
+        hitModifier = -1;
+    }
 
-    save = save + ap + saveModifier;
+    // console.log(`hit modifier: ${hitModifier}`)
+
+    //capping wound roll modifiers
+    if(woundModifier > 1){
+        woundModifier = 1;
+    }else if(woundModifier < -1){
+        woundModifier = -1;
+    }
+
+    //can never be more than 1;
+    if(saveModifier > 1){
+        saveModifier = 1;
+    }else if(saveModifier < -1){
+        saveModifier = -1;
+    }
+
+    // console.log(`save: ${save}`)
+    // console.log(`ap: ${ap}`)
+    // console.log(`saveModifier: ${saveModifier}`)
+    save = save + ap - saveModifier;
     if(invul != 0 && !isNaN(invul)){
         if(save + ap > invul){
             save = invul;
@@ -950,6 +968,8 @@ function simulateAttackSequence() {
             save = save + ap;
         }
     }
+
+    // console.log(`defenders calced save: ${save}`)
 
     //goes down here to make sure no extra damage is added
     if(sororitasMantle){
@@ -1806,7 +1826,6 @@ function attackerUnitChange(){
     }
     //stratagems
     document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_container').forEach((element) => {
-        element.style.display = 'none';
         element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
             el.style.display = 'none';
         });
@@ -1815,12 +1834,12 @@ function attackerUnitChange(){
         });
     });
     if(selectedAttackerData.includes('Vehicle')){
-        document.querySelector(`.faction_stratagem_container`).style.display = 'block';
-        document.querySelector(`#tankShockStratagem`).style.display = 'block';
+        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#genericStratagemTankShockCont`).style.display = 'block';
     };
     if(selectedAttackerData.includes('Grenades')){
-        document.querySelector(`.faction_stratagem_container`).style.display = 'block';
-        document.querySelector(`#grenadeStratagem`).style.display = 'block';
+        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#genericStratagemGrenadeCont`).style.display = 'block';
     }
 }
 
@@ -1841,6 +1860,24 @@ function defenderUnitChange(){
     if(canHaveEnhancement){
         document.querySelector(`#defender_enhancement-${selectedDefenderFaction}`).style.display = 'block';
     }
+    //stratagems
+    document.querySelector('.stratagemDefender').querySelectorAll('.faction_stratagem_container').forEach((element) => {
+        element.style.display = 'none';
+        element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+            el.style.display = 'none';
+        });
+        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+            el.checked = false;
+        });
+    });
+    if(selectedDefenderData.includes('Infantry')){
+        document.querySelector('.stratagemDefender').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#genericStratagemGroundCont`).style.display = 'block';
+    };
+    if(selectedDefenderData.includes('Smoke')){
+        document.querySelector('.stratagemDefender').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#genericStratagemSmokeCont`).style.display = 'block';
+    };
 }
 
 function attackerWeaponChange(){

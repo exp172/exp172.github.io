@@ -39891,7 +39891,7 @@ const data = {
       },
       canisRex: {
         name: "Canis Rex",
-        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Sir Hekhtur"],
+        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Questoris", "Character", "Epic Hero", "Imperium", "Canis Rex"],
         t: 12,
         sv: 3,
         w: 22,
