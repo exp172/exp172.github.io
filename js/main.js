@@ -129,6 +129,22 @@ function calcDiceRollsInString(string) {
         return tempTotal;
 }
 
+//function to add attacks to the attacks string (and account for dice rolling)
+function addToAttackString(attackRoll, attackNumberString, numberToAdd){
+    if(attackRoll){
+        let splitAttackString = attackNumberString.split('+');
+        if(splitAttackString.length == 2){
+            splitAttackString[1] = parseInt(splitAttackString[1]) + numberToAdd;
+            attackNumberString = splitAttackString.join('+');
+        }else{
+            attackNumberString = splitAttackString[0] + '+' + numberToAdd;
+        }
+    }else{
+        attackNumberString += numberToAdd;
+    }
+    return attackNumberString;
+}
+
 //function that actually does all the bits
 function simulateAttackSequence() {
 
@@ -221,7 +237,7 @@ function simulateAttackSequence() {
     let lethalHits = document.getElementById("lethalHits").checked;
     let lance = lanceEl.checked;
     let indirectFire = indirectFireEl.checked;
-    // let precision = document.getElementById("precision").checked; /* doesnt actually modify the results UNTIL I ADD CHARACTERS IN UNITS */
+    let precision = document.getElementById("precision").checked; /* doesnt actually modify the results UNTIL I ADD CHARACTERS IN UNITS */
     let psychic = document.getElementById("psychic").checked;
     let blast = document.getElementById("blast").checked;
     let melta = meltaEl.checked;
@@ -241,7 +257,9 @@ function simulateAttackSequence() {
     let rerollSingleWound = document.getElementById("reroll1WoundRoll").checked;
     let reroll1Wounds = document.getElementById("reroll1Wounds").checked;
     let rerollAllWounds = document.getElementById("rerollAllWounds").checked;
-    let rerollSaves = document.getElementById("rerollAllSaves").checked;
+    let rerollSingleSave = document.getElementById("reroll1Save").checked;
+    let reroll1Saves = document.getElementById("reroll1Saves").checked;
+    let rerollAllSaves = document.getElementById("rerollAllSaves").checked;
 
     //defender modifiers
     let defenderKeywords = defenderTags.value;
@@ -275,54 +293,12 @@ function simulateAttackSequence() {
 
     if(sororitasBladeDamaged && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+2;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+' + 2;
-                }
-            }else{
-                attackString += 2;
-            }
-        }
-        if(rollDamage){
-            let splitDamageString = damageString.split('+');
-            if(splitDamageString.length == 2){
-                splitDamageString[1] = parseInt(splitDamageString[1]) + 2;
-                damageString = splitDamageString.join('+');
-            }else{
-                damageString = splitDamageString[0] + '+' + 2;
-            }
-        }else{
-            damageString += 2;
+            attackString = addToAttackString(rollAttacks, attackString, 2);
         }
         strength += 1;
     }else if(sororitasBlade && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+' + 1;
-                }
-            }else{
-                attackString += 1;
-            }
-        }
-        if(rollDamage){
-            let splitDamageString = damageString.split('+');
-            if(splitDamageString.length == 2){
-                splitDamageString[1] = parseInt(splitDamageString[1]) + 1;
-                damageString = splitDamageString.join('+');
-            }else{
-                damageString = splitDamageString[0] + '+' + 1;
-            }
-        }else{
-            damageString += 1;
+            attackString = addToAttackString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -351,17 +327,7 @@ function simulateAttackSequence() {
 
     if(custodesBlade && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+2;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+' + 2;
-                }
-            }else{
-                attackString += 2;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 2);
         }
     }
 
@@ -389,17 +355,7 @@ function simulateAttackSequence() {
     
     if(mechanicusOmni && weaponMeleeRanged == 'ranged'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1]) + 3;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+' + 3;
-                }
-            }else{
-                attackString += 3;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 3);
         }
         //add anti infantry 2 and anti monster 4
         anti = true;
@@ -420,6 +376,12 @@ function simulateAttackSequence() {
         rerollSingleWound = true;
     }
 
+    let aeldariAttackerMessenger = document.getElementById("aeldariEnhancementAttackerMessenger").checked;
+    let aeldariDefenderMessenger = document.getElementById("aeldariEnhancementDefenderMessenger").checked;
+
+    if(aeldariDefenderMessenger){
+    }
+
     //Astra Militarum
     let militarumBayonets = document.getElementById("astraMilitarumArmyRuleAttackerBayonets").checked;
     let militarumAim = document.getElementById("astraMilitarumArmyRuleAttackerAim").checked;
@@ -438,17 +400,7 @@ function simulateAttackSequence() {
     if(militarumFire && rapidFire){
         // console.log(`attack string before First Rank Fire: ${attackString}`);
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+1';
-                }
-            }else{
-                attackString += 1;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 1);
         }
         // console.log(`attack string after First Rank Fire: ${attackString}`);
     }
@@ -477,12 +429,13 @@ function simulateAttackSequence() {
     }
 
     if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker') && weaponMeleeRanged == 'melee'){
-        if(document.getElementById("antiType").value.includes('Psyker') && antiValue > 4){
-            antiValue = 4;
+        anti = true;
+        if(antiType == ''){
+            antiType += 'Psyker';
+            antiValue += '4'
         }else{
-            anti = true;
-            antiType = 'Psyker';
-            antiValue = 4;
+            antiType += ', Psyker';
+            antiValue += ', 4'
         }
     }
 
@@ -495,22 +448,59 @@ function simulateAttackSequence() {
         sustainedHitsCount = 1;
     }
 
+    let templarsPerdition = document.getElementById("blackTemplarsEnhancementPerdition").checked;
+    let templarsWitchseeker = document.getElementById("blackTemplarsEnhancementWitchseeker").checked;
+    let templarsSigismund = document.getElementById("blackTemplarsEnhancementSigismund").checked;
+    let templarsTanhauser = document.getElementById("blackTemplarsEnhancementTanhauser").checked;
+
+    if(templarsPerdition && weaponMeleeRanged == 'melee'){
+        ap += 1;
+        strength += 1;
+
+        if(templarsUnclean && !extraAttacks){
+            attackString = addToAttackString(rollAttacks, attackString, 1);
+        }
+    }
+
+    if(templarsWitchseeker && weaponMeleeRanged == 'ranged'){
+        devastatingWounds = true;
+        precision = true;
+        anti = true;
+        if(antiType == ''){
+            antiType += 'Psyker';
+            antiValue += '4'
+        }else{
+            antiType += ', Psyker';
+            antiValue += ', 4'
+        }
+
+        if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker')){
+            rerollAllHits = true;
+            rerollAllWounds = true;
+        }
+    }
+
+    if(templarsSigismund && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToAttackString(rollAttacks, attackString, 1);
+        }
+        if(templarsChallenge && criticalHit > 5/* && leadingUnit*/){
+            criticalHit = 5;
+        }
+    }
+
+    if(templarsTanhauser){
+        if(templarsHonour && (fnp > 5 || fnp == 0 || isNaN(fnp))/* && leadingUnit*/){
+            fnp = 5;
+        }
+    }
+    
     //Blood Angels
     let bloodAngelsThirst = document.getElementById("bloodAngelsDetachmentThirst").checked;
 
     if(bloodAngelsThirst){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+1';
-                }
-            }else{
-                attackString += 1;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -649,17 +639,7 @@ function simulateAttackSequence() {
 
     if(orksWaaaghAttacker && !extraAttacks && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+1';
-                }
-            }else{
-                attackString += 1;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -731,7 +711,7 @@ function simulateAttackSequence() {
     let thousandSonsImmaterium = document.getElementById("thousandSonsDetachmentImmaterium").checked;
 
     if(thousandSonsWeaver){
-        rerollSaves = true;
+        rerollAllSaves = true;
     }
 
     if(thousandSonsTwist){
@@ -792,17 +772,7 @@ function simulateAttackSequence() {
 
     if(worldEatersRelentless && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
-            if(rollAttacks){
-                let splitAttackString = attackString.split('+');
-                if(splitAttackString.length == 2){
-                    splitAttackString[1] = parseInt(splitAttackString[1])+1;
-                    attackString = splitAttackString.join('+');
-                }else{
-                    attackString = splitAttackString[0] + '+1';
-                }
-            }else{
-                attackString += 1;
-            }
+            attackString = addToAttackString(rollAttacks, attackString, 1);
         }
         strength += 1;
     }
@@ -971,10 +941,14 @@ function simulateAttackSequence() {
 
     // console.log(`defenders calced save: ${save}`)
 
-    //goes down here to make sure no extra damage is added
+    //defender unit damage modifiers go down here so they dont get modified
     if(sororitasMantle){
         rollDamage = false;
         damageString = 1;
+    }
+
+    if(templarsTanhauser && !rollDamage){
+        damageString = damageString/2;
     }
 
     let resultsArr = [];
@@ -995,6 +969,9 @@ function simulateAttackSequence() {
         let lethalHitStorage = [];
         let tankShockDamage = 0;
         let grenadeDamage = 0;
+
+        let aeldariMessengerAttackerUsed = false;
+        let aeldariMessengerDefenderUsed = false;
 
         // console.log(`attacks (should be 0): ${attacks}`)
 
@@ -1044,6 +1021,15 @@ function simulateAttackSequence() {
 
             // console.log(`hit rolls: ${diceResults}`);
             // console.log(`hit rolls array length: ${diceResults.length}`);
+
+            if(aeldariAttackerMessenger){
+                diceResults.forEach((roll, index) => {
+                    if((roll + hitModifier) < hit && !aeldariMessengerAttackerUsed){
+                        diceResults[index] = 6;
+                        aeldariMessengerAttackerUsed = true;
+                    }
+                })
+            }
 
             if(rerollAllHits){
                 //reroll all fails
@@ -1177,6 +1163,15 @@ function simulateAttackSequence() {
         
         // console.log(`wound rolls: ${diceResults} length:${diceResults.length}`);
 
+        if(aeldariAttackerMessenger){
+            diceResults.forEach((roll, index) => {
+                if((roll + woundModifier) < wound && !aeldariMessengerAttackerUsed){
+                    diceResults[index] = 6;
+                    aeldariMessengerAttackerUsed = true;
+                }
+            })
+        }
+
         //get all critical wounds
         let criticalWoundDice = diceResults.filter((result) => result >= criticalWound);
         // console.log(`critical wound dice: ${criticalWoundDice.slice()} length:${criticalWoundDice.length}`);
@@ -1279,7 +1274,11 @@ function simulateAttackSequence() {
             //turn the critical wounds into mortal wounds
             if(rollDamage){
                 for(let a=0,b=criticalWoundDice.length;a<b;a++){
-                    mortalWounds += calcDiceRollsInString(damageString);
+                    if(templarsTanhauser){
+                        mortalWounds += (Math.ceil(calcDiceRollsInString(damageString) / 2));
+                    }else{
+                        mortalWounds += calcDiceRollsInString(damageString);
+                    }
                 };
             }else{
                 mortalWounds = criticalWoundDice.length * damageString;
@@ -1311,30 +1310,63 @@ function simulateAttackSequence() {
         // console.log(`save rolls: ${diceResults}`);
         // console.log(`target save: ${save}`);
 
-        if(rerollSaves){
+        if(aeldariDefenderMessenger){
+            diceResults.forEach((roll, index) => {
+                if(roll < save && !aeldariMessengerDefenderUsed){
+                    diceResults[index] = 6;
+                    aeldariMessengerDefenderUsed = true;
+                }
+            })
+        }
+
+        if(rerollAllSaves){
             //reroll all fails
 
             //get any fails's
             let failedSaveRolls = diceResults.filter((result) => (result == 1 || result < save));
-            // console.log(`failed hit rolls: ${failedHitRolls}`);
-            // console.log(`failed hit rolls array length: ${failedHitRolls.length}`);
 
             //remove fails from the normal pool
             diceResults = diceResults.filter((result) => (result != 1 && result >= save));
-            // console.log(`old roll, fails's removed: ${diceResults}`);
-            // console.log(`old roll, fails's removed array length: ${diceResults.length}`);
 
             //reroll the failed hits
             rollDiceArray(failedSaveRolls);
-            // console.log(`rerolled failed hit rolls: ${failedHitRolls}`);
-            // console.log(`rerolled failed hit rolls array length: ${failedHitRolls.length}`);
 
             // combine the new success dice into the old array
             diceResults = diceResults.concat(failedSaveRolls);
-            // console.log(`combined old hits and rerolls: ${diceResults}`);
-            // console.log(`combined old hits and rerolls array length: ${diceResults.length}`);
+
+        }else if(reroll1Saves){
+            //get any 1's
+            let saveRoll1s = diceResults.filter((result) => result == 1);
+
+            //remove fails from the normal pool
+            diceResults = diceResults.filter((result) => result > 1);
+
+            //reroll the failed wounds
+            rollDiceArray(saveRoll1s);
+
+            // combine the new success dice into the old array
+            diceResults = diceResults.concat(saveRoll1s);
+
+        }else if(rerollSingleSave){
+            //reroll a single fails
+
+            //get any fails's
+            let failedSaveRolls = diceResults.filter((result) => result < save);
+
+            if(failedSaveRolls.length > 0){
+                //remove fails from the normal pool
+                diceResults = diceResults.filter((result) => (result != 1 && result >= save));
+
+                let newSaveRoll = [];
+                //if there is at least one fail roll a dice and add it back
+                newSaveRoll.push(rollDice6());
+
+                // combine the new success dice into the old array
+                diceResults = diceResults.concat(newSaveRoll);
+            }
 
         }
+
 
         // console.log(`after reroll saves: ${diceResults}`);
 
@@ -1351,7 +1383,11 @@ function simulateAttackSequence() {
         for(let a=0,b=diceResults.length;a<b;a++){
             let calcedDamage = 0;
             if(rollDamage){
-                calcedDamage = calcDiceRollsInString(damageString);
+                if(templarsTanhauser){
+                    calcedDamage = (Math.ceil(calcDiceRollsInString(damageString) / 2));
+                }else{
+                    calcedDamage = calcDiceRollsInString(damageString);
+                }
             }else{
                 calcedDamage = damageString;
             }
