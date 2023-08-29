@@ -505,6 +505,30 @@ function simulateAttackSequence() {
         strength += 1;
     }
 
+    let bloodAngelsArtisanAttacker = document.getElementById("bloodAngelsEnhancementAttackerArtisan").checked;
+    let bloodAngelsShard = document.getElementById("bloodAngelsEnhancementAttackerShard").checked;
+    let bloodAngelsArtisanDefender = document.getElementById("bloodAngelsEnhancementDefenderArtisan").checked;
+
+    if(bloodAngelsArtisanAttacker){
+        ap += 1;
+    }
+
+    if(bloodAngelsShard && weaponMeleeRanged == 'melee'){
+        lance = true;
+        anti = true;
+        if(antiType == ''){
+            antiType += 'Chaos';
+            antiValue += '5'
+        }else{
+            antiType += ', Chaos';
+            antiValue += ', 5'
+        }
+    }
+
+    if(bloodAngelsArtisanDefender){
+        save = 2;
+    }
+
     //chaos knights
     let chaosKnightsAttackerDoom = chaosKnightsAttackerDoomEl.checked;
     let chaosKnightsDefenderDoom = chaosKnightsDefenderDoomEl.checked;
@@ -852,6 +876,9 @@ function simulateAttackSequence() {
     let charged = chargeInput.checked;
     if(lance && charged){
         woundModifier += 1;
+        // console.log(`lance: ${lance}`)
+        // console.log(`charged: ${charged}`)
+        // console.log(`woundModifier: ${woundModifier}`)
     }
 
     //indirect fire
@@ -1286,7 +1313,7 @@ function simulateAttackSequence() {
         }
         
         //remove any that failed to wound
-        diceResults = diceResults.filter((result) => result >= wound);
+        diceResults = diceResults.filter((result) => (result + woundModifier) >= wound);
 
         //add the critical back in unless devastating wounds
         if(!devastatingWounds){
@@ -2158,6 +2185,16 @@ lanceEl.addEventListener("change", showHideCharge);
 indirectFireEl.addEventListener("change", showHideLos);
 heavyEl.addEventListener("change", showHideMoved);
 mechanicusAttackerProtectorEl.addEventListener("change", showHideMoved);
+
+//any triggers for enhancements
+document.getElementById("bloodAngelsEnhancementAttackerShard").addEventListener("change", () => {
+    if(document.getElementById("bloodAngelsEnhancementAttackerShard").checked){
+        chargedContainer.style.display = 'block';
+    }else{
+        chargedContainer.style.display = 'none';
+        chargeInput.checked = false;
+    }
+});
 
 let modifierAttackerHeight = document.querySelector('#modifiers').querySelector('.attacker').scrollHeight;
 
