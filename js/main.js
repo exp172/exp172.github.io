@@ -436,6 +436,7 @@ function simulateAttackSequence() {
     }
 
     if(militarumFire && rapidFire){
+        // console.log(`attack string before First Rank Fire: ${attackString}`);
         if(!extraAttacks){
             if(rollAttacks){
                 let splitAttackString = attackString.split('+');
@@ -449,6 +450,7 @@ function simulateAttackSequence() {
                 attackString += 1;
             }
         }
+        // console.log(`attack string after First Rank Fire: ${attackString}`);
     }
 
     if(militarumBornSoldiers && !lethalHits && weaponMeleeRanged == 'ranged'){
@@ -632,7 +634,8 @@ function simulateAttackSequence() {
     let necronsCommand = document.getElementById("necronsDetachmentCommand").checked;
     let necronsReanimation = document.getElementById("necronsArmyRuleReanimation").checked;
     let reanimationRoll = 0;
-    let reanimationResults = [];
+    let reanimationModelsReanimated = [];
+    let reanimationWoundsHealed = [];
 
     if(necronsCommand){
         hitModifier += 1;
@@ -805,6 +808,8 @@ function simulateAttackSequence() {
     }
 
     //generic stratagems
+
+    //tank shock
     let stratagemTankShock = document.getElementById("genericStratagemTankShock").checked;
     let tankShockDiceToRoll = 0;
     if(stratagemTankShock && weaponMeleeRanged == 'melee'){
@@ -818,8 +823,16 @@ function simulateAttackSequence() {
         if(tankShockDiceToRoll > toughness){
             tankShockDiceToRoll += 2;
         }
-    }else if(stratagemTankShock){
+    }else{
         stratagemTankShock = false;
+    }
+
+    //grenade
+    let stratagemGrenade = document.getElementById("genericStratagemGrenade").checked;
+    if(stratagemGrenade && weaponMeleeRanged == 'ranged'){
+
+    }else{
+        stratagemGrenade = false;
     }
     
     //modifiers
@@ -948,6 +961,7 @@ function simulateAttackSequence() {
     let deadDefenderResultsArr = [];
     let defenderWipedArr = [];
     let tankShockArr = [];
+    let grenadeArr = [];
 
     let i = 0;
     while (i < simulations) {
@@ -960,6 +974,7 @@ function simulateAttackSequence() {
         let mortalWounds = 0;
         let lethalHitStorage = [];
         let tankShockDamage = 0;
+        let grenadeDamage = 0;
 
         // console.log(`attacks (should be 0): ${attacks}`)
 
@@ -980,13 +995,15 @@ function simulateAttackSequence() {
 
         //add the rapid fire attacks
         if(halfRange && rapidFire){
+            // console.log(`attack string before rapid fire: ${attacks}`);
             if(rollRapidFire){
                 for(let i=0,j=attackerCount;i<j;i++){
                     attacks += calcDiceRollsInString(rapidFireCount);
                 }
             }else{
-                attacks =  parseInt(rapidFireCount) * attackerCount;
+                attacks += (parseInt(rapidFireCount) * attackerCount);
             }
+            // console.log(`attack string after rapid fire: ${attacks}`);
         }
 
         // console.log(`attacks after rapid fire: ${attacks}`)
@@ -1360,6 +1377,16 @@ function simulateAttackSequence() {
             // console.log(`mortal wounds after tank shock: ${mortalWounds}`)
             tankShockArr.push(tankShockDamage);
         }
+
+        if(stratagemGrenade){
+            for(let a=0,b=6;a<b;a++){
+                if(rollDice6() >= 4){
+                    mortalWounds += 1;
+                    grenadeDamage += 1;
+                }
+            }
+            grenadeArr.push(grenadeDamage);
+        }
         
         for(let a=0,b=mortalWounds;a<b;a++){
             if((fnp != 0 && !isNaN(fnp)) || custodesAegis){
@@ -1402,20 +1429,23 @@ function simulateAttackSequence() {
             // console.log(`Models that are dead before reanimation: ${deadDefenders}`);
         }
 
-        if(necronsReanimation && deadDefenders < defenderCount){
+        let reanimationDeadDefenders = deadDefenders;
+        if(necronsReanimation && reanimationDeadDefenders < defenderCount){
             reanimationRoll = rollDice3();
             // console.log(`Reanimation Roll: ${reanimationRoll}`);
             if(wounds == 1){
                 // console.log(`Reanimating unit has single wound models`);
-                deadDefenders = deadDefenders - reanimationRoll;
+                reanimationDeadDefenders = reanimationDeadDefenders - reanimationRoll;
                 // console.log(`models that are dead after reanimation: ${deadDefenders}`);
-                if(deadDefenders < 0){
-                    // console.log(`The unit was back at full strength after reanimation`);
-                    reanimationResults.push(reanimationRoll + deadDefenders)
-                    deadDefenders = 0;
+                if(reanimationDeadDefenders < 0){
+                    // console.log(`The unit was back at full strength after partial reanimation`);
+                    reanimationWoundsHealed.push(reanimationRoll + reanimationDeadDefenders)
+                    reanimationModelsReanimated.push(reanimationRoll + reanimationDeadDefenders)
+                    reanimationDeadDefenders = 0;
                 }else{
                     // console.log(`Total reanimated models for this sim: ${reanimationRoll}`);
-                    reanimationResults.push(reanimationRoll)
+                    reanimationWoundsHealed.push(reanimationRoll);
+                    reanimationModelsReanimated.push(reanimationRoll);
                 }
             }else{
                 // console.log(`Unit had models with ${wounds} wounds`);
@@ -1427,29 +1457,38 @@ function simulateAttackSequence() {
                         // there will be enough reanimation to heal this model and bring another back
                         // console.log(`reanimation was high enough to heal and bring back a model: ${reanimationRoll}`);
                         reanimationRoll = remainingDefenderWounds - wounds;
-                        deadDefenders - 1;
-                        reanimationResults.push(1)
+                        reanimationDeadDefenders - 1;
+                        reanimationWoundsHealed.push(reanimationRoll);
+                        reanimationModelsReanimated.push(1)
                     }else{
                         //one got healed but none came back to life
                         // console.log('1 healed but none came back')
-                        reanimationResults.push(0)
+                        reanimationWoundsHealed.push(reanimationRoll)
+                        reanimationModelsReanimated.push(0)
                     }
                 }else{
                     //none are injured so if any are dead it can all go into resurrection
                     if(reanimationRoll > wounds){
                         //its high enough to bring 2 back (if they have 2 wounds each and we roll a 3 and none are injured is the only time i think (except when we get to unit abilities))
                         // console.log('2 came back')
-                        reanimationResults.push(2)
+                        reanimationWoundsHealed.push(reanimationRoll)
+                        reanimationModelsReanimated.push(2)
                     }else{
                         //the roll only brought 1 back
                         // console.log('1 came back')
-                        reanimationResults.push(1)
+                        reanimationWoundsHealed.push(reanimationRoll)
+                        reanimationModelsReanimated.push(1)
                     }
                 }
             }
-        }else if(necronsReanimation && deadDefenders >= defenderCount){
+        }else if(necronsReanimation && reanimationDeadDefenders >= defenderCount){
             // console.log(`reanimation didnt happen because the squad was wiped`);
-            reanimationResults.push(0)
+            reanimationWoundsHealed.push(0)
+            reanimationModelsReanimated.push(0)
+        }else{
+            //console.log('reanimation didnt happen because no one was dead or injured);
+            reanimationWoundsHealed.push(0)
+            reanimationModelsReanimated.push(0)
         };
         
 
@@ -1489,13 +1528,19 @@ function simulateAttackSequence() {
     });
     let averageKills = totalSimulationKills/simulations;
     let averageReanimations = 0;
+    let averageReanimationHeal = 0;
     if(necronsReanimation){
         let totalSimulationReanimations = 0;
-        reanimationResults.forEach((result) => { 
+        reanimationModelsReanimated.forEach((result) => { 
             totalSimulationReanimations += result;
         });
         averageReanimations = totalSimulationReanimations/simulations;
         // console.log(`on average ${averageReanimations} models reanimated`);
+        let totalSimulationReanimationHeal = 0;
+        reanimationWoundsHealed.forEach((result) => { 
+            totalSimulationReanimationHeal += result;
+        });
+        averageReanimationHeal = totalSimulationReanimationHeal/simulations;
     }
     let averageTankShockDamage = 0;
     if(stratagemTankShock){
@@ -1504,6 +1549,15 @@ function simulateAttackSequence() {
             totalTankShockDamage += result;
         });
         averageTankShockDamage = totalTankShockDamage/simulations;
+        // console.log(`on average ${averageReanimations} models reanimated`);
+    }
+    let averageGrenadeDamage = 0;
+    if(stratagemGrenade){
+        let totalgrenadeDamage = 0;
+        grenadeArr.forEach((result) => { 
+            totalgrenadeDamage += result;
+        });
+        averageGrenadeDamage = totalgrenadeDamage/simulations;
         // console.log(`on average ${averageReanimations} models reanimated`);
     }
     // console.log(`true average kills over ${simulations} simulations: ${averageKills}`);
@@ -1519,20 +1573,25 @@ function simulateAttackSequence() {
 
     let necronReanimationString = '';
     if(necronsReanimation){
-        necronReanimationString = `<div>on average <span class="value">${averageReanimations}</span> models reanimated</div>`;
+        necronReanimationString = `<div>But on average <span class="value">${averageReanimationHeal}</span> wounds were regenerated</div><div> and <span class="value">${averageReanimations}</span> models reanimated in the next command phase</div>`;
     }
 
     let hazardousString = '';
     if(hazardous){
-        hazardousString = `<div>And has a 16.6% of killing itself or causing itself harm</div>`;
+        hazardousString = `<div>And has a <span class="value">16.6%</span> of killing itself or causing itself harm</div>`;
     }
 
     let tankShockString = '';
     if(stratagemTankShock){
-        tankShockString = `<div>on average tank shock did <span class="value">${averageTankShockDamage}</span> mortal wounds</div>`
+        tankShockString = `<div>on average, tank shock did <span class="value">${averageTankShockDamage}</span> mortal wounds</div>`
     }
 
-    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${tankShockString}${necronReanimationString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div><div>percentage chance to fully wipe the target unit: <span class="value">${((100/simulations)*defenderWipedArr.length).toFixed(2)*1}%</span></div>${hazardousString}`;
+    let grenadeString = '';
+    if(stratagemGrenade){
+        grenadeString = `<div>on average, grenade did <span class="value">${averageGrenadeDamage}</span> mortal wounds</div>`
+    }
+
+    informationHTML = `<div>true average damage over ${simulations} simulations: <span class="value">${average}</span></div><div>rounded average damage over ${simulations} simulations: <span class="value">${Math.round(average)}</span></div>${grenadeString}${tankShockString}<div>true average kills over ${simulations} simulations: <span class="value">${averageKills}</span></div><div>rounded average kills over ${simulations} simulations: <span class="value">${Math.round(averageKills)}</span></div>${necronReanimationString}<div>percentage chance to fully wipe the target unit: <span class="value">${((100/simulations)*defenderWipedArr.length).toFixed(2)*1}%</span></div>${hazardousString}`;
 
     informationContainer.innerHTML = informationHTML;
 
@@ -1748,6 +1807,9 @@ function attackerUnitChange(){
     //stratagems
     document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_container').forEach((element) => {
         element.style.display = 'none';
+        element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+            el.style.display = 'none';
+        });
         element.querySelectorAll('input[type=checkbox]').forEach((el) => {
             el.checked = false;
         });
@@ -1755,6 +1817,10 @@ function attackerUnitChange(){
     if(selectedAttackerData.includes('Vehicle')){
         document.querySelector(`.faction_stratagem_container`).style.display = 'block';
         document.querySelector(`#tankShockStratagem`).style.display = 'block';
+    };
+    if(selectedAttackerData.includes('Grenades')){
+        document.querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector(`#grenadeStratagem`).style.display = 'block';
     }
 }
 
