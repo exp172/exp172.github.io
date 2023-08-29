@@ -1899,6 +1899,12 @@ document.querySelectorAll('.faction_modifier_container').forEach((element, index
     element.style.display = 'none';
 })
 
+
+//hide all stratagems
+document.querySelectorAll('.faction_stratagem_container').forEach((element) => {
+    element.style.display = 'none';
+});
+
 //hide all faction enhancement containers
 document.querySelectorAll('.faction_enhancement_container').forEach((element, index) => {
     element.style.display = 'none';

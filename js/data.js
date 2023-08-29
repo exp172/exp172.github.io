@@ -39908,7 +39908,7 @@ const data = {
               ap: "-3",
               d: "4",
               tags: ["blast", "sustainedHits-1"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
             chainbreakerLasimpulsorLowIntensity: {
               name: "Chainbreaker Las-impulsor – Low Intensity",
@@ -39918,7 +39918,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: ["blast", "sustainedHits-1"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
             chainbreakerMultilaser: {
               name: "Chainbreaker Multi-laser",
@@ -39928,7 +39928,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["sustainedHits-1"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -39940,7 +39940,7 @@ const data = {
               ap: "-3",
               d: "9",
               tags: ["sustainedHits-1"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
             freedomsHandSweep: {
               name: "Freedom’s Hand – Sweep",
@@ -39950,7 +39950,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["sustainedHits-1"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
         },
@@ -57578,7 +57578,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -57590,7 +57590,7 @@ const data = {
               ap: "-2",
               d: "1",
               tags: [],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
             theAxeMorkaiTwohanded: {
               name: "The Axe Morkai – Two-handed",
@@ -57600,7 +57600,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: [],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
         },
@@ -59245,7 +59245,7 @@ const data = {
               ap: "-1",
               d: "1",
               tags: ["ignoresCover", "torrent"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
             stormBolter: {
               name: "Storm Bolter",
@@ -59255,7 +59255,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -59267,7 +59267,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["twinLinked"],
-              maxPerUnit: 0,
+              maxPerUnit: 1,
             },
           },
         },
