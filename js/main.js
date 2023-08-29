@@ -529,6 +529,38 @@ function simulateAttackSequence() {
         save = 2;
     }
 
+    //Chaos Daemons
+    let chaosDaemonsShadowAttacker = document.getElementById("chaosDaemonsArmyRuleAttackerShadow").checked;
+    let chaosDaemonsShadowDefender = document.getElementById("chaosDaemonsArmyRuleDefenderShadow").checked;
+
+    let chaosDaemonsArgath = document.getElementById("chaosDaemonsEnhancementArgath").checked;
+    let chaosDaemonsEverstave = document.getElementById("chaosDaemonsEnhancementEverstave").checked;
+    let chaosDaemonsGift = document.getElementById("chaosDaemonsEnhancementGift").checked;
+
+    if(chaosDaemonsArgath && chaosDaemonsShadowAttacker && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToAttackString(rollAttacks, attackString, 2);
+        }
+        strength += 2;
+    }else if(chaosDaemonsArgath && weaponMeleeRanged == 'melee'){
+        if(!extraAttacks){
+            attackString = addToAttackString(rollAttacks, attackString, 1);
+        }
+        strength += 1;
+    }
+
+    if(chaosDaemonsEverstave && chaosDaemonsShadowAttacker && weaponMeleeRanged == 'ranged'){
+        strength += 2;
+    }else if(chaosDaemonsEverstave && weaponMeleeRanged == 'ranged'){
+        strength += 1;
+    }
+
+    if(chaosDaemonsGift && chaosDaemonsShadowDefender && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+        fnp = 4;
+    }else if(chaosDaemonsGift && (fnp > 5 || fnp == 0 || isNaN(fnp))){
+        fnp = 5;
+    }
+
     //chaos knights
     let chaosKnightsAttackerDoom = chaosKnightsAttackerDoomEl.checked;
     let chaosKnightsDefenderDoom = chaosKnightsDefenderDoomEl.checked;
