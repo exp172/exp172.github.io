@@ -148,6 +148,7 @@ select{
     text-decoration: none;
     display: block;
     font-size: 16px;
+    font-weight:bold;
     padding:5px 10px;
     border-radius: 5px;
 }
