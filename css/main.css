@@ -2,6 +2,14 @@ body{
     font-family:arial;
 }
 
+input[type='text']{
+    max-width: calc(100% - 10px);
+}
+
+select{
+    max-width: calc(100% - 10px);
+}
+
 .page_title{
     font-size:30px;
     font-weight:bold;
@@ -93,10 +101,6 @@ body{
     .modifier_item+.modifier_item{
         border-top:0px;
     }
-
-        .modifier_item input[type='text']{
-            max-width: calc(100% - 10px);
-        }
 
 .modifiers{
     margin:10px 0;
