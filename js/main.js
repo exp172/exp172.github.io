@@ -284,37 +284,36 @@ function simulateAttackSequence() {
 
     //General
 
-    let AttackerBattleshocked = document.getElementById("generalAttackerBattleshocked").checked;
-    let AttackerBelowStartingStrength = document.getElementById("generalAttackerBelowStartingStrength").checked;
-    let AttackerBelowHalfStrength = document.getElementById("generalAttackerBelowHalfStrength").checked;
-    let DefenderBattleshocked = document.getElementById("generalDefenderBattleshocked").checked;
-    let DefenderBelowStartingStrength = document.getElementById("generalDefenderBelowStartingStrength").checked;
-    let DefenderBelowHalfStrength = document.getElementById("generalDefenderBelowHalfStrength").checked;
+    let attackerBattleshocked = document.getElementById("generalAttackerBattleshocked").checked;
+    let attackerBelowStartingStrength = document.getElementById("generalAttackerBelowStartingStrength").checked;
+    let attackerBelowHalfStrength = document.getElementById("generalAttackerBelowHalfStrength").checked;
+    let defenderBattleshocked = document.getElementById("generalDefenderBattleshocked").checked;
+    let defenderBelowStartingStrength = document.getElementById("generalDefenderBelowStartingStrength").checked;
+    let defenderBelowHalfStrength = document.getElementById("generalDefenderBelowHalfStrength").checked;
 
-    if(AttackerBelowHalfStrength){
-        AttackerBelowStartingStrength = true;
+    if(attackerBelowHalfStrength){
+        attackerBelowStartingStrength = true;
     }
 
-    if(DefenderBelowHalfStrength){
-        DefenderBelowStartingStrength = true;
+    if(defenderBelowHalfStrength){
+        defenderBelowStartingStrength = true;
     }
 
     //Adepta Sororitas
     
     let sororitasBoM = document.getElementById("adeptaSororitasDetachmentBoM").checked;
 
-    if(sororitasBoM && AttackerBelowHalfStrength){
+    if(sororitasBoM && attackerBelowHalfStrength){
         hitModifier += 1;
         woundModifier += 1;
-    }else if(sororitasBoM && AttackerBelowStartingStrength){
+    }else if(sororitasBoM && attackerBelowStartingStrength){
         hitModifier += 1;
     }
 
     let sororitasBlade = document.getElementById("adeptaSororitasEnhancementBlade").checked;
-    let sororitasBladeDamaged = document.getElementById("adeptaSororitasEnhancementBladeDamaged").checked;
     let sororitasMantle = document.getElementById("adeptaSororitasEnhancementMantle").checked;
 
-    if(sororitasBladeDamaged && weaponMeleeRanged == 'melee'){
+    if(sororitasBlade && attackerBelowStartingStrength && weaponMeleeRanged == 'melee'){
         if(!extraAttacks){
             attackString = addToString(rollAttacks, attackString, 2);
         }
@@ -597,11 +596,11 @@ function simulateAttackSequence() {
     let chaosKnightsAttackerDoom = document.getElementById("chaosKnightsArmyRuleAttackerDoom").checked;
     let chaosKnightsDefenderDoom = document.getElementById("chaosKnightsArmyRuleDefenderDoom").checked;
 
-    if(chaosKnightsAttackerDoom && DefenderBattleshocked){
+    if(chaosKnightsAttackerDoom && defenderBattleshocked){
         woundModifier += 1;
     }
 
-    if(chaosKnightsDefenderDoom && AttackerBattleshocked){
+    if(chaosKnightsDefenderDoom && attackerBattleshocked){
         hitModifier = hitModifier - 1;
     }
 
@@ -685,17 +684,17 @@ function simulateAttackSequence() {
     let darkAngelsRememberance = document.getElementById("darkAngelsEnhancementRememberance").checked;
 
     if(darkAngelsStubborn/* && leadingUnit*/){
-        if(AttackerBelowStartingStrength){
+        if(attackerBelowStartingStrength){
             hitModifier += 1;
         }
-        if(AttackerBattleshocked){
+        if(attackerBattleshocked){
             woundModifier += 1;
         }
 
     }
 
     if(darkAngelsBlade){
-        if(AttackerBattleshocked){
+        if(attackerBattleshocked){
             if(!extraAttacks){
                 attackString = addToString(rollAttacks, attackString, 2);
             }
@@ -711,7 +710,7 @@ function simulateAttackSequence() {
     }
 
     if(darkAngelsRememberance/* && leadingUnit*/){
-        if(AttackerBattleshocked && (fnp > 4 || fnp == 0 || isNaN(fnp))){
+        if(attackerBattleshocked && (fnp > 4 || fnp == 0 || isNaN(fnp))){
             fnp = 4;
         }else if(fnp == 0 || isNaN(fnp)){
             fnp = 6;
@@ -2190,16 +2189,44 @@ function attackerFactionChange(){
 
     document.querySelector(`#attacker_faction-${selectedAttackerFaction}`).style.display = 'block';
 
-    //faction abilities should turn on
+    //hide scenario modifiers
+    document.querySelectorAll('.scenario_modifier').forEach((element) => {
+        element.style.display = 'none';
+    });
+
+    //faction abilities should turn on and
+    //show some scenario boxes for specific factions
     switch (selectedAttackerFaction) {
+        case 'adeptaSororitas':
+            document.querySelector(`#attackerBelowStartingStrength`).style.display = 'block'
+            document.querySelector(`#attackerBelowHalfStrength`).style.display = 'block'
         case 'aeldari':
             document.querySelector(`#aeldariDetachmentUF`).checked = true;
+            break;
+        case 'chaosKnights':
+            document.querySelector(`#attackerBattleshocked`).style.display = 'block';
+            document.querySelector(`#defenderBattleshocked`).style.display = 'block';
+            break;
+        case 'darkAngels':
+            document.querySelector(`#attackerBattleshocked`).style.display = 'block';
+            document.querySelector(`#attackerBelowStartingStrength`).style.display = 'block';
             break;
         case 'orks':
             document.querySelector(`#orksDetachmentGetStuckIn`).checked = true;
         break;
         case 'tauEmpire':
             break;
+    }
+
+    // attackerBattleshocked
+    // defenderBattleshocked
+
+    
+    if(document.getElementById("bloodAngelsEnhancementAttackerShard").checked){
+        chargedContainer.style.display = 'block';
+    }else{
+        chargedContainer.style.display = 'none';
+        chargeInput.checked = false;
     }
 }
 

@@ -70,18 +70,20 @@
         <div class="bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
             <div class="scenarioAttacker attacker">
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBattleshocked" /> Battleshocked</div>
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBelowStartingStrength" /> Below starting strength</div>
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalAttackerBelowHalfStrength" /> Below half starting strength</div>
+                <div class="title">Attacker</div>
+                <div class="scenario_modifier" id="attackerBattleshocked"><input type="checkbox" id="generalAttackerBattleshocked" /> Battleshocked</div>
+                <div class="scenario_modifier" id="attackerBelowStartingStrength"><input type="checkbox" id="generalAttackerBelowStartingStrength" /> Below starting strength</div>
+                <div class="scenario_modifier" id="attackerBelowHalfStrength"><input type="checkbox" id="generalAttackerBelowHalfStrength" /> Below half starting strength</div>
                 <div class="scenario_modifier" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
                 <div class="scenario_modifier" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
                 <div class="scenario_modifier" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
                 <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
             </div>
             <div class="scenarioDefender defender">
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBattleshocked" /> Battleshocked</div>
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBelowStartingStrength" /> Below starting strength</div>
-                <div class="scenario_modifier alwaysShow"><input type="checkbox" id="generalDefenderBelowHalfStrength" /> Below half starting strength</div>
+                <div class="title">Defender</div>
+                <div class="scenario_modifier" id="defenderBattleshocked"><input type="checkbox" id="generalDefenderBattleshocked" /> Battleshocked</div>
+                <div class="scenario_modifier" id="defenderBelowStartingStrength"><input type="checkbox" id="generalDefenderBelowStartingStrength" /> Below starting strength</div>
+                <div class="scenario_modifier" id="defenderBelowHalfStrength"><input type="checkbox" id="generalDefenderBelowHalfStrength" /> Below half starting strength</div>
             </div>
         </div>
         <div class="bold">Stratagems</div>
@@ -107,7 +109,6 @@
                 <div id="attacker_enhancement-adeptaSororitas" class="faction_enhancement_container">
                     <div class="title">Adepta Sororitas</div>
                     <div><input type="checkbox" id="adeptaSororitasEnhancementBlade" /> Blade of Saint Ellynor</div>
-                    <div><input type="checkbox" id="adeptaSororitasEnhancementBladeDamaged" /> Blade of Saint Ellynor (bearer has taken damage)</div>
                 </div>
                 <div id="attacker_enhancement-adeptusCustodes" class="faction_enhancement_container">
                     <div class="title">Adeptus Custodes</div>
