@@ -2678,5 +2678,14 @@ let modifierAttackerHeight = document.querySelector('#modifiers').querySelector(
 //         }
 //     }
 // }
+// let outHTML = '{';
+// for(const faction in data){
+//     outHTML += `${faction}: `
+//     for(const unit in data[faction].units){
+//         // console.log(data[faction].units[unit]);
+//     }
+//     outHTML += `,`
+// }
+// document.querySelector('#testOut').innerText = outHTML; 
 
 console.log(data);
