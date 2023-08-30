@@ -26,7 +26,7 @@
         <div class="bold">Simulations to run?</div>
         <input type="text" id="simulations" value="1000"/>
         <!-- <input type="text" id="simulations" value="1"/> -->
-        <div class="flex_container">
+        <div class="flex_container" id="mainStats">
             <div class="attacker">
                 <div class="bold">Attacker</div>
                 <div class="select_container">
@@ -69,6 +69,7 @@
         </div>
         <div class="bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
+            <!-- <div class="toggle" id="scenarioToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="scenarioAttacker attacker">
                 <div class="title">Attacker</div>
                 <div class="scenario_modifier" id="attackerBattleshocked"><input type="checkbox" id="generalAttackerBattleshocked" /> Battleshocked</div>
@@ -88,6 +89,7 @@
         </div>
         <div class="bold">Stratagems</div>
         <div class="flex_container stratagem_total_container" id="stratagems">
+            <!-- <div class="toggle" id="stratagemToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="stratagemAttacker attacker">
                 <div id="attacker_stratagem-generic" class="faction_stratagem_container">
                     <div class="title bold">Generic</div>
@@ -104,7 +106,8 @@
             </div>
         </div>
         <div class="bold">Faction Enhancements</div>
-        <div class="flex_container faction_enhancement_total_container" id="factionModifiers">
+        <div class="flex_container faction_enhancement_total_container" id="enhancement">
+            <!-- <div class="toggle" id="enhancementToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="enhancementAttacker attacker">
                 <div id="attacker_enhancement-adeptaSororitas" class="faction_enhancement_container">
                     <div class="title">Adepta Sororitas</div>
@@ -351,6 +354,7 @@
         </div>
         <div class="bold">Faction Modifiers</div>
         <div class="flex_container faction_modifier_total_container" id="factionModifiers">
+            <!-- <div class="toggle" id="factionModifiersToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="factionAttacker attacker">
                 <div id="attacker_faction-adeptusAstartes" class="faction_modifier_container">
                     <div class="title">Adeptus Astartes</div>
@@ -648,8 +652,9 @@
                 </div>
             </div>
         </div>
-        <div class="bold">Modifiers</div><button class="button" id="modifierToggle">toggle</button>
-        <div class="flex_container modifier_container" id="modifiers" style="height:0px;">
+        <div class="bold">Modifiers</div>
+        <div class="flex_container modifier_container" id="modifiers">
+            <div class="toggle" id="modifierToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div>
             <div class="attacker">
                 <div class="modifier_title bold">Attacker</div>
                 <div class="modifier_item">

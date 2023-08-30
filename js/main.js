@@ -24,6 +24,9 @@ const defenderTags = document.querySelector('#defenderTags')
 
 const informationContainer = document.querySelector('#informationContainer');
 
+const htmlUpArrow = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7.9313 14.9999H16.0686C16.6744 14.9999 16.9773 14.9999 17.1175 14.8801C17.2393 14.7762 17.3038 14.6203 17.2913 14.4607C17.2768 14.2768 17.0626 14.0626 16.6342 13.6342L12.5656 9.56561C12.3676 9.3676 12.2686 9.2686 12.1544 9.2315C12.054 9.19887 11.9458 9.19887 11.8454 9.2315C11.7313 9.2686 11.6323 9.3676 11.4342 9.56561L7.36561 13.6342C6.93724 14.0626 6.72305 14.2768 6.70858 14.4607C6.69602 14.6203 6.76061 14.7762 6.88231 14.8801C7.02257 14.9999 7.32548 14.9999 7.9313 14.9999Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>'
+const htmlDownArrow = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>';
+
 //modifier elements
 let halfRangeContainer = document.getElementById("halfRange");
 let halfRangeInput = document.getElementById("halfRangeInput");
@@ -55,6 +58,12 @@ let selectedAttackerWeaponDetails = {};
 let weaponMeleeRanged = 'ranged';
 
 let informationHTML = '';
+
+let scenarioContainerExpanded = false;
+let stratagemContainerExpanded = false;
+let enhancementContainerExpanded = false;
+let factionModifiersContainerExpanded = false;
+let modifierContainerExpanded = false;
 
 //some dudes dice code so we can roll dice!
 function rollDice(min, max) {
@@ -2488,13 +2497,74 @@ function resetModifiers(target){
 
 }
 
+// function toggleScenarioVisible(){
+//     console.log(`scenarioContainerExpanded: ${scenarioContainerExpanded}`);
+//     console.log(`height: ${document.querySelector('#scenarioModifiers').querySelector('.attacker').scrollHeight+'px'}`);
+//     if(!scenarioContainerExpanded){
+//         document.querySelector('#scenarioToggle').innerHtml = htmlUpArrow;
+//         scenarioContainerExpanded = true;
+//         document.getElementById('scenarioModifiers').style.height = document.querySelector('#scenarioModifiers').querySelector('.attacker').scrollHeight+'px';
+//     }else{
+//         document.querySelector('#scenarioToggle').innerHtml = htmlDownArrow;
+//         scenarioContainerExpanded = false;
+//         document.getElementById('scenarioModifiers').style.height = '40px';
+//     }
+// }
+// function toggleStratagemVisible(){
+//     console.log(`stratagemContainerExpanded: ${stratagemContainerExpanded}`);
+//     console.log(`height: ${document.querySelector('#stratagems').querySelector('.attacker').scrollHeight+'px'}`);
+//     if(!stratagemContainerExpanded){
+//         document.querySelector('#stratagemToggle').innerHtml = htmlUpArrow;
+//         stratagemContainerExpanded = true;
+//         document.getElementById('stratagems').style.height = document.querySelector('#stratagems').querySelector('.attacker').scrollHeight+'px';
+//     }else{
+//         document.querySelector('#stratagemToggle').innerHtml = htmlDownArrow;
+//         stratagemContainerExpanded = false;
+//         document.getElementById('stratagems').style.height = '40px';
+//     }
+// }
+// function toggleEnhancementVisible(){
+//     console.log(`enhancementContainerExpanded: ${enhancementContainerExpanded}`);
+//     console.log(`height: ${document.querySelector('#enhancement').querySelector('.attacker').scrollHeight+'px'}`);
+//     if(!enhancementContainerExpanded){
+//         document.querySelector('#enhancementToggle').innerHtml = htmlUpArrow;
+//         enhancementContainerExpanded = true;
+//         document.getElementById('enhancement').style.height = document.querySelector('#enhancement').querySelector('.attacker').scrollHeight+'px';
+//     }else{
+//         document.querySelector('#enhancementToggle').innerHtml = htmlDownArrow;
+//         enhancementContainerExpanded = false;
+//         document.getElementById('enhancement').style.height = '40px';
+//     }
+// }
+// function toggleFactionModifiersVisible(){
+//     console.log(`factionModifiersContainerExpanded: ${factionModifiersContainerExpanded}`);
+//     console.log(`height: ${document.querySelector('#factionModifiers').querySelector('.attacker').scrollHeight+'px'}`);
+//     if(!factionModifiersContainerExpanded){
+//         document.querySelector('#factionModifiersToggle').innerHtml = htmlUpArrow;
+//         factionModifiersContainerExpanded = true;
+//         document.getElementById('factionModifiers').style.height = document.querySelector('#factionModifiers').querySelector('.attacker').scrollHeight+'px';
+//     }else{
+//         document.querySelector('#factionModifiersToggle').innerHtml = htmlDownArrow;
+//         factionModifiersContainerExpanded = false;
+//         document.getElementById('factionModifiers').style.height = '40px';
+//     }
+// }
+
 function toggleModifiersVisible(){
-    if(document.getElementById('modifiers').style.height == '0px'){
-        document.getElementById('modifiers').style.height = modifierAttackerHeight+'px';
-        document.getElementById('modifiers').style.padding = '10px 10px';
+    if(!modifierContainerExpanded){
+        document.querySelector('#modifierToggle').innerHTML = htmlUpArrow;
+        document.querySelectorAll('.modifier_title').forEach(el => {
+            el.style.opacity = '1';
+        })
+        modifierContainerExpanded = true;
+        document.getElementById('modifiers').style.height = document.querySelector('#modifiers').querySelector('.attacker').scrollHeight+'px';
     }else{
-        document.getElementById('modifiers').style.height = '0px';
-        document.getElementById('modifiers').style.padding = '0px 10px';
+        document.querySelector('#modifierToggle').innerHTML = htmlDownArrow;
+        document.querySelectorAll('.modifier_title').forEach(el => {
+            el.style.opacity = '0';
+        })
+        modifierContainerExpanded = false;
+        document.getElementById('modifiers').style.height = '50px';
     }
 }
 
@@ -2546,6 +2616,10 @@ document.querySelectorAll('.faction_enhancement_container').forEach((element, in
 })
 
 //button to toggle modifier visibility
+// document.querySelector('#scenarioToggle').onclick = toggleScenarioVisible;
+// document.querySelector('#stratagemToggle').onclick = toggleStratagemVisible;
+// document.querySelector('#enhancementToggle').onclick = toggleEnhancementVisible;
+// document.querySelector('#factionModifiersToggle').onclick = toggleFactionModifiersVisible;
 document.querySelector('#modifierToggle').onclick = toggleModifiersVisible;
 
 //set up the button to run the simulation
