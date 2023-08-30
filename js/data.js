@@ -45173,7 +45173,7 @@ const data = {
         w: 10,
         invSv: 0,
         fnp: 0,
-        size: 2,
+        size: 1,
         weapons: {
           ranged: {
             morksRoar: {
