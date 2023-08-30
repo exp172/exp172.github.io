@@ -45184,7 +45184,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-4"],
-              maxPerUnit: 2,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -45196,7 +45196,7 @@ const data = {
               ap: "-3",
               d: "4",
               tags: [],
-              maxPerUnit: 2,
+              maxPerUnit: 1,
             },
             makarisStabba: {
               name: "Makari’s Stabba",
@@ -45206,7 +45206,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["devastatingWounds"],
-              maxPerUnit: 2,
+              maxPerUnit: 1,
             },
           },
         },
