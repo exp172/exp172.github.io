@@ -23,7 +23,7 @@ const attackerUnitSelectEl = document.querySelector('#attackers_select')
 const defenderUnitSelectEl = document.querySelector('#defenders_select')
 const attackerWeaponSelectEl = document.querySelector('#attackers_weapon_select')
 
-const defenderTags = document.querySelector('#defenderTags')
+// const defenderTags = document.querySelector('#defenderTags')
 
 const informationContainer = document.querySelector('#informationContainer');
 
@@ -51,8 +51,8 @@ let heavyEl = document.getElementById("heavy");
 let selectedAttackerFaction = '';
 let selectedDefenderFaction = '';
 
-let selectedAttackerUnit = '';
-let selectedDefenderUnit = '';
+let selectedAttackerUnit = false;
+let selectedDefenderUnit = false;
 
 let selectedAttackerWeapon = '';
 
@@ -162,9 +162,19 @@ function addToString(rollDice, string, numberToAdd){
 //function that actually does all the bits
 function simulateAttackSequence() {
 
+    if(!selectedAttackerUnit || !selectedDefenderUnit){
+        alert('HERESY! you need to pick the units to simulate')
+        return;
+    }
+
     let simulations = parseInt(document.querySelector('#simulations').value);
 
     let weaponSelectEls = document.querySelectorAll('.weapon_select:checked');
+
+    if(weaponSelectEls.length == 0){
+        alert('HERESY! You didnt select any weapons to be included in the attack')
+        return;
+    }
 
     //defender variables, can all be grabbed now.
 
@@ -176,7 +186,7 @@ function simulateAttackSequence() {
     let deadDefenders = 0;
 
 
-    let defenderKeywords = defenderTags.value;
+    let defenderKeywords = document.querySelector('#defenderTags').value;
     let cover = document.getElementById("cover").checked;
     let stealth = document.getElementById("stealth").checked;
 
@@ -194,30 +204,7 @@ function simulateAttackSequence() {
     let oneRerollAttackChain = false;
     let halveDamage = false;
 
-
-    let assault = '';
-    let rapidFire = '';
-    let rapidFireCount = '';
-    let ignoresCover = '';
-    let twinLinked = '';
-    let torrent = '';
-    let lethalHits = '';
-    let lance = '';
-    let indirectFire = '';
-    let precision = '';
-    let psychic = '';
-    let blast = '';
-    let melta = '';
-    let meltaCount = '';
-    let heavy = '';
-    let hazardous = '';
-    let devastatingWounds = '';
-    let sustainedHits = '';
-    let sustainedHitsCount = '';
-    let extraAttacks = '';
-    let anti = '';
-    let antiType = '';
-    let antiValue = '';//can never be more than 1 or less than -1
+    let hazardous = false;
     let hitModifier = 0;
     let woundModifier = 0;
     let saveModifier = 0;
@@ -236,6 +223,8 @@ function simulateAttackSequence() {
     let defenderBattleshocked = document.getElementById("generalDefenderBattleshocked").checked;
     let defenderBelowStartingStrength = document.getElementById("generalDefenderBelowStartingStrength").checked;
     let defenderBelowHalfStrength = document.getElementById("generalDefenderBelowHalfStrength").checked;
+
+    let hazardousWeaponCount = 0;
 
     if(attackerBelowHalfStrength){
         attackerBelowStartingStrength = true;
@@ -382,6 +371,8 @@ function simulateAttackSequence() {
         combinedWipes:[]
     }
 
+    let hazardousResults = [];
+
     let weaponOverallResultsObj = {};
     let weaponOverallDeadDefenderResultsObj = {};
     let weaponOverallDefenderWipedObj = {};
@@ -397,29 +388,37 @@ function simulateAttackSequence() {
     if(stratagemTankShock){
         tankShockDiceToRoll = 0;
         weaponSelectEls.forEach( weaponEl => {
-            let chosenWeaponFaction = weaponEl.getAttribute('data-faction');
-            let chosenWeaponUnit = weaponEl.getAttribute('data-unit');
-            let chosenWeaponName = weaponEl.getAttribute('data-weapon');
+            weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+            if(weaponMeleeRanged == 'melee'){
+                let chosenWeaponFaction = weaponEl.getAttribute('data-faction');
+                let chosenWeaponUnit = weaponEl.getAttribute('data-unit');
+                let chosenWeaponName = weaponEl.getAttribute('data-weapon');
 
-            let weaponStrength = parseInt(data[chosenWeaponFaction].units[chosenWeaponUnit].weapons.melee[chosenWeaponName].s);
+                let weaponStrength = parseInt(data[chosenWeaponFaction].units[chosenWeaponUnit].weapons.melee[chosenWeaponName].s);
 
-            if(weaponStrength > tankShockDiceToRoll){
-                tankShockDiceToRoll = weaponStrength;
+                if(weaponStrength > tankShockDiceToRoll){
+                    tankShockDiceToRoll = weaponStrength;
+                }
             }
         })
+
+        if(tankShockDiceToRoll == 0){
+            stratagemTankShock = false;
+        }
 
         if(tankShockDiceToRoll > (toughness-1) && deathGuardGift){
             tankShockDiceToRoll += 2;
         }else if(tankShockDiceToRoll > toughness){
             tankShockDiceToRoll += 2;
         }
+
     }
 
     weaponSelectEls.forEach( weaponEl => {
         let chosenWeaponFaction = weaponEl.getAttribute('data-faction');
         let chosenWeaponUnit = weaponEl.getAttribute('data-unit');
-        weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
         let chosenWeaponName = weaponEl.getAttribute('data-weapon');
+        weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
 
         hitModifier = 0;
         woundModifier = 0;
@@ -531,6 +530,7 @@ function simulateAttackSequence() {
                     break;
                 case 'hazardous':
                     weaponStats[chosenWeaponName].hazardous = true;
+                    hazardous = true;
                     break;
                 case 'devastatingWounds':
                     weaponStats[chosenWeaponName].devastatingWounds = true;
@@ -557,6 +557,11 @@ function simulateAttackSequence() {
 
         //number of attackers
         weaponStats[chosenWeaponName].attackerCount = parseInt(document.querySelector(`#attackerCount${chosenWeaponName}-${weaponMeleeRanged}`).value);
+
+        //figure out how many hazardous rolls to make
+        if(weaponStats[chosenWeaponName].hazardous){
+            hazardousWeaponCount += weaponStats[chosenWeaponName].attackerCount;
+        }
 
         //attacks
         weaponStats[chosenWeaponName].attackString = document.querySelector(`#attacks${chosenWeaponName}-${weaponMeleeRanged}`).value;
@@ -592,6 +597,12 @@ function simulateAttackSequence() {
         }
 
         //Adepta Sororitas
+
+        // console.log(`sororitasBoM: ${sororitasBoM}`)
+        // console.log(`sororitasBlade: ${sororitasBlade}`)
+        // console.log(`sororitasMantle: ${sororitasMantle}`)
+        // console.log(`attackerBelowHalfStrength: ${attackerBelowHalfStrength}`)
+        // console.log(`attackerBelowStartingStrength: ${attackerBelowStartingStrength}`)
 
         if(sororitasBoM && attackerBelowHalfStrength){
             hitModifier += 1;
@@ -1433,7 +1444,6 @@ function simulateAttackSequence() {
         //cover
         //defender has the benefit of cover as long as the attack isnt ap 0 while they have a save of 3+ or better
         if(cover && (weaponStats[chosenWeaponName].save > 3 || weaponStats[chosenWeaponName].ap > 0) && !weaponStats[chosenWeaponName].ignoresCover && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            // console.log('defender has benefits of cover')
             saveModifier += 1;
         }
 
@@ -1455,6 +1465,9 @@ function simulateAttackSequence() {
 
         weaponStats[chosenWeaponName].woundModifier = woundModifier;
 
+        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
+        // console.log(`woundModifier: ${weaponStats[chosenWeaponName].woundModifier}`);
+
         //can never be more than 1;
         if(saveModifier > 1){
             saveModifier = 1;
@@ -1462,7 +1475,7 @@ function simulateAttackSequence() {
             saveModifier = -1;
         }
 
-        // console.log(`save: ${weaponStats[chosenWeaponName].save}`)
+        // console.log(`saveModifier: ${saveModifier}`);
         // console.log(`ap: ${weaponStats[chosenWeaponName].ap}`)
         // console.log(`saveModifier: ${saveModifier}`)
 
@@ -1475,6 +1488,8 @@ function simulateAttackSequence() {
                 weaponStats[chosenWeaponName].save = weaponStats[chosenWeaponName].invul;
             }
         }
+
+        // console.log(`save: ${weaponStats[chosenWeaponName].save}`)
 
         // console.log(`defenders calced save: ${weaponStats[chosenWeaponName].save}`)
 
@@ -1495,6 +1510,10 @@ function simulateAttackSequence() {
         //we need these saved for if the strings are modified during simulation
         weaponStats[chosenWeaponName].originalAttackString = weaponStats[chosenWeaponName].attackString;
         weaponStats[chosenWeaponName].originalDamageString = weaponStats[chosenWeaponName].damageString;
+
+        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
+        // console.log(`woundModifier: ${weaponStats[chosenWeaponName].woundModifier}`);
+        // console.log(weaponStats[chosenWeaponName])
 
     });
 
@@ -1519,6 +1538,10 @@ function simulateAttackSequence() {
         remainingDefenderWounds = wounds;
 
         let deadDefendersBeforeThisWeapon = 0;
+
+        let rerollSingleHitUsed = false;
+        let rerollSingleWoundUsed = false;
+        let rerollSingleSaveUsed = false;
 
         weaponSelectEls.forEach( weaponEl => {
 
@@ -1594,7 +1617,7 @@ function simulateAttackSequence() {
                 attacks += chosenWeaponStats.attackerCount*(Math.floor(defenderCount/5))
             }
 
-            // console.log(`final number of attacks: ${attacks}`);
+                // console.log(`final number of attacks: ${attacks}`);
 
             //roll to hit
             for(let a=0,b=attacks;a<b;a++){
@@ -1604,7 +1627,6 @@ function simulateAttackSequence() {
             if(!chosenWeaponStats.torrent){
                 // console.log(`hit rolls: ${diceResults}`);
                 // console.log(`hit rolls array length: ${diceResults.length}`);
-
                 if(oneRerollAttackChain && !usedSingleReroll){
                     // console.log(`usedSingleReroll: ${usedSingleReroll}`)
                     // console.log(`hit rolls: ${diceResults}`);
@@ -1616,6 +1638,11 @@ function simulateAttackSequence() {
                     })
                     // console.log(`hit rolls: ${diceResults}`);
                 }
+
+                // console.log(`hit rolls check 2: ${diceResults.slice()}`);
+
+                // console.log(`rerollSingleHit :${rerollSingleHit}`)
+                // console.log(`rerollSingleHitUsed :!${rerollSingleHitUsed}`)
 
                 if(rerollAllHits){
                     //reroll all fails
@@ -1663,11 +1690,11 @@ function simulateAttackSequence() {
                     // console.log(`combined old hit and rerolls: ${diceResults}`);
                     // console.log(`combined old hit and rerolls array length: ${diceResults.length}`);
 
-                }else if(rerollSingleHit){
+                }else if(rerollSingleHit && !rerollSingleHitUsed){
                     //reroll a single fails
 
                     //get any fails's
-                    let failedHitRolls = diceResults.filter((result) => (result + chosenWeaponStats.hitModifier) < chosenWeaponStats.hit);
+                    let failedHitRolls = diceResults.filter((result) => (result == 1 || ((result + chosenWeaponStats.hitModifier) < chosenWeaponStats.hit)));
                     // console.log(`failed hit rolls: ${failedHitRolls}`);
                     // console.log(`failed hit rolls array length: ${failedHitRolls.length}`);
 
@@ -1689,11 +1716,15 @@ function simulateAttackSequence() {
                         // console.log(`combined old hits and reroll array length: ${diceResults.length}`);
                     }
 
+                    rerollSingleHitUsed = true;
+
                 }
 
                 //remove critical fails
                 diceResults = diceResults.filter((result) => result > 1);
                 // console.log(`after removing critical fails: ${diceResults}`);
+
+                // console.log(`criticalHit: ${chosenWeaponStats.criticalHit}`)
 
                 //create an array of the critical hits and seperate them from the normal dice
                 let criticalHitDice = diceResults.filter((result) => result >= chosenWeaponStats.criticalHit);
@@ -1709,12 +1740,19 @@ function simulateAttackSequence() {
                 //     }
                 // });
 
-                // console.log(chosenWeaponStats.hitModifier)
-                // console.log(chosenWeaponStats.hit)
+                // console.log(`hitModifier: ${chosenWeaponStats.hitModifier}`)
+                // console.log(`hit: ${chosenWeaponStats.hit}`)
+                // console.log(`first roll in arr: ${diceResults[0]}`)
+                // console.log(`dice 1 + modifier ${diceResults[0] + chosenWeaponStats.hitModifier}`)
                 // console.log('')
 
+                // console.log(`hitmodifier applied:`)
+                // console.log(diceResults.filter((result) => result + chosenWeaponStats.hitModifier >= chosenWeaponStats.hit))
+                // console.log(`hitmodifier not applied`)
+                // console.log(diceResults.filter((result) => result >= chosenWeaponStats.hit))
+
                 //remove any that failed to hit
-                diceResults = diceResults.filter((result) => result + chosenWeaponStats.hitModifier >= chosenWeaponStats.hit);
+                diceResults = diceResults.filter((result) => (result + chosenWeaponStats.hitModifier) >= chosenWeaponStats.hit);
                 // console.log(`removed failed hits: ${diceResults}`);
                 // console.log(`removed failed hits array length: ${diceResults.length}`);
 
@@ -1769,6 +1807,8 @@ function simulateAttackSequence() {
             let criticalWoundDice = diceResults.filter((result) => result >= chosenWeaponStats.criticalWound);
             // console.log(`critical wound dice: ${criticalWoundDice.slice()} length:${criticalWoundDice.length}`);
 
+            // console.log(`critical wound: ${chosenWeaponStats.criticalWound}`)
+
             //remove the criticals from the dice pool
             diceResults = diceResults.filter((result) => result < chosenWeaponStats.criticalWound);
             // console.log(`dice pool after criticals removed rolls: ${diceResults} length:${diceResults.length}`);
@@ -1818,11 +1858,11 @@ function simulateAttackSequence() {
                 // console.log(`combined old wounds and rerolls: ${diceResults}`);
                 // console.log(`combined old wounds and rerolls array length: ${diceResults.length}`);
 
-            }else if(rerollSingleWound){
+            }else if(rerollSingleWound && !rerollSingleWoundUsed){
                 //reroll a single fails
 
                 //get any fails's
-                let failedWoundRolls = diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) < chosenWeaponStats.wound);
+                let failedWoundRolls = diceResults.filter((result) => (result == 1 || (result + chosenWeaponStats.woundModifier) < chosenWeaponStats.wound));
                 // console.log(`failed wound rolls: ${failedWoundRolls}`);
                 // console.log(`failed wound rolls array length: ${failedWoundRolls.length}`);
 
@@ -1844,8 +1884,15 @@ function simulateAttackSequence() {
                     // console.log(`combined old wounds and reroll array length: ${diceResults.length}`);
                 }
 
+                rerollSingleWoundUsed = true;
+
             }
 
+            //remove critical fails
+            diceResults = diceResults.filter((result) => result > 1);
+            // console.log(`after removing critical fails: ${diceResults}`);
+
+            //this section takes any new critical dice that came up in rerolls
             if(rerollAllWounds || chosenWeaponStats.twinLinked || reroll1Wounds || rerollSingleWound){
 
                 // console.log(`dice pool after rerolls: ${diceResults} length:${diceResults.length}`);
@@ -1877,7 +1924,15 @@ function simulateAttackSequence() {
                     mortalWounds = criticalWoundDice.length * chosenWeaponStats.damageString;
                 }
             }
+
+            // console.log(`woundModifier applied:`)
+            // console.log(diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) >= chosenWeaponStats.wound))
+            // console.log(`woundModifier not applied`)
+            // console.log(diceResults.filter((result) => (result) >= chosenWeaponStats.wound))
             
+            // console.log(`woundModifier: ${chosenWeaponStats.woundModifier}`)
+            // console.log(`roll needed to wound: ${chosenWeaponStats.wound}`)
+
             //remove any that failed to wound
             diceResults = diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) >= chosenWeaponStats.wound);
 
@@ -1901,7 +1956,7 @@ function simulateAttackSequence() {
             rollDiceArray(diceResults)
 
             // console.log(`save rolls: ${diceResults}`);
-            // console.log(`target save: ${save}`);
+            // console.log(`target save: ${chosenWeaponStats.save}`);
 
             if(rerollAllSaves){
                 //reroll all fails
@@ -1931,11 +1986,11 @@ function simulateAttackSequence() {
                 // combine the new success dice into the old array
                 diceResults = diceResults.concat(saveRoll1s);
 
-            }else if(rerollSingleSave){
+            }else if(rerollSingleSave && !rerollSingleHitUsed){
                 //reroll a single fails
 
                 //get any fails's
-                let failedSaveRolls = diceResults.filter((result) => result < chosenWeaponStats.save);
+                let failedSaveRolls = diceResults.filter((result) => (result == 1 || (result < chosenWeaponStats.save)));
 
                 if(failedSaveRolls.length > 0){
                     //remove fails from the normal pool
@@ -1949,11 +2004,15 @@ function simulateAttackSequence() {
                     diceResults = diceResults.concat(newSaveRoll);
                 }
 
+                rerollSingleHitUsed = true;
+
             }
 
 
             // console.log(`after reroll saves: ${diceResults}`);
 
+
+            // console.log(`save: ${chosenWeaponStats.save}`)
             //remove any that were saved
             diceResults = diceResults.filter((result) => result < chosenWeaponStats.save);
 
@@ -2148,14 +2207,15 @@ function simulateAttackSequence() {
             // console.log(`Models that are dead before reanimation: ${deadDefenders}`);
         // }
 
+        // console.log('finalWoundsDealt: '+overAllResults.combinedWounds[i])
         let reanimationDeadDefenders = deadDefenders;
-        if(necronsReanimation && reanimationDeadDefenders < defenderCount){
+        if(necronsReanimation && reanimationDeadDefenders < defenderCount && overAllResults.combinedWounds[i] > 0){
             reanimationRoll = rollDice3();
             // console.log(`Reanimation Roll: ${reanimationRoll}`);
             if(wounds == 1){
                 // console.log(`Reanimating unit has single wound models`);
                 reanimationDeadDefenders = reanimationDeadDefenders - reanimationRoll;
-                // console.log(`models that are dead after reanimation: ${deadDefenders}`);
+                // console.log(`models that are dead after reanimation: ${reanimationDeadDefenders}`);
                 if(reanimationDeadDefenders < 0){
                     // console.log(`The unit was back at full strength after partial reanimation`);
                     reanimationWoundsHealed.push(reanimationRoll + reanimationDeadDefenders)
@@ -2172,17 +2232,18 @@ function simulateAttackSequence() {
 
                 if(remainingDefenderWounds < wounds){
                     //one model is injured but not dead so we heal it first
-                    if(wounds - remainingDefenderWounds > reanimationRoll){
+                    // console.log(`wounds - remainingDefenderWounds: ${wounds - remainingDefenderWounds}`)
+                    // console.log(`reanimationRoll: ${reanimationRoll}`)
+                    reanimationWoundsHealed.push(reanimationRoll);
+                    if(reanimationRoll > wounds - remainingDefenderWounds){
                         // there will be enough reanimation to heal this model and bring another back
                         // console.log(`reanimation was high enough to heal and bring back a model: ${reanimationRoll}`);
                         reanimationRoll = remainingDefenderWounds - wounds;
                         reanimationDeadDefenders - 1;
-                        reanimationWoundsHealed.push(reanimationRoll);
                         reanimationModelsReanimated.push(1)
                     }else{
                         //one got healed but none came back to life
                         // console.log('1 healed but none came back')
-                        reanimationWoundsHealed.push(reanimationRoll)
                         reanimationModelsReanimated.push(0)
                     }
                 }else{
@@ -2190,25 +2251,37 @@ function simulateAttackSequence() {
                     if(reanimationRoll > wounds){
                         //its high enough to bring 2 back (if they have 2 wounds each and we roll a 3 and none are injured is the only time i think (except when we get to unit abilities))
                         // console.log('2 came back')
-                        reanimationWoundsHealed.push(reanimationRoll)
                         reanimationModelsReanimated.push(2)
                     }else{
                         //the roll only brought 1 back
                         // console.log('1 came back')
-                        reanimationWoundsHealed.push(reanimationRoll)
                         reanimationModelsReanimated.push(1)
                     }
                 }
             }
         }else if(necronsReanimation && reanimationDeadDefenders >= defenderCount){
             // console.log(`reanimation didnt happen because the squad was wiped`);
-            reanimationWoundsHealed.push(0)
-            reanimationModelsReanimated.push(0)
-        }else{
-            //console.log('reanimation didnt happen because no one was dead or injured);
-            reanimationWoundsHealed.push(0)
-            reanimationModelsReanimated.push(0)
+            // reanimationWoundsHealed.push(0)
+            // reanimationModelsReanimated.push(0)
+        }else if(necronsReanimation){
+            // console.log('reanimation didnt happen because no one was dead or injured');
+            // reanimationWoundsHealed.push(0)
+            // reanimationModelsReanimated.push(0)
         };
+
+        let hazardousWounds = 0;
+        if(hazardous){
+            for(let a=0,b=hazardousWeaponCount;a<b;a++){
+                if(rollDice6() === 1){
+                    if(data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Character') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Monster') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Vehicle')){
+                        hazardousWounds += 3;
+                    }else{
+                        hazardousWounds += 1;
+                    }
+                }
+            }
+            hazardousResults.push(hazardousWounds);
+        }
 
         //end of simulation loop
         i++;
@@ -2225,7 +2298,11 @@ function simulateAttackSequence() {
     // console.log('');
     // console.log('overAllResults');
     // console.log(overAllResults);
-
+    // console.log('removing where no one was wounded or died')
+    // console.log('wounded')
+    // console.log(overAllResults.combinedKills.filter((result) => (result > 0)));
+    // console.log('killed')
+    // console.log(overAllResults.combinedWounds.filter((result) => (result > 0)))
     // console.log(`results array: ${resultsArr}`);
 
     // console.log(`${inputAttackerCount.value} ${selectedAttackerUnit} using ${selectedAttackerWeapon} against ${selectedDefenderUnit} did:`);
@@ -2285,13 +2362,13 @@ function simulateAttackSequence() {
         reanimationModelsReanimated.forEach((result) => { 
             totalSimulationReanimations += result;
         });
-        averageReanimations = totalSimulationReanimations/simulations;
+        averageReanimations = (totalSimulationReanimations/reanimationModelsReanimated.length).toFixed(2)*1;
         // console.log(`on average ${averageReanimations} models reanimated`);
         let totalSimulationReanimationHeal = 0;
         reanimationWoundsHealed.forEach((result) => { 
             totalSimulationReanimationHeal += result;
         });
-        averageReanimationHeal = totalSimulationReanimationHeal/simulations;
+        averageReanimationHeal = (totalSimulationReanimationHeal/reanimationWoundsHealed.length).toFixed(2)*1;
         // console.log(`averageReanimations: ${averageReanimations}`);
         // console.log(`averageReanimationHeal: ${averageReanimationHeal}`);
     }
@@ -2320,9 +2397,14 @@ function simulateAttackSequence() {
 
     // console.log(`percentage chance to fully wipe the target unit: ${(100/simulations)*defenderWipedArr.length}%`);
 
-    // if(hazardous){
-        // console.log('And has a 16.6% of killing itself or causing itself harm');
-    // }
+    let hazardousAverage = 0;
+    if(hazardous){
+        let totalHazardousDamage = 0;
+        hazardousResults.forEach(result => {
+            totalHazardousDamage += result;
+        })
+        hazardousAverage = totalHazardousDamage/simulations;
+    }
 
     // console.log('');
 
@@ -2333,7 +2415,11 @@ function simulateAttackSequence() {
 
     let hazardousString = '';
     if(hazardous){
-        hazardousString = `<div>And has a <span class="value">16.6%</span> of killing itself or causing itself harm</div>`;
+        if(data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Character') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Monster') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Vehicle')){
+            hazardousString = `<div class="simulation_hazardous">And does <span class="value">${hazardousAverage}</span> damage to itself on average</div>`;
+        }else{
+            hazardousString = `<div class="simulation_hazardous">And kills <span class="value">${hazardousAverage}</span> of its hazardous models on average</div>`;
+        }
     }
 
     let tankShockString = '';
@@ -2350,9 +2436,11 @@ function simulateAttackSequence() {
     // console.log(weaponOverallDeadDefenderResultsObj)
 
     let weaponsStrings = '';
+    let weaponsBarString = '';
     weaponSelectEls.forEach( weaponEl => {
         chosenWeaponName = weaponEl.getAttribute('data-weapon');
         weaponsStrings += `<div class="simulation_title">${weaponStats[chosenWeaponName].name}</div><div>Average damage: <span class="value">${weaponOverallResultsObj[chosenWeaponName].average}</span></div><div>Average kills: <span class="value">${weaponOverallDeadDefenderResultsObj[chosenWeaponName].average}</span></div>`;
+        // weaponsBarString += `<div class="inner_bar inner_bar-${weaponStats[chosenWeaponName].name}-${weaponStats[chosenWeaponName].weaponMeleeRanged}"></div>`;
     });
 
     informationHTML = `<div class="simulation_header">Over <span class="value">${simulations}</span> simulations:</div><div class="simulation_title">Total</div><div>Average damage (rounded): <span class="value">${Math.round(overAllResults.combinedWoundsAverage)}</span></div><div>Average kills (rounded): <span class="value">${Math.round(overAllResults.combinedKillsAverage)}</span></div>${weaponsStrings}${grenadeString}${tankShockString}${necronReanimationString}<div class="simulation_kill_perc">percentage chance to fully wipe the target unit: <span class="value">${overAllResults.combinedWipesAverage}%</span></div>${hazardousString}`;
@@ -2369,6 +2457,8 @@ function simulateAttackSequence() {
         }
     }
     // console.log(counter);
+
+
 
     let barHTML = '';
     let maxMinArr = Object.values(counter);
@@ -2529,16 +2619,40 @@ function attackerFactionChange(){
     document.querySelector(`#attacker_faction-${selectedAttackerFaction}`).style.display = 'block';
 
     //hide scenario modifiers
-    document.querySelectorAll('.scenario_modifier').forEach((element) => {
+    document.querySelectorAll('.scenario_modifier:not(.scenario_cover)').forEach((element) => {
         element.style.display = 'none';
     });
 
     //faction abilities should turn on and
     //show some scenario boxes for specific factions
+    showSetUpFactionAbilities();
+}
+
+function defenderFactionChange(){
+
+    resetModifiers('defender');
+
+    selectedDefenderFaction = defenderFactionSelectEl.value;
+    defenderUnitSelectEl.innerHTML = generateUnitSelectHtml(selectedDefenderFaction)
+    document.querySelector('.factionDefender').querySelectorAll('.faction_modifier_container').forEach((element) => {
+        element.style.display = 'none';
+        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+            el.checked = false;
+        });
+    });
+    document.querySelector(`#defender_faction-${selectedDefenderFaction}`).style.display = 'block';
+
+    //faction abilities should turn on
+    showSetUpFactionAbilities();
+}
+
+function showSetUpFactionAbilities(){
+
     switch (selectedAttackerFaction) {
         case 'adeptaSororitas':
             document.querySelector(`#attackerBelowStartingStrength`).style.display = 'block'
             document.querySelector(`#attackerBelowHalfStrength`).style.display = 'block'
+            break;
         case 'aeldari':
             document.querySelector(`#aeldariDetachmentUF`).checked = true;
             break;
@@ -2557,36 +2671,13 @@ function attackerFactionChange(){
             break;
     }
 
-    // attackerBattleshocked
-    // defenderBattleshocked
-
-    
-    if(document.getElementById("bloodAngelsEnhancementAttackerShard").checked){
-        chargedContainer.style.display = 'block';
-    }else{
-        chargedContainer.style.display = 'none';
-        chargeInput.checked = false;
-    }
-}
-
-function defenderFactionChange(){
-
-    resetModifiers('defender');
-
-    selectedDefenderFaction = defenderFactionSelectEl.value;
-    defenderUnitSelectEl.innerHTML = generateUnitSelectHtml(selectedDefenderFaction)
-    document.querySelector('.factionDefender').querySelectorAll('.faction_modifier_container').forEach((element) => {
-        element.style.display = 'none';
-        element.querySelectorAll('input[type=checkbox]').forEach((el) => {
-            el.checked = false;
-        });
-    });
-    document.querySelector(`#defender_faction-${selectedDefenderFaction}`).style.display = 'block';
-
-    //faction abilities should turn on
     switch (selectedDefenderFaction) {
         case 'adeptusCustodes':
             document.querySelector(`#custodesDetachmentRuleAegis`).checked = true;
+            break;
+        case 'chaosKnights':
+            document.querySelector(`#attackerBattleshocked`).style.display = 'block';
+            document.querySelector(`#defenderBattleshocked`).style.display = 'block';
             break;
         case 'imperialKnights':
             document.querySelector(`#imperialKnightsDetachmentIndomitable`).checked = true;
@@ -2594,7 +2685,7 @@ function defenderFactionChange(){
         case 'necrons':
             document.querySelector(`#necronsArmyRuleReanimation`).checked = true;
             break;
-      }
+    }
 }
 
 function attackerUnitChange(){
@@ -2674,15 +2765,6 @@ function defenderUnitChange(){
     };
 }
 
-function attackerWeaponChange(){
-
-    resetModifiers('attacker');
-
-    selectedAttackerWeapon = attackerWeaponSelectEl.value.split('_');
-    weaponMeleeRanged = selectedAttackerWeapon[1];
-    populateAttacker(selectedAttackerFaction, selectedAttackerUnit, selectedAttackerWeapon[0], selectedAttackerWeapon[1]);
-}
-
 function populateWeaponContainer(selectedFaction, selectedUnit){
 
     //populate the weapon container with options
@@ -2706,122 +2788,58 @@ function populateWeaponContainer(selectedFaction, selectedUnit){
     }
 
     weaponContainer.innerHTML = weaponContainerHTML;
+
+    let weaponSelectEls = document.querySelectorAll('.weapon_select');
+
+    weaponSelectEls.forEach(el => {
+        el.addEventListener("click", (event) => {
+            let showHide = true;
+            if(el.checked){
+                showHide = true;
+            }else{
+                showHide = false;
+            }
+            let weaponTags = document.querySelector('#weaponTags'+el.getAttribute('data-weapon')+'-'+el.getAttribute('data-weapon-type')).value.split(', ');
+            weaponTags.forEach( tag => {
+                switch(tag.split('-')[0]){
+                    case 'rapidFire':
+                        showHideHalfRange(showHide)
+                        break;
+                    case 'lance':
+                        showHideCharge(showHide)
+                        break;
+                    case 'indirectFire':
+                        showHideLos(showHide)
+                        break;
+                    case 'melta':
+                        showHideHalfRange(showHide)
+                        break;
+                    case 'heavy':
+                        showHideMoved(showHide)
+                        break;
+                }
+            })
+        });
+    });
     
-}
-
-function populateAttacker(selectedFaction, selectedUnit, selectedWeapon, selectedWeaponType){
-
-    let selectedData = data[selectedFaction].units[selectedUnit].weapons[selectedWeaponType][selectedWeapon];
-    let maxPerUnit = data[selectedFaction].units[selectedUnit].weapons[selectedWeaponType][selectedWeapon].maxPerUnit;
-
-    if(!selectedData.hasOwnProperty('name')){
-        selectedData = selectedData.data;
-    }
-
-    // console.log(selectedData)
-
-    inputWeaponName.value = selectedData.name;
-    inputAttackerCount.value = maxPerUnit;
-    inputAttacks.value = selectedData.a;
-    inputWbs.value = selectedData.wbs;
-    inputStrength.value = selectedData.s;
-    inputAp.value = selectedData.ap;
-    inputDamage.value = selectedData.d;
-
-    // console.log(selectedData.tags)
-
-    //we need to see how many anti tags there are as anti can be different values on different tags!
-    let hasAnti = false;
-    let antiValue = '';
-    let antiTypesString = '';
-    selectedData.tags.map(element => {
-        if(element.includes('anti')){
-            
-            hasAnti = true;
-            let antiSplit = element.split('-');
-
-            if(antiValue == ''){
-                antiValue += `${antiSplit[2]}`;
-            }else{
-                antiValue += `, ${antiSplit[2]}`;
-            }
-
-            if(antiTypesString == ''){
-                antiTypesString += `${antiSplit[1]}`;
-            }else{
-                antiTypesString += `, ${antiSplit[1]}`;
-            }
-        }
-    });
-
-    if(hasAnti){
-        document.querySelector(`#anti`).checked = true;
-        document.querySelector(`#antiValue`).value = antiValue;
-        document.querySelector(`#antiType`).value = antiTypesString;
-    }
-
-
-    selectedData.tags.forEach((tag, index) => {
-        let splitTag = tag.split('-'); 
-        // console.log(splitTag);
-
-        document.querySelector(`#${splitTag[0]}`).checked = true;
-
-        // console.log(splitTag);
-
-        switch(splitTag.length){
-            case 2:
-                document.querySelector(`#${splitTag[0]}Count`).value = splitTag[1];
-                break;
-            case 3:
-                // antiTypesString += `${ (index > 0) ? ', ' : '' }${splitTag[1]}`;
-                // document.querySelector(`#antiValue`).value = splitTag[2];
-                break;
-        }
-
-        switch(splitTag[0]){
-            case 'rapidFire':
-                halfRangeContainer.style.display = 'block';
-                break;
-            case 'melta':
-                halfRangeContainer.style.display = 'block';
-                break;
-            case 'lance':
-                chargedContainer.style.display = 'block';
-                break;
-            case 'indirectFire':
-                losContainer.style.display = 'block';
-                break;
-            case 'heavy':
-                movedContainer.style.display = 'block';
-                break;
-        }
-
-        if(mechanicusAttackerProtectorEl.checked){
-            movedContainer.style.display = 'block';
-        }
-
-    });
-
-    // console.log(antiTypesString);
 }
 
 function populateDefender(selectedFaction, selectedUnit){
 
     let selectedData = data[selectedFaction].units[selectedUnit];
 
-    inputDefenderCount.value = selectedData.size;
-    inputToughness.value = selectedData.t;
-    inputSave.value = selectedData.sv;
-    inputInvul.value = selectedData.invSv;
-    inputWounds.value = selectedData.w;
-    inputFnp.value = selectedData.fnp;
-
     let defenderKeywordString = '';
     selectedData.tags.forEach((tag, index) => {
         defenderKeywordString += `${ (index > 0) ? ', ' : '' }${tag}`;
     });
-    defenderTags.value = defenderKeywordString;
+    // defenderTags.value = defenderKeywordString;
+
+    // console.log(data[selectedFaction].units[selectedUnit].hasOwnProperty('extraUnit'));
+    // console.log(data[selectedFaction].units[selectedUnit].extraUnit)
+
+    let defenderHTML = `<div class="defender_stats"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags" value="${defenderKeywordString}"/></div>`;
+
+    document.querySelector('#defenderCont').innerHTML = defenderHTML;
 
 }
 
@@ -2928,32 +2946,32 @@ function toggleModifiersVisible(){
     }
 }
 
-function showHideHalfRange(){
-    if(rapidFireEl.checked || meltaEl.checked){
+function showHideHalfRange(show){
+    if(show){
         halfRangeContainer.style.display = 'block';
     }else{
         halfRangeContainer.style.display = 'none';
     }
 }
 
-function showHideCharge(){
-    if(lanceEl.checked){
+function showHideCharge(show){
+    if(show){
         chargedContainer.style.display = 'block';
     }else{
         chargedContainer.style.display = 'none';
     }
 }
 
-function showHideLos(){
-    if(indirectFireEl.checked){
+function showHideLos(show){
+    if(show){
         losContainer.style.display = 'block';
     }else{
         losContainer.style.display = 'none';
     }
 }
 
-function showHideMoved(){
-    if(heavyEl.checked || mechanicusAttackerProtectorEl.checked){
+function showHideMoved(show){
+    if(show){
         movedContainer.style.display = 'block';
     }else{
         movedContainer.style.display = 'none';
@@ -2997,8 +3015,6 @@ defenderFactionSelectEl.addEventListener("change", defenderFactionChange);
 
 attackerUnitSelectEl.addEventListener("change", attackerUnitChange);
 defenderUnitSelectEl.addEventListener("change", defenderUnitChange);
-
-// attackerWeaponSelectEl.addEventListener("change", attackerWeaponChange);
 
 //setting up the checkboxes that trigger other modifiers to appear
 rapidFireEl.addEventListener("change", showHideHalfRange);

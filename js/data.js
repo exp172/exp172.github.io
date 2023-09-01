@@ -12491,7 +12491,7 @@ const data = {
         w: 1,
         invSv: 0,
         fnp: 0,
-        size: 8,
+        size: 10,
         weapons: {
           ranged: {
             flamer: {
@@ -12502,7 +12502,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["ignoresCover", "torrent"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             grenadeLauncherFrag: {
               name: "Grenade Launcher – Frag",
@@ -12512,7 +12512,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["blast"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             grenadeLauncherKrak: {
               name: "Grenade Launcher – Krak",
@@ -12522,7 +12522,7 @@ const data = {
               ap: "-2",
               d: "D3",
               tags: [],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             heavyBolter: {
               name: "Heavy Bolter",
@@ -12532,7 +12532,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: ["heavy", "sustainedHits-1"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             lasgun: {
               name: "Lasgun",
@@ -12542,7 +12542,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-1"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             laspistol: {
               name: "Laspistol",
@@ -12552,7 +12552,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["pistol"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             meltagun: {
               name: "Meltagun",
@@ -12562,7 +12562,7 @@ const data = {
               ap: "-4",
               d: "D6",
               tags: ["melta-2"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             plasmaGunStandard: {
               name: "Plasma Gun – Standard",
@@ -12572,7 +12572,7 @@ const data = {
               ap: "-2",
               d: "1",
               tags: ["rapidFire-1"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             plasmaGunSupercharge: {
               name: "Plasma Gun – Supercharge",
@@ -12582,7 +12582,7 @@ const data = {
               ap: "-3",
               d: "2",
               tags: ["hazardous", "rapidFire-1"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             sniperRifle: {
               name: "Sniper Rifle",
@@ -12592,7 +12592,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: ["heavy", "precision"],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
           },
           melee: {
@@ -12604,7 +12604,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             closeCombatWeapon: {
               name: "Close Combat Weapon",
@@ -12614,7 +12614,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
             powerWeapon: {
               name: "Power Weapon",
@@ -12624,7 +12624,7 @@ const data = {
               ap: "-2",
               d: "1",
               tags: [],
-              maxPerUnit: 8,
+              maxPerUnit: 10,
             },
           },
         },
