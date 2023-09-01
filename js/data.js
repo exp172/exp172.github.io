@@ -57668,8 +57668,8 @@ const data = {
           },
         },
       },
-      rangedWeaponsRangeABsSApD: {
-        name: "Ranged Weapons Range A Bs S Ap D",
+      njalStormcaller: {
+        name: "Njal Stormcaller",
         tags: [
           "Infantry",
           "Character",
