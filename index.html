@@ -12,11 +12,11 @@
     <div class="container">
         <div class="page_title">Warhammer 40k Attack Simulator</div>
         <div class="note">
-            <div>V1.0</div>
+            <div>V2.0</div>
             <div>
-                Welcome to the Warhammer 40k attack simulator! This page lets you simulate an attack against an enemy unit. Use the drop downs to select your faction, your unit, and (for the attacker) which weapon the unit is using.
+                Welcome to the Warhammer 40k attack simulator! This page lets you simulate an attack against an enemy unit. Use the drop downs to select the faction and unit for the attacker and defender. Then on the attacker side select which weapons you want to be included in the attack.
                 <br/>
-                In V1 the only step you might need to take is changing the 'Number of Weapons' section of some of the weapons, as the way these were taken from the idnex cards means they aren't accurate.
+                In V2 the only step you might need to take is changing the 'Number of Weapons' section of some of the weapons, as the way these were taken from the index cards means they aren't accurate.
                 <br/>
                 The size of the defending unit also doesnt take into account units made up of different models. For example an Ork Nob having 2 wounds or some characters who have in built extra people (this will happen at some point)
                 <br/>
@@ -26,48 +26,27 @@
         <div class="bold">Simulations to run?</div>
         <input type="text" id="simulations" value="1000"/>
         <!-- <input type="text" id="simulations" value="1"/> -->
-        <div class="flex_container" id="mainStats">
-            <div class="attacker">
+        <div class="unit_select_container" id="mainStats">
+            <div class="attacker_container attacker">
                 <div class="bold">Attacker</div>
                 <div class="select_container">
                     <select name="attackersFaction" id="attackers_faction_select"></select>
                     <select name="attackers" id="attackers_select"></select>
-                    <select name="attackersWeapon" id="attackers_weapon_select"></select>
+                    <!-- <select name="attackersWeapon" id="attackers_weapon_select"></select> -->
                 </div>
-                <div class="label">Number of Weapons</div>
-                 <input type="text" id="attackerCount" value="10"/>
-                <div class="label">A</div>
-                 <input type="text" id="attacks" value="1"/>
-                <div class="label">WS/BS</div>
-                 <input type="text" id="wbs" value="4"/>
-                <div class="label">S</div>
-                 <input type="text" id="strength" value="4"/>
-                <div class="label">AP</div>
-                 <input type="text" id="ap" value="0"/>
-                <div class="label">D</div>
-                 <input type="text" id="damage" value="1"/>
+
+                <div class="weapon_container" id="weaponContainer"></div>
             </div>
-            <div class="defender">
+            <div class="defender_container defender">
                 <div class="bold">Defender</div>
                 <div class="select_container">
                     <select name="defendersFaction" id="defenders_faction_select"></select>
                     <select name="defenders" id="defenders_select"></select>
                 </div>
-                <div class="label">Number of Defenders</div>
-                 <input type="text" id="defenderCount" value="10"/>
-                <div class="label">T</div>
-                 <input type="text" id="toughness" value="4"/>
-                <div class="label">SV</div>
-                 <input type="text" id="save" value="4"/>
-                <div class="label">InvSv</div>
-                 <input type="text" id="invul" value="0"/>
-                <div class="label">W</div>
-                 <input type="text" id="wounds" value="1"/>
-                <div class="label">FnP</div>
-                 <input type="text" id="fnp" />
+                <div class="defender_centered" id="defenderCont"></div>
             </div>
         </div>
-        <div class="bold">Scenario Modifiers</div>
+        <div class="scenario_modifiers_title bold">Scenario Modifiers</div>
         <div class="flex_container scenario_modifier_total_container" id="scenarioModifiers">
             <!-- <div class="toggle" id="scenarioToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="scenarioAttacker attacker">
@@ -82,6 +61,7 @@
             </div>
             <div class="scenarioDefender defender">
                 <div class="title">Defender</div>
+                <div class="scenario_modifier scenario_cover" id="defenderCover"><input type="checkbox" id="cover" /> Cover</div>
                 <div class="scenario_modifier" id="defenderBattleshocked"><input type="checkbox" id="generalDefenderBattleshocked" /> Battleshocked</div>
                 <div class="scenario_modifier" id="defenderBelowStartingStrength"><input type="checkbox" id="generalDefenderBelowStartingStrength" /> Below starting strength</div>
                 <div class="scenario_modifier" id="defenderBelowHalfStrength"><input type="checkbox" id="generalDefenderBelowHalfStrength" /> Below half starting strength</div>
@@ -718,11 +698,10 @@
             </div>
             <div class="defender">
                 <div class="modifier_title bold">Defender</div>
-                <div class="modifier_item">
+                <!-- <div class="modifier_item">
                     Key Words
                     <input type="text" id="defenderTags" />
-                </div>
-                <div class="modifier_item"><input type="checkbox" id="cover" /> Cover</div>
+                </div> -->
                 <div class="modifier_item"><input type="checkbox" id="stealth" /> Stealth</div>
                 <div class="modifier_item">
                     <input type="checkbox" id="reroll1Save" /> Reroll a single save

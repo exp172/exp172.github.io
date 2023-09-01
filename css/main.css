@@ -7,7 +7,8 @@ input[type='text']{
 }
 
 select{
-    max-width: calc(100% - 10px);
+    /* max-width: calc(100% - 10px); */
+    width:100%;
 }
 
 .container{
@@ -32,6 +33,115 @@ select{
 .label{
     color:#888888;
 }
+
+.unit_select_container{
+    display:flex;
+    max-width:806px;
+    margin:0 auto;
+    margin-top:20px;
+}
+
+    .unit_select_container .attacker{
+        width:383px;
+        padding:0 10px;
+    }
+
+        .unit_select_container .attacker .bold{
+            /* padding-left:23px; */
+        }
+        .unit_select_container .attacker .select_container{
+            /* padding-left:23px; */
+        }
+
+    .unit_select_container .defender{
+        width:383px;
+        padding:0 10px;
+    }
+
+        .weapon_container{
+            width:100%;
+            max-width:360px;
+            margin:0 auto;
+            /* padding-left:23px; */
+        }
+
+        .weapon_type_label{
+            padding-bottom: 10px;
+            margin-top:20px;
+        }
+
+            .weapon{
+                padding: 10px;
+                border: 1px solid #444444;
+                position:relative;
+                margin-left:23px;
+            }
+
+            .weapon+.weapon{
+                border-top:0px;
+            }
+
+                .weapon_select{
+                    position: absolute;
+                    left: -27px;
+                    top: calc(50% - 13px);
+                    height: 13px;
+                }
+
+                    .weapon_label{
+                        margin-bottom:5px;
+                    }
+
+                    .weapon_attribute{
+                        display:inline-block;
+                        width: calc(100% / 6);
+                        max-width: 60px;
+                    }
+
+                    .weapon_tags_label{
+                        margin-top:5px;
+                    }
+
+                    .weapon_tags{
+                        width:100%;
+                    }
+
+        .defender_centered{
+            width:100%;
+            max-width:360px;
+            margin:48px auto 0 auto;
+        }
+
+            .defender_stats{
+                padding: 10px;
+                border: 1px solid #444444;
+                position:relative;
+            }
+
+                .defender_select{
+                    position: absolute;
+                    left: -27px;
+                    top: calc(50% - 13px);
+                    height: 13px;
+                }
+
+                    .defender_label{
+                        margin-bottom:5px;
+                    }
+
+                    .defender_attribute{
+                        display:inline-block;
+                        width: calc(100% / 6);
+                        max-width: 60px;
+                    }
+
+                    .defender_tags_label{
+                        margin-top:5px;
+                    }
+
+                    .defender_tags{
+                        width:100%;
+                    }
 
 .flex_container{
     display:flex;
@@ -77,11 +187,15 @@ select{
     padding:10px;
 }
 
+.scenario_modifiers_title{
+    margin-top:20px;
+}
+
 .scenario_modifier_total_container .modifier_container{
     display:none;
 }
 
-.scenario_modifier{
+.scenario_modifier:not(.scenario_cover){
     display:none;
 }
 
@@ -135,8 +249,12 @@ select{
 }
 
 .select_container{
-    height:calc(25px * 3);
+    height:calc(25px * 2);
     margin-top:5px;
+}
+
+.defender .select_container{
+    margin-bottom:20px;
 }
 
     .select_container select{
@@ -176,12 +294,31 @@ select{
     font-weight:bold;
 }
 
+.simulation_header{
+    margin-bottom:10px;
+}
+
+.simulation_title{
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.simulation_kill_perc{
+    margin-top:10px;
+}
+
+.simulation_hazardous{
+    margin-top:10px;
+}
+
 .chart_container{
     margin-top:20px;
 }
 
     .chart_container .chart{
         width:calc(100% - 20px);
+        max-width:1000px;
+        margin:0 auto;
         aspect-ratio: 8 / 5;
         background-color: antiquewhite;
         padding:30px 10px 10px 10px;
@@ -207,3 +344,30 @@ select{
             padding-left:5px;
             color:#888888;   
         }
+
+@media only screen and (max-width: 806px) {
+    select{
+        width:100%;
+        max-width:auto;
+    }
+
+    .unit_select_container{
+        display:block;
+    }
+
+    .unit_select_container .attacker{
+        margin: 0 auto;
+    }
+
+    .unit_select_container .defender{
+        margin: 20px auto 0 auto;
+    }
+
+    .defender_centered{
+        margin:0 auto;
+    }
+
+    /* .weapon{
+        margin-left:23px;
+    } */
+}
