@@ -178,6 +178,8 @@ function simulateAttackSequence() {
         return;
     }
 
+    let attackerTags = document.querySelector(`#attackerTags`).value.split(', ');
+
     //defender variables, can all be grabbed now.
 
     //number of defenders
@@ -2276,7 +2278,7 @@ function simulateAttackSequence() {
         if(hazardous){
             for(let a=0,b=hazardousWeaponCount;a<b;a++){
                 if(rollDice6() === 1){
-                    if(data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Character') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Monster') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Vehicle')){
+                    if(attackerTags.includes('Character') || attackerTags.includes('Monster') || attackerTags.includes('Vehicle')){
                         hazardousWounds += 3;
                     }else{
                         hazardousWounds += 1;
@@ -2418,7 +2420,7 @@ function simulateAttackSequence() {
 
     let hazardousString = '';
     if(hazardous){
-        if(data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Character') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Monster') || data[selectedAttackerFaction].units[selectedAttackerUnit].tags.includes('Vehicle')){
+        if(attackerTags.includes('Character') || attackerTags.includes('Monster') || attackerTags.includes('Vehicle')){
             hazardousString = `<div class="simulation_hazardous">And does <span class="value">${hazardousAverage}</span> damage to itself on average</div>`;
         }else{
             hazardousString = `<div class="simulation_hazardous">And kills <span class="value">${hazardousAverage}</span> of its hazardous models on average</div>`;
@@ -2790,6 +2792,9 @@ function populateWeaponContainer(selectedFaction, selectedUnit){
         }
     }
 
+    //add the atacker unit tags
+    weaponContainerHTML += `<div class="attacker_tags_label">Keywords</div><textarea class="attacker_tags" id="attackerTags">${data[selectedFaction].units[selectedUnit].tags.join(', ')}</textarea>`;
+
     weaponContainer.innerHTML = weaponContainerHTML;
 
     let weaponSelectEls = document.querySelectorAll('.weapon_select');
@@ -2839,7 +2844,7 @@ function populateDefender(selectedFaction, selectedUnit){
 
     let defenderHTML = '';
     // if(!data[selectedFaction].units[selectedUnit].hasOwnProperty('extraUnit')){
-        defenderHTML = `<div class="defender_stats" data-name="${selectedUnit}"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount-${selectedUnit}" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness-${selectedUnit}" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save-${selectedUnit}" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul-${selectedUnit}" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds-${selectedUnit}" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp-${selectedUnit}" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags-${selectedUnit}" value="${defenderKeywordString}"/></div>`;
+        defenderHTML = `<div class="defender_stats" data-name="${selectedUnit}"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount-${selectedUnit}" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness-${selectedUnit}" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save-${selectedUnit}" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul-${selectedUnit}" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds-${selectedUnit}" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp-${selectedUnit}" value="${selectedData.fnp}" /></div><div class="label defender_tags_label">Tags</div><textarea class="defender_tags" id="defenderTags-${selectedUnit}">${defenderKeywordString}</textarea></div>`;
     // }else{
         // let extraUnitData = data[selectedFaction].units[selectedUnit].extraUnit;
         // console.log(extraUnitData);

@@ -106,6 +106,16 @@ select{
                         width:100%;
                     }
 
+                    .attacker_tags_label{
+                        padding-bottom: 10px;
+                        margin-top: 20px;
+                        font-weight:bold;
+                    }
+
+                    .attacker_tags{
+                        width:100%;
+                    }
+
         .defender_centered{
             width:100%;
             max-width:360px;
