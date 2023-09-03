@@ -162,6 +162,8 @@ function addToString(rollDice, string, numberToAdd){
 //function that actually does all the bits
 function simulateAttackSequence() {
 
+    // console.log(selectedDefenderUnit)
+
     if(!selectedAttackerUnit || !selectedDefenderUnit){
         alert('HERESY! you need to pick the units to simulate')
         return;
@@ -179,14 +181,15 @@ function simulateAttackSequence() {
     //defender variables, can all be grabbed now.
 
     //number of defenders
-    let defenderCount = parseInt(document.querySelector(`#defenderCount`).value);
+    let defenderCount = parseInt(document.querySelector(`#defenderCount-${selectedDefenderUnit}`).value);
     //wounds
-    let wounds = parseInt(document.querySelector(`#wounds`).value);
+    let wounds = parseInt(document.querySelector(`#wounds-${selectedDefenderUnit}`).value);
     let remainingDefenderWounds = wounds;
     let deadDefenders = 0;
+    let toughness = parseInt(document.querySelector(`#toughness-${selectedDefenderUnit}`).value);
 
 
-    let defenderKeywords = document.querySelector('#defenderTags').value;
+    let defenderKeywords = document.querySelector(`#defenderTags-${selectedDefenderUnit}`).value;
     let cover = document.getElementById("cover").checked;
     let stealth = document.getElementById("stealth").checked;
 
@@ -363,7 +366,7 @@ function simulateAttackSequence() {
     let rollRapidFire = false;
     let los = losInput.checked;
     let moved = movedInput.checked;
-    let generalFnp = parseInt(document.querySelector(`#fnp`).value);
+    let generalFnp = parseInt(document.querySelector(`#fnp-${selectedDefenderUnit}`).value);
 
     let overAllResults = {
         combinedWounds:[],
@@ -450,10 +453,10 @@ function simulateAttackSequence() {
             anti: false,
             antiType: '',
             antiValue: '',
-            toughness: parseInt(document.querySelector(`#toughness`).value),
-            save: parseInt(document.querySelector(`#save`).value),
-            invul: parseInt(document.querySelector(`#invul`).value),
-            fnp: parseInt(document.querySelector(`#fnp`).value),
+            toughness: parseInt(document.querySelector(`#toughness-${selectedDefenderUnit}`).value),
+            save: parseInt(document.querySelector(`#save-${selectedDefenderUnit}`).value),
+            invul: parseInt(document.querySelector(`#invul-${selectedDefenderUnit}`).value),
+            fnp: parseInt(document.querySelector(`#fnp-${selectedDefenderUnit}`).value),
             criticalHit: parseInt(document.querySelector('#criticalHit').value),
             criticalWound: parseInt(document.querySelector('#criticalWound').value),
             worldEatersGlaiveCharged: false
@@ -2834,10 +2837,15 @@ function populateDefender(selectedFaction, selectedUnit){
     });
     // defenderTags.value = defenderKeywordString;
 
-    // console.log(data[selectedFaction].units[selectedUnit].hasOwnProperty('extraUnit'));
-    // console.log(data[selectedFaction].units[selectedUnit].extraUnit)
-
-    let defenderHTML = `<div class="defender_stats"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags" value="${defenderKeywordString}"/></div>`;
+    let defenderHTML = '';
+    // if(!data[selectedFaction].units[selectedUnit].hasOwnProperty('extraUnit')){
+        defenderHTML = `<div class="defender_stats" data-name="${selectedUnit}"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount-${selectedUnit}" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness-${selectedUnit}" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save-${selectedUnit}" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul-${selectedUnit}" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds-${selectedUnit}" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp-${selectedUnit}" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags-${selectedUnit}" value="${defenderKeywordString}"/></div>`;
+    // }else{
+        // let extraUnitData = data[selectedFaction].units[selectedUnit].extraUnit;
+        // console.log(extraUnitData);
+        // defenderHTML = `<div class="defender_stats" data-name="${selectedUnit}"><div class="defender_label">${extraUnitData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount-${selectedUnit}" value="${1}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness-${selectedUnit}" value="${extraUnitData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save-${selectedUnit}" value="${extraUnitData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul-${selectedUnit}" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds-${selectedUnit}" value="${extraUnitData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp-${selectedUnit}" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags-${selectedUnit}" value="${defenderKeywordString}"/></div>`;
+        // defenderHTML += `<div class="defender_stats" data-name="${selectedUnit}"><div class="defender_label">${selectedData.name}</div><div class="defender_attribute"><div class="label">No.</div><input type="text" id="defenderCount-${selectedUnit}" value="${selectedData.size}"/> </div><div class="defender_attribute"> <div class="label">T</div> <input type="text" id="toughness-${selectedUnit}" value="${selectedData.t}" /></div><div class="defender_attribute"> <div class="label">Sv</div> <input type="text" id="save-${selectedUnit}" value="${selectedData.sv}" /></div><div class="defender_attribute"> <div class="label">Invul</div> <input type="text" id="invul-${selectedUnit}" value="${selectedData.invSv}" /></div><div class="defender_attribute"> <div class="label">W</div> <input type="text" id="wounds-${selectedUnit}" value="${selectedData.w}" /></div><div class="defender_attribute"> <div class="label">FnP</div> <input type="text" id="fnp-${selectedUnit}" value="${selectedData.fnp}" /></div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="defenderTags-${selectedUnit}" value="${defenderKeywordString}"/></div>`;
+    // }
 
     document.querySelector('#defenderCont').innerHTML = defenderHTML;
 
@@ -3045,6 +3053,8 @@ document.getElementById("worldEatersEnhancementGlaive").addEventListener("change
 
 let modifierAttackerHeight = document.querySelector('#modifiers').querySelector('.attacker').scrollHeight;
 
+console.log(data);
+
 /* CHECK TO CATCH ANY DATA WHERE UNIT SIZE = 0 */
 // for(const faction in data){
 //     for(const unit in data[faction].units){
@@ -3064,4 +3074,29 @@ let modifierAttackerHeight = document.querySelector('#modifiers').querySelector(
 // }
 // document.querySelector('#testOut').innerText = outHTML; 
 
-console.log(data);
+/* CHECK TO CATCH THE UNITS WHOS SHEETS ARE MESSED UP */
+
+// for(const faction in data){
+    // console.log(faction)
+    // for(const unit in data[faction].units){
+        // if(data[faction].units[unit].size == 0){
+            // console.log(data[faction].units[unit].name);
+            // console.log(data[faction].units[unit].size);
+        // }
+        // if(!data[faction].units[unit].tags.includes(data[faction].units[unit].name) && !data[faction].units[unit].tags.includes(data[faction].units[unit].name.replace('World Eaters ',''))){
+            // if(!data[faction].units[unit].tags.includes('Shield-Captain') && !data[faction].units[unit].tags.includes('Daemon Prince') && !data[faction].units[unit].tags.includes('Daemon Prince With Wings') && !data[faction].units[unit].tags.includes('Spawn') && !data[faction].units[unit].tags.includes('Berzerkers')){
+                // console.log(data[faction].units[unit].name);
+                // console.log(data[faction].units[unit].tags)
+            // }
+        // }
+    // }
+// }
+// let outHTML = '{';
+// for(const faction in data){
+//     outHTML += `${faction}: `
+//     for(const unit in data[faction].units){
+//         // console.log(data[faction].units[unit]);
+//     }
+//     outHTML += `,`
+// }
+// document.querySelector('#testOut').innerText = outHTML;

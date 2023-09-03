@@ -118,6 +118,10 @@ select{
                 position:relative;
             }
 
+            .defender_stats+.defender_stats{
+                border-top:0px;
+            }
+
                 .defender_select{
                     position: absolute;
                     left: -27px;

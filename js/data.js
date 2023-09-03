@@ -418,7 +418,14 @@ const data = {
       },
       triumphOfSaintKatherine: {
         name: "Triumph Of Saint Katherine",
-        tags: ["Infantry", "Grenades", "Character", "Epic Hero", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Grenades",
+          "Character",
+          "Epic Hero",
+          "Imperium",
+          "Triumph Of Saint Katherine",
+        ],
         t: 3,
         sv: 3,
         w: 18,
@@ -757,7 +764,14 @@ const data = {
       },
       aestredThurgaAndAgathaeDolan: {
         name: "Aestred Thurga And Agathae Dolan",
-        tags: ["Infantry", "Grenades", "Character", "Epic Hero", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Grenades",
+          "Character",
+          "Epic Hero",
+          "Imperium",
+          "Aestred Thurga And Agathae Dolan",
+        ],
         t: 3,
         sv: 2,
         w: 4,
@@ -1910,6 +1924,7 @@ const data = {
           "Dedicated Transport",
           "Smoke",
           "Imperium",
+          "Sororitas Rhino"
         ],
         t: 9,
         sv: 3,
@@ -2613,7 +2628,7 @@ const data = {
       },
       knightCentura: {
         name: "Knight-Centura",
-        tags: ["Infantry", "Character", "Imperium", "Anathema Psykana,"],
+        tags: ["Infantry", "Character", "Imperium", "Anathema Psykana", "Knight-Centura"],
         t: 3,
         sv: 3,
         w: 4,
@@ -2741,7 +2756,7 @@ const data = {
       },
       shieldCaptainOnDawneagleJetbike: {
         name: "Shield-Captain On Dawneagle Jetbike",
-        tags: ["Mounted", "Character", "Fly", "Imperium", "Dawneagle Jetbike,"],
+        tags: ["Mounted", "Character", "Fly", "Imperium", "Dawneagle Jetbike", "Shield-Captain"],
         t: 6,
         sv: 2,
         w: 7,
@@ -3003,8 +3018,8 @@ const data = {
         },
       },
       custodianGuardWithAdrasiteAndPyrithiteSpears: {
-        name: "Custodian Guard With Adrasite And Pyrithite Spears",
-        tags: ["Infantry", "Imperium", "Custodian Guard with Adrasite and"],
+        name: "Custodian Guard with Adrasite And Pyrithite Spears",
+        tags: ["Infantry", "Imperium", "Custodian Guard with Adrasite and Pyrithite Spears"],
         t: 6,
         sv: 2,
         w: 3,
@@ -3357,7 +3372,7 @@ const data = {
       },
       pallasGravAttack: {
         name: "Pallas Grav-Attack",
-        tags: ["Vehicle", "Fly", "Imperium", "Pallas Grav-attack"],
+        tags: ["Vehicle", "Fly", "Imperium", "Pallas Grav-Attack"],
         t: 8,
         sv: 2,
         w: 9,
@@ -3471,7 +3486,7 @@ const data = {
       },
       caladiusGravTank: {
         name: "Caladius Grav-Tank",
-        tags: ["Vehicle", "Fly", "Imperium", "Caladius Grav-tank"],
+        tags: ["Vehicle", "Fly", "Imperium", "Caladius Grav-Tank"],
         t: 11,
         sv: 2,
         w: 14,
@@ -3533,7 +3548,7 @@ const data = {
           "Transport",
           "Fly",
           "Imperium",
-          "Coronus Grav-carrier",
+          "Coronus Grav-Carrier",
         ],
         t: 12,
         sv: 2,
@@ -3581,7 +3596,14 @@ const data = {
       },
       orionAssaultDropship: {
         name: "Orion Assault Dropship",
-        tags: ["Vehicle", "Transport", "Aircraft", "Fly", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Transport",
+          "Aircraft",
+          "Fly",
+          "Imperium",
+          "Orion Assault Dropship",
+        ],
         t: 12,
         sv: 2,
         w: 22,
@@ -3773,7 +3795,7 @@ const data = {
       },
       archaeopterStratoraptor: {
         name: "Archaeopter Stratoraptor",
-        tags: ["Vehicle", "Aircraft", "Fly", "Imperium", "Skitarii,"],
+        tags: ["Vehicle", "Aircraft", "Fly", "Imperium", "Skitarii", "Archaeopter Stratoraptor"],
         t: 9,
         sv: 3,
         w: 10,
@@ -3872,7 +3894,7 @@ const data = {
       },
       belisariusCawl: {
         name: "Belisarius Cawl",
-        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Tech-Priest,"],
+        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Tech-Priest", "Belisarius Cawl"],
         t: 8,
         sv: 2,
         w: 10,
@@ -3964,7 +3986,7 @@ const data = {
       },
       cyberneticaDatasmith: {
         name: "Cybernetica Datasmith",
-        tags: ["Infantry", "Character", "Imperium", "Tech-Priest,"],
+        tags: ["Infantry", "Character", "Imperium", "Tech-Priest", "Cybernetica Datasmith"],
         t: 4,
         sv: 2,
         w: 3,
@@ -4111,7 +4133,7 @@ const data = {
       },
       ironstriderBallistarii: {
         name: "Ironstrider Ballistarii",
-        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Skitarii,"],
+        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Skitarii", "Ironstrider Ballistarii"],
         t: 7,
         sv: 3,
         w: 7,
@@ -5581,7 +5603,7 @@ const data = {
       },
       autarchWayleaper: {
         name: "Autarch Wayleaper",
-        tags: ["Infantry", "Character", "Jump Pack", "Fly", "Grenades,"],
+        tags: ["Infantry", "Character", "Jump Pack", "Fly", "Grenades", "Autarch Wayleaper"],
         t: 3,
         sv: 3,
         w: 4,
@@ -6941,7 +6963,7 @@ const data = {
       },
       hemlockWraithfighter: {
         name: "Hemlock Wraithfighter",
-        tags: ["Vehicle", "Fly", "Aircraft", "Psyker", "Wraith Construct,"],
+        tags: ["Vehicle", "Fly", "Aircraft", "Psyker", "Wraith Construct", "Hemlock Wraithfighter"],
         t: 8,
         sv: 3,
         w: 12,
@@ -8948,7 +8970,7 @@ const data = {
       },
       wraithknight: {
         name: "Wraithknight",
-        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct,"],
+        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct", "Wraithknight"],
         t: 12,
         sv: 2,
         w: 18,
@@ -9541,7 +9563,7 @@ const data = {
       },
       phantomTitan: {
         name: "Phantom Titan",
-        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct,"],
+        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct", "Phantom Titan"],
         t: 14,
         sv: 2,
         w: 55,
@@ -10082,7 +10104,7 @@ const data = {
       },
       shadowSpectres: {
         name: "Shadow Spectres",
-        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct,"],
+        tags: ["Monster", "Titanic", "Towering", "Walker", "Wraith Construct", "Shadow Spectres"],
         t: 12,
         sv: 2,
         w: 18,
@@ -10215,7 +10237,14 @@ const data = {
     units: {
       vindicareAssassin: {
         name: "Vindicare Assassin",
-        tags: ["Infantry", "Character", "Epic Hero", "Smoke", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Smoke",
+          "Imperium",
+          "Vindicare Assassin",
+        ],
         t: 4,
         sv: 6,
         w: 4,
@@ -10266,7 +10295,14 @@ const data = {
       },
       culexusAssassin: {
         name: "Culexus Assassin",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Culexus Assassin",
+        ],
         t: 4,
         sv: 6,
         w: 4,
@@ -10307,7 +10343,14 @@ const data = {
       },
       eversorAssassin: {
         name: "Eversor Assassin",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Eversor Assassin",
+        ],
         t: 4,
         sv: 6,
         w: 4,
@@ -10385,7 +10428,7 @@ const data = {
       },
       rogueTraderEntourage: {
         name: "Rogue Trader Entourage",
-        tags: ["Infantry", "Grenades", "Imperium", "Navis Imperialis,"],
+        tags: ["Infantry", "Grenades", "Imperium", "Navis Imperialis", "Rogue Trader Entourage"],
         t: 3,
         sv: 4,
         w: 4,
@@ -11040,7 +11083,14 @@ const data = {
       },
       inquisitorCoteaz: {
         name: "Inquisitor Coteaz",
-        tags: ["Infantry", "Character", "Epic Hero", "Psyker", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Psyker",
+          "Imperium",
+          "Inquisitor Coteaz",
+        ],
         t: 3,
         sv: 2,
         w: 4,
@@ -11463,7 +11513,7 @@ const data = {
     units: {
       lordSolarLeontus: {
         name: "Lord Solar Leontus",
-        tags: ["Mounted", "Character", "Epic Hero", "Imperium", "Officer,"],
+        tags: ["Mounted", "Character", "Epic Hero", "Imperium", "Officer", "Lord Solar Leontus"],
         t: 4,
         sv: 3,
         w: 8,
@@ -11788,7 +11838,7 @@ const data = {
       },
       platoonCommandSquad: {
         name: "Platoon Command Squad",
-        tags: ["Infantry", "Imperium", "Grenades", "Platoon,"],
+        tags: ["Infantry", "Imperium", "Grenades", "Platoon", "Platoon Command Squad"],
         t: 3,
         sv: 5,
         w: 3,
@@ -11945,7 +11995,7 @@ const data = {
       },
       cadianCommandSquad: {
         name: "Cadian Command Squad",
-        tags: ["Infantry", "Imperium", "Grenades", "Cadian,"],
+        tags: ["Infantry", "Imperium", "Grenades", "Cadian", "Cadian Command Squad"],
         t: 3,
         sv: 5,
         w: 3,
@@ -12359,7 +12409,7 @@ const data = {
       },
       ogrynBodyguard: {
         name: "Ogryn Bodyguard",
-        tags: ["Infantry", "Imperium", "Grenades", "Loyal Protector,"],
+        tags: ["Infantry", "Imperium", "Grenades", "Loyal Protector", "Ogryn Bodyguard"],
         t: 6,
         sv: 5,
         w: 6,
@@ -14268,7 +14318,7 @@ const data = {
       },
       fieldOrdnanceBattery: {
         name: "Field Ordnance Battery",
-        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment,"],
+        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment", "Field Ordnance Battery"],
         t: 5,
         sv: 4,
         w: 6,
@@ -16939,7 +16989,7 @@ const data = {
       },
       deathKorpsMarshal: {
         name: "Death Korps Marshal",
-        tags: ["Infantry", "Character", "Imperium", "Grenades", "Officer,"],
+        tags: ["Infantry", "Character", "Imperium", "Grenades", "Officer", "Death Korps Marshal"],
         t: 3,
         sv: 5,
         w: 4,
@@ -17086,7 +17136,7 @@ const data = {
       },
       deathRiderSquadronCommander: {
         name: "Death Rider Squadron Commander",
-        tags: ["Mounted", "Character", "Imperium", "Grenades", "Officer,"],
+        tags: ["Mounted", "Character", "Imperium", "Grenades", "Officer", "Death Rider Squadron Commander"],
         t: 4,
         sv: 4,
         w: 5,
@@ -17713,7 +17763,7 @@ const data = {
       },
       earthshakerCarriageBattery: {
         name: "Earthshaker Carriage Battery",
-        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment,"],
+        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment", "Earthshaker Carriage Battery"],
         t: 7,
         sv: 4,
         w: 6,
@@ -17748,7 +17798,7 @@ const data = {
       },
       medusaCarriageBattery: {
         name: "Medusa Carriage Battery",
-        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment,"],
+        tags: ["Infantry", "Artillery", "Imperium", "Grenades", "Regiment", "Medusa Carriage Battery"],
         t: 7,
         sv: 4,
         w: 6,
@@ -18882,7 +18932,14 @@ const data = {
       },
       rapierLaserDestroyerBattery: {
         name: "Rapier Laser Destroyer Battery",
-        tags: ["Infantry", "Artillery", "Grenades", "Regiment", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Artillery",
+          "Grenades",
+          "Regiment",
+          "Imperium",
+          "Rapier Laser Destroyer Battery",
+        ],
         t: 4,
         sv: 4,
         w: 3,
@@ -19288,7 +19345,7 @@ const data = {
       },
       primarisCrusaderSquad: {
         name: "Primaris Crusader Squad",
-        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus", "Primaris Crusader Squad"],
         t: 4,
         sv: 4,
         w: 2,
@@ -20407,7 +20464,14 @@ const data = {
       },
       brotherCorbulo: {
         name: "Brother Corbulo",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Brother Corbulo",
+        ],
         t: 4,
         sv: 3,
         w: 4,
@@ -20612,7 +20676,7 @@ const data = {
       },
       deathCompanyDreadnought: {
         name: "Death Company Dreadnought",
-        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Dreadnought,"],
+        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Dreadnought", "Death Company Dreadnought"],
         t: 9,
         sv: 2,
         w: 8,
@@ -20678,7 +20742,7 @@ const data = {
       },
       deathCompanyIntercessors: {
         name: "Death Company Intercessors",
-        tags: ["Infantry", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Grenades", "Imperium", "Tacticus", "Death Company Intercessors"],
         t: 4,
         sv: 3,
         w: 2,
@@ -20950,7 +21014,14 @@ const data = {
       },
       deathCompanyMarinesWithJumpPacks: {
         name: "Death Company Marines With Jump Packs",
-        tags: ["Infantry", "Fly", "Jump Pack", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Fly",
+          "Jump Pack",
+          "Grenades",
+          "Imperium",
+          "Death Company Marines With Jump Packs",
+        ],
         t: 4,
         sv: 3,
         w: 2,
@@ -21168,7 +21239,14 @@ const data = {
       },
       gabrielSeth: {
         name: "Gabriel Seth",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Gabriel Seth",
+        ],
         t: 4,
         sv: 3,
         w: 6,
@@ -21851,7 +21929,7 @@ const data = {
       },
       rendmasterOnBloodThrone: {
         name: "Rendmaster On Blood Throne",
-        tags: ["Mounted", "Character", "Chaos", "Daemon", "Khorne,"],
+        tags: ["Mounted", "Character", "Chaos", "Daemon", "Khorne", "Rendmaster On Blood Throne"],
         t: 9,
         sv: 4,
         w: 9,
@@ -22465,7 +22543,7 @@ const data = {
       },
       blueHorrors: {
         name: "Blue Horrors",
-        tags: ["Infantry", "Battleline", "Chaos", "Daemon", "Tzeentch,"],
+        tags: ["Infantry", "Battleline", "Chaos", "Daemon", "Tzeentch", "Blue Horrors"],
         t: 3,
         sv: 8,
         w: 1,
@@ -22640,7 +22718,7 @@ const data = {
       },
       exaltedFlamer: {
         name: "Exalted Flamer",
-        tags: ["Infantry", "Character", "Fly", "Chaos", "Daemon", "Tzeentch,"],
+        tags: ["Infantry", "Character", "Fly", "Chaos", "Daemon", "Tzeentch", "Exalted Flamer"],
         t: 4,
         sv: 7,
         w: 6,
@@ -22828,7 +22906,7 @@ const data = {
       },
       greatUncleanOne: {
         name: "Great Unclean One",
-        tags: ["Monster", "Character", "Psyker", "Chaos", "Daemon", "Nurgle,"],
+        tags: ["Monster", "Character", "Psyker", "Chaos", "Daemon", "Nurgle", "Great Unclean One"],
         t: 12,
         sv: 5,
         w: 20,
@@ -23309,14 +23387,7 @@ const data = {
       },
       keeperOfSecrets: {
         name: "Keeper Of Secrets",
-        tags: [
-          "Monster",
-          "Character",
-          "Psyker",
-          "Chaos",
-          "Daemon",
-          "Slaanesh",
-        ],
+        tags: ["Monster", "Character", "Psyker", "Chaos", "Daemon", "Slaanesh"],
         t: 10,
         sv: 5,
         w: 18,
@@ -23392,7 +23463,7 @@ const data = {
       },
       infernalEnrapturess: {
         name: "Infernal Enrapturess",
-        tags: ["Infantry", "Character", "Chaos", "Daemon", "Slaanesh,"],
+        tags: ["Infantry", "Character", "Chaos", "Daemon", "Slaanesh", "Infernal Enrapturess"],
         t: 3,
         sv: 7,
         w: 3,
@@ -23550,7 +23621,7 @@ const data = {
       },
       contortedEpitome: {
         name: "Contorted Epitome",
-        tags: ["Infantry", "Character", "Psyker", "Chaos", "SLaanesh,"],
+        tags: ["Infantry", "Character", "Psyker", "Chaos", "Slaanesh", "Contorted Epitome"],
         t: 6,
         sv: 5,
         w: 8,
@@ -23585,14 +23656,7 @@ const data = {
       },
       tormentbringerOnExaltedSeekerChariot: {
         name: "Tormentbringer On Exalted Seeker Chariot",
-        tags: [
-          "Mounted",
-          "Character",
-          "Psyker",
-          "Chaos",
-          "Daemon",
-          "Slaanesh",
-        ],
+        tags: ["Mounted", "Character", "Psyker", "Chaos", "Daemon", "Slaanesh"],
         t: 6,
         sv: 5,
         w: 12,
@@ -24122,7 +24186,7 @@ const data = {
       },
       daemonPrinceOfChaosWithWings: {
         name: "Daemon Prince Of Chaos With Wings",
-        tags: ["Monster", "Character", "Fly", "Chaos", "Daemon,"],
+        tags: ["Monster", "Character", "Fly", "Chaos", "Daemon", "Daemon Prince Of Chaos With Wings"],
         t: 9,
         sv: 2,
         w: 10,
@@ -25036,7 +25100,7 @@ const data = {
       },
       chaosAcastusKnightAsterius: {
         name: "Chaos Acastus Knight Asterius",
-        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Chaos", "Acastus,"],
+        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Chaos", "Acastus", "Chaos Acastus Knight Asterius"],
         t: 13,
         sv: 2,
         w: 30,
@@ -25098,7 +25162,7 @@ const data = {
       },
       chaosAcastusKnightPorphyrion: {
         name: "Chaos Acastus Knight Porphyrion",
-        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Chaos", "Acastus,"],
+        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Chaos", "Acastus", "Chaos Acastus Knight Porphyrion"],
         t: 13,
         sv: 2,
         w: 30,
@@ -25926,7 +25990,7 @@ const data = {
       },
       hereticAstartesDaemonPrinceWithWings: {
         name: "Heretic Astartes Daemon Prince With Wings",
-        tags: ["Monster", "Fly", "Character", "Chaos", "Daemon,"],
+        tags: ["Monster", "Fly", "Character", "Chaos", "Daemon", "Daemon Prince With Wings"],
         t: 9,
         sv: 2,
         w: 10,
@@ -26081,7 +26145,7 @@ const data = {
         },
       },
       masterOfPossession: {
-        name: "Master Of Possession",
+        name: "Master of Possession",
         tags: [
           "Infantry",
           "Character",
@@ -26236,7 +26300,7 @@ const data = {
       },
       chaosLordInTerminatorArmour: {
         name: "Chaos Lord In Terminator Armour",
-        tags: ["Infantry", "Character", "Chaos", "Terminator,"],
+        tags: ["Infantry", "Character", "Chaos", "Terminator", "Chaos Lord In Terminator Armour"],
         t: 5,
         sv: 2,
         w: 6,
@@ -26375,7 +26439,7 @@ const data = {
       },
       sorcererInTerminatorArmour: {
         name: "Sorcerer In Terminator Armour",
-        tags: ["Infantry", "Character", "Psyker", "Chaos", "Terminator,"],
+        tags: ["Infantry", "Character", "Psyker", "Chaos", "Terminator", "Sorcerer In Terminator Armour"],
         t: 5,
         sv: 2,
         w: 5,
@@ -26441,7 +26505,7 @@ const data = {
       },
       luciusTheEternal: {
         name: "Lucius The Eternal",
-        tags: ["Infantry", "Character", "Epic Hero", "Chaos", "Slaanesh,"],
+        tags: ["Infantry", "Character", "Epic Hero", "Chaos", "Slaanesh", "Lucius The Eternal"],
         t: 4,
         sv: 3,
         w: 5,
@@ -27196,7 +27260,7 @@ const data = {
         },
       },
       masterOfExecutions: {
-        name: "Master Of Executions",
+        name: "Master of Executions",
         tags: [
           "Infantry",
           "Character",
@@ -28830,7 +28894,7 @@ const data = {
       },
       khorneLordOfSkulls: {
         name: "Khorne Lord Of Skulls",
-        tags: ["Vehicle", "Titanic", "Towering", "Chaos", "Khorne", "Daemon,"],
+        tags: ["Vehicle", "Titanic", "Towering", "Chaos", "Khorne", "Daemon", "Khorne Lord Of Skulls"],
         t: 13,
         sv: 3,
         w: 24,
@@ -28941,7 +29005,7 @@ const data = {
       },
       vashtorrTheArkifane: {
         name: "Vashtorr The Arkifane",
-        tags: ["Monster", "Character", "Epic Hero", "Fly", "Chaos", "Daemon,"],
+        tags: ["Monster", "Character", "Epic Hero", "Fly", "Chaos", "Daemon", "Vashtorr The Arkifane"],
         t: 9,
         sv: 2,
         w: 14,
@@ -29664,13 +29728,7 @@ const data = {
       },
       deathwingStrikemaster: {
         name: "Deathwing Strikemaster",
-        tags: [
-          "Infantry",
-          "Character",
-          "Imperium",
-          "Terminator",
-          "Lieutenant",
-        ],
+        tags: ["Infantry", "Character", "Imperium", "Terminator", "Lieutenant"],
         t: 5,
         sv: 2,
         w: 5,
@@ -30475,7 +30533,7 @@ const data = {
       },
       lionEljonson: {
         name: "Lion Eljonson",
-        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Primarch,"],
+        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Primarch", "Lion Eljonson"],
         t: 9,
         sv: 2,
         w: 10,
@@ -30536,7 +30594,7 @@ const data = {
     units: {
       deathGuardDaemonPrince: {
         name: "Death Guard Daemon Prince",
-        tags: ["Monster", "Character", "Chaos", "Nurgle", "Psyker", "Daemon,"],
+        tags: ["Monster", "Character", "Chaos", "Nurgle", "Psyker", "Daemon", "Daemon Prince"],
         t: 11,
         sv: 2,
         w: 10,
@@ -30590,6 +30648,7 @@ const data = {
           "Nurgle",
           "Psyker",
           "Daemon",
+          "Daemon Prince With Wings"
         ],
         t: 10,
         sv: 2,
@@ -30874,7 +30933,7 @@ const data = {
       },
       lordOfVirulence: {
         name: "Lord Of Virulence",
-        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Terminator,"],
+        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Terminator", "Lord Of Virulence"],
         t: 6,
         sv: 2,
         w: 6,
@@ -31070,7 +31129,7 @@ const data = {
       },
       malignantPlaguecaster: {
         name: "Malignant Plaguecaster",
-        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Psyker,"],
+        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Psyker", "Malignant Plaguecaster"],
         t: 5,
         sv: 3,
         w: 4,
@@ -31432,7 +31491,7 @@ const data = {
       },
       foulBlightspawn: {
         name: "Foul Blightspawn",
-        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Grenades,"],
+        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Grenades", "Foul Blightspawn"],
         t: 5,
         sv: 3,
         w: 4,
@@ -32582,7 +32641,7 @@ const data = {
       },
       deathGuardIconBearer: {
         name: "Death Guard Icon Bearer",
-        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Grenades,"],
+        tags: ["Infantry", "Character", "Chaos", "Nurgle", "Grenades", "Death Guard Icon Bearer"],
         t: 5,
         sv: 3,
         w: 4,
@@ -32739,7 +32798,13 @@ const data = {
       },
       killTeamCassius: {
         name: "Kill Team Cassius",
-        tags: ["Infantry", "Kill Team", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Kill Team",
+          "Grenades",
+          "Imperium",
+          "Kill Team Cassius",
+        ],
         t: 4,
         sv: 3,
         w: 4,
@@ -32885,7 +32950,14 @@ const data = {
       },
       deathwatchVeterans: {
         name: "Deathwatch Veterans",
-        tags: ["Infantry", "Battleline", "Kill Team", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Battleline",
+          "Kill Team",
+          "Grenades",
+          "Imperium",
+          "Deathwatch Veterans",
+        ],
         t: 4,
         sv: 3,
         w: 2,
@@ -33454,7 +33526,7 @@ const data = {
       },
       fortisKillTeam: {
         name: "Fortis Kill Team",
-        tags: ["Infantry", "Kill Team", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Kill Team", "Grenades", "Imperium", "Tacticus", "Fortis Kill Team"],
         t: 4,
         sv: 3,
         w: 2,
@@ -33580,7 +33652,7 @@ const data = {
       },
       indomitorKillTeam: {
         name: "Indomitor Kill Team",
-        tags: ["Infantry", "Kill Team", "Grenades", "Imperium", "Gravis,"],
+        tags: ["Infantry", "Kill Team", "Grenades", "Imperium", "Gravis", "Indomitor Kill Team"],
         t: 6,
         sv: 3,
         w: 3,
@@ -33728,7 +33800,6 @@ const data = {
         t: 4,
         sv: 3,
         w: 2,
-        extraUnit: { name: "Imperium, Phobos", t: null, sv: null, w: null },
         invSv: 0,
         fnp: 0,
         size: 5,
@@ -34177,7 +34248,7 @@ const data = {
       },
       haemonculus: {
         name: "Haemonculus",
-        tags: ["Infantry", "Haemonculus Covens", "Character", "Aeldari,"],
+        tags: ["Infantry", "Haemonculus Covens", "Character", "Aeldari", "Haemonculus"],
         t: 4,
         sv: 6,
         w: 5,
@@ -35590,7 +35661,7 @@ const data = {
       },
       acolyteIconward: {
         name: "Acolyte Iconward",
-        tags: ["Infantry", "Character", "Grenades", "Great Devourer,"],
+        tags: ["Infantry", "Character", "Grenades", "Great Devourer", "Acolyte Iconward"],
         t: 4,
         sv: 5,
         w: 3,
@@ -35881,12 +35952,7 @@ const data = {
       },
       goliathTruck: {
         name: "Goliath Truck",
-        tags: [
-          "Vehicle",
-          "Transport",
-          "Dedicated Transport",
-          "Great Devourer",
-        ],
+        tags: ["Vehicle", "Transport", "Dedicated Transport", "Great Devourer"],
         t: 9,
         sv: 3,
         w: 10,
@@ -36162,7 +36228,7 @@ const data = {
       },
       neophyteHybrids: {
         name: "Neophyte Hybrids",
-        tags: ["Infantry", "Battleline", "Grenades", "Great Devourer,"],
+        tags: ["Infantry", "Battleline", "Grenades", "Great Devourer", "Neophyte Hybrids"],
         t: 3,
         sv: 5,
         w: 1,
@@ -36446,7 +36512,7 @@ const data = {
       },
       reductusSaboteur: {
         name: "Reductus Saboteur",
-        tags: ["Infantry", "Character", "Grenades", "Great Devourer,"],
+        tags: ["Infantry", "Character", "Grenades", "Great Devourer", "Reductus Saboteur"],
         t: 3,
         sv: 5,
         w: 3,
@@ -36722,7 +36788,14 @@ const data = {
       },
       grandMasterInNemesisDreadknight: {
         name: "Grand Master In Nemesis Dreadknight",
-        tags: ["Vehicle", "Character", "Walker", "Psyker", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Character",
+          "Walker",
+          "Psyker",
+          "Imperium",
+          "Grand Master In Nemesis Dreadknight",
+        ],
         t: 8,
         sv: 2,
         w: 13,
@@ -36808,7 +36881,14 @@ const data = {
       },
       castellanCrowe: {
         name: "Castellan Crowe",
-        tags: ["Infantry", "Character", "Epic Hero", "Psyker", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Psyker",
+          "Imperium",
+          "Castellan Crowe",
+        ],
         t: 4,
         sv: 2,
         w: 5,
@@ -36897,7 +36977,14 @@ const data = {
       },
       brotherCaptain: {
         name: "Brother-Captain",
-        tags: ["Infantry", "Character", "Psyker", "Terminator", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Psyker",
+          "Terminator",
+          "Imperium",
+          "Brother-Captain",
+        ],
         t: 5,
         sv: 2,
         w: 6,
@@ -37163,7 +37250,14 @@ const data = {
       },
       brotherhoodChaplain: {
         name: "Brotherhood Chaplain",
-        tags: ["Infantry", "Character", "Psyker", "Terminator", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Psyker",
+          "Terminator",
+          "Imperium",
+          "Brotherhood Chaplain",
+        ],
         t: 5,
         sv: 2,
         w: 5,
@@ -37590,7 +37684,14 @@ const data = {
       },
       greyKnightsVenerableDreadnought: {
         name: "Grey Knights Venerable Dreadnought",
-        tags: ["Vehicle", "Walker", "Psyker", "Smoke", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Walker",
+          "Psyker",
+          "Smoke",
+          "Imperium",
+          "Grey Knights Venerable Dreadnought",
+        ],
         t: 9,
         sv: 2,
         w: 8,
@@ -38043,7 +38144,14 @@ const data = {
       },
       greyKnightsLandRaiderCrusader: {
         name: "Grey Knights Land Raider Crusader",
-        tags: ["Vehicle", "Transport", "Smoke", "Grenades", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Transport",
+          "Smoke",
+          "Grenades",
+          "Imperium",
+          "Grey Knights Land Raider Crusader",
+        ],
         t: 12,
         sv: 2,
         w: 16,
@@ -38119,7 +38227,14 @@ const data = {
       },
       greyKnightsLandRaiderRedeemer: {
         name: "Grey Knights Land Raider Redeemer",
-        tags: ["Vehicle", "Transport", "Smoke", "Grenades", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Transport",
+          "Smoke",
+          "Grenades",
+          "Imperium",
+          "Grey Knights Land Raider Redeemer",
+        ],
         t: 12,
         sv: 2,
         w: 16,
@@ -39891,7 +40006,17 @@ const data = {
       },
       canisRex: {
         name: "Canis Rex",
-        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Questoris", "Character", "Epic Hero", "Imperium", "Canis Rex"],
+        tags: [
+          "Vehicle",
+          "Walker",
+          "Titanic",
+          "Towering",
+          "Questoris",
+          "Character",
+          "Epic Hero",
+          "Imperium",
+          "Canis Rex",
+        ],
         t: 12,
         sv: 3,
         w: 22,
@@ -41608,13 +41733,7 @@ const data = {
       },
       orikanTheDiviner: {
         name: "Orikan The Diviner",
-        tags: [
-          "Infantry",
-          "Character",
-          "Epic Hero",
-          "Cryptek",
-          "Chronomancer",
-        ],
+        tags: ["Infantry", "Character", "Epic Hero", "Cryptek", "Chronomancer"],
         t: 4,
         sv: 4,
         w: 4,
@@ -42710,7 +42829,7 @@ const data = {
       },
       ctanShardOfTheNightbringer: {
         name: "Ctan Shard Of The Nightbringer",
-        tags: ["Monster", "Character", "Epic Hero", "Fly,"],
+        tags: ["Monster", "Character", "Epic Hero", "Fly", "Ctan Shard Of The Nightbringer"],
         t: 11,
         sv: 4,
         w: 12,
@@ -42756,7 +42875,7 @@ const data = {
       },
       ctanShardOfTheVoidDragon: {
         name: "Ctan Shard Of The Void Dragon",
-        tags: ["Monster", "Character", "Fly", "Epic Hero,"],
+        tags: ["Monster", "Character", "Fly", "Epic Hero", "Ctan Shard Of The Void Dragon"],
         t: 11,
         sv: 4,
         w: 12,
@@ -44127,7 +44246,7 @@ const data = {
               ap: "0",
               d: "2",
               tags: ["blast"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -44139,7 +44258,7 @@ const data = {
               ap: "-1",
               d: "1",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 9,
             },
             closeCombatWeapon: {
               name: "Close Combat Weapon",
@@ -44149,7 +44268,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             powerSnappa: {
               name: "Power Snappa",
@@ -44159,7 +44278,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
           },
         },
@@ -44435,7 +44554,7 @@ const data = {
         },
       },
       bigedBossbunka: {
-        name: "Biged Bossbunka",
+        name: "Big’ed Bossbunka",
         tags: ["Fortification", "Vehicle", "Transport", "Big’ed Bossbunka"],
         t: 10,
         sv: 3,
@@ -47616,11 +47735,77 @@ const data = {
       },
       megaDread: {
         name: "Mega Dread",
-        tags: ["Vehicle", "Walker", "Meka-Dread"],
+        tags: ["Vehicle", "Walker", "Mega Dread"],
         t: 10,
         sv: 2,
         w: 16,
         extraUnit: { name: "", t: null, sv: null, w: null },
+        invSv: 6,
+        fnp: 0,
+        size: 1,
+        weapons: {
+          ranged: {
+            boombits: {
+              name: "Boombits",
+              a: "D6",
+              wbs: "N/A",
+              s: "5",
+              ap: "0",
+              d: "1",
+              tags: ["torrent"],
+              maxPerUnit: 2,
+            },
+            killkannon: {
+              name: "Killkannon",
+              a: "D6+3",
+              wbs: "5",
+              s: "9",
+              ap: "-2",
+              d: "2",
+              tags: [],
+              maxPerUnit: 1,
+            },
+          },
+          melee: {
+            dreadKillsaw: {
+              name: "Dread Killsaw",
+              a: "4",
+              wbs: "3",
+              s: "14",
+              ap: "-3",
+              d: "4",
+              tags: [],
+              maxPerUnit: 1,
+            },
+            dreadRippaKlaw: {
+              name: "Dread Rippa Klaw",
+              a: "6",
+              wbs: "3",
+              s: "12",
+              ap: "-2",
+              d: "3",
+              tags: [],
+              maxPerUnit: 1,
+            },
+            stompyFeet: {
+              name: "Stompy Feet",
+              a: "4",
+              wbs: "3",
+              s: "7",
+              ap: "0",
+              d: "1",
+              tags: [],
+              maxPerUnit: 1,
+            },
+          },
+        },
+      },
+      mekaDread: {
+        name: "Meka Dread",
+        tags: ["Vehicle", "Walker", "Meka-Dread"],
+        t: 10,
+        sv: 2,
+        w: 16,
         invSv: 6,
         fnp: 0,
         size: 1,
@@ -47671,8 +47856,8 @@ const data = {
           },
         },
       },
-      mekaDread: {
-        name: "Meka-Dread",
+      bigTrakk: {
+        name: "Big Trakk",
         tags: ["Vehicle", "Transport", "Big Trakk"],
         t: 9,
         sv: 4,
@@ -47747,8 +47932,8 @@ const data = {
           },
         },
       },
-      bigTrakk: {
-        name: "Big Trakk",
+      warbossOnWarbike: {
+        name: "Warboss on Warbike",
         tags: ["Mounted", "Character", "Speed Freeks", "Grenades", "Warboss"],
         t: 6,
         sv: 4,
@@ -47804,8 +47989,8 @@ const data = {
           },
         },
       },
-      warbossOnWarbike: {
-        name: "Warboss On Warbike",
+      nobzOnWarbikes: {
+        name: "Nobz on Warbikes",
         tags: ["Mounted", "Speed Freeks", "Grenades", "Nobz on Warbikes"],
         t: 6,
         sv: 4,
@@ -47908,7 +48093,7 @@ const data = {
     units: {
       primarisCaptain: {
         name: "Primaris Captain",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Captain"],
         t: 4,
         sv: 3,
         w: 5,
@@ -48692,7 +48877,7 @@ const data = {
       },
       primarisLieutenant: {
         name: "Primaris Lieutenant",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Lieutenant"],
         t: 4,
         sv: 3,
         w: 4,
@@ -49392,7 +49577,7 @@ const data = {
       },
       primarisChaplain: {
         name: "Primaris Chaplain",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Chaplain"],
         t: 4,
         sv: 3,
         w: 4,
@@ -49779,7 +49964,7 @@ const data = {
       },
       primarisTechmarine: {
         name: "Primaris Techmarine",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Techmarine"],
         t: 4,
         sv: 2,
         w: 4,
@@ -50067,7 +50252,7 @@ const data = {
       },
       intercessorSquad: {
         name: "Intercessor Squad",
-        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus", "Intercessor Squad"],
         t: 4,
         sv: 3,
         w: 2,
@@ -50255,7 +50440,7 @@ const data = {
       },
       assaultIntercessorSquad: {
         name: "Assault Intercessor Squad",
-        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Tacticus", "Assault Intercessor Squad"],
         t: 4,
         sv: 3,
         w: 2,
@@ -50538,7 +50723,7 @@ const data = {
       },
       heavyIntercessorSquad: {
         name: "Heavy Intercessor Squad",
-        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Gravis,"],
+        tags: ["Infantry", "Battleline", "Grenades", "Imperium", "Gravis", "Heavy Intercessor Squad"],
         t: 6,
         sv: 3,
         w: 3,
@@ -51060,7 +51245,7 @@ const data = {
       },
       primarisCompanyChampion: {
         name: "Primaris Company Champion",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Company Champion"],
         t: 4,
         sv: 3,
         w: 4,
@@ -51096,7 +51281,7 @@ const data = {
       },
       primarisApothecary: {
         name: "Primaris Apothecary",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Apothecary"],
         t: 4,
         sv: 3,
         w: 4,
@@ -51184,7 +51369,7 @@ const data = {
       },
       primarisAncient: {
         name: "Primaris Ancient",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Primaris Ancient"],
         t: 4,
         sv: 3,
         w: 4,
@@ -51240,7 +51425,7 @@ const data = {
       },
       bladeguardAncient: {
         name: "Bladeguard Ancient",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Tacticus", "Bladeguard Ancient"],
         t: 4,
         sv: 3,
         w: 4,
@@ -51362,7 +51547,7 @@ const data = {
       },
       bladeguardVeteranSquad: {
         name: "Bladeguard Veteran Squad",
-        tags: ["Infantry", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Grenades", "Imperium", "Tacticus", "Bladeguard Veteran Squad"],
         t: 4,
         sv: 3,
         w: 3,
@@ -51670,7 +51855,14 @@ const data = {
       },
       vanguardVeteranSquadWithJumpPacks: {
         name: "Vanguard Veteran Squad With Jump Packs",
-        tags: ["Infantry", "Grenades", "Jump Pack", "Fly", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Grenades",
+          "Jump Pack",
+          "Fly",
+          "Imperium",
+          "Vanguard Veteran Squad With Jump Packs",
+        ],
         t: 4,
         sv: 3,
         w: 2,
@@ -51756,7 +51948,7 @@ const data = {
       },
       sternguardVeteranSquad: {
         name: "Sternguard Veteran Squad",
-        tags: ["Infantry", "Grenades", "Imperium", "Tacticus,"],
+        tags: ["Infantry", "Grenades", "Imperium", "Tacticus", "Sternguard Veteran Squad"],
         t: 4,
         sv: 3,
         w: 2,
@@ -52574,7 +52766,7 @@ const data = {
       },
       contemptorDreadnought: {
         name: "Contemptor Dreadnought",
-        tags: ["Vehicle", "Walker", "Imperium", "Dreadnought,"],
+        tags: ["Vehicle", "Walker", "Imperium", "Dreadnought", "Contemptor Dreadnought"],
         t: 9,
         sv: 2,
         w: 10,
@@ -52630,7 +52822,7 @@ const data = {
       },
       ironcladDreadnought: {
         name: "Ironclad Dreadnought",
-        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Dreadnought,"],
+        tags: ["Vehicle", "Walker", "Smoke", "Imperium", "Dreadnought", "Ironclad Dreadnought"],
         t: 10,
         sv: 2,
         w: 8,
@@ -52726,7 +52918,7 @@ const data = {
       },
       redemptorDreadnought: {
         name: "Redemptor Dreadnought",
-        tags: ["Vehicle", "Walker", "Imperium", "Dreadnought,"],
+        tags: ["Vehicle", "Walker", "Imperium", "Dreadnought", "Redemptor Dreadnought"],
         t: 10,
         sv: 2,
         w: 12,
@@ -53152,7 +53344,14 @@ const data = {
       },
       assaultSquadWithJumpPacks: {
         name: "Assault Squad With Jump Packs",
-        tags: ["Infantry", "Grenades", "Jump Pack", "Fly", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Grenades",
+          "Jump Pack",
+          "Fly",
+          "Imperium",
+          "Assault Squad With Jump Packs",
+        ],
         t: 4,
         sv: 3,
         w: 2,
@@ -53830,14 +54029,7 @@ const data = {
       },
       suppressorSquad: {
         name: "Suppressor Squad",
-        tags: [
-          "Infantry",
-          "Grenades",
-          "Smoke",
-          "Jump Pack",
-          "Fly",
-          "Imperium",
-        ],
+        tags: ["Infantry", "Grenades", "Smoke", "Jump Pack", "Fly", "Imperium"],
         t: 4,
         sv: 3,
         w: 2,
@@ -55528,7 +55720,14 @@ const data = {
       },
       landRaiderCrusader: {
         name: "Land Raider Crusader",
-        tags: ["Vehicle", "Smoke", "Grenades", "Transport", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Smoke",
+          "Grenades",
+          "Transport",
+          "Imperium",
+          "Land Raider Crusader",
+        ],
         t: 12,
         sv: 2,
         w: 16,
@@ -55604,7 +55803,14 @@ const data = {
       },
       landRaiderRedeemer: {
         name: "Land Raider Redeemer",
-        tags: ["Vehicle", "Smoke", "Grenades", "Transport", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Smoke",
+          "Grenades",
+          "Transport",
+          "Imperium",
+          "Land Raider Redeemer",
+        ],
         t: 12,
         sv: 2,
         w: 16,
@@ -56684,7 +56890,14 @@ const data = {
       },
       chiefLibrarianTigurius: {
         name: "Chief Librarian Tigurius",
-        tags: ["Infantry", "Character", "Epic Hero", "Psyker", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Psyker",
+          "Imperium",
+          "Chief Librarian Tigurius",
+        ],
         t: 4,
         sv: 3,
         w: 4,
@@ -56980,7 +57193,7 @@ const data = {
       },
       robouteGuilliman: {
         name: "Roboute Guilliman",
-        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Primarch,"],
+        tags: ["Monster", "Character", "Epic Hero", "Imperium", "Primarch", "Roboute Guilliman"],
         t: 9,
         sv: 2,
         w: 10,
@@ -57101,7 +57314,14 @@ const data = {
       },
       pedroKantor: {
         name: "Pedro Kantor",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Pedro Kantor",
+        ],
         t: 4,
         sv: 2,
         w: 5,
@@ -57137,7 +57357,7 @@ const data = {
       },
       ironFatherFeirros: {
         name: "Iron Father Feirros",
-        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Gravis,"],
+        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Gravis", "Iron Father Feirros"],
         t: 6,
         sv: 2,
         w: 6,
@@ -57332,7 +57552,7 @@ const data = {
       },
       korsarroKhan: {
         name: "Korsarro Khan",
-        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Captain,"],
+        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Captain", "Korsarro Khan"],
         t: 4,
         sv: 3,
         w: 5,
@@ -57561,7 +57781,7 @@ const data = {
     units: {
       loganGrimnar: {
         name: "Logan Grimnar",
-        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Terminator,"],
+        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Terminator", "Logan Grimnar"],
         t: 5,
         sv: 2,
         w: 6,
@@ -57846,7 +58066,7 @@ const data = {
       },
       arjacRockfist: {
         name: "Arjac Rockfist",
-        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Terminator,"],
+        tags: ["Infantry", "Character", "Epic Hero", "Imperium", "Terminator", "Arjac Rockfist"],
         t: 5,
         sv: 2,
         w: 6,
@@ -57882,7 +58102,14 @@ const data = {
       },
       ulrikTheSlayer: {
         name: "Ulrik The Slayer",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Ulrik The Slayer",
+        ],
         t: 4,
         sv: 3,
         w: 4,
@@ -58119,7 +58346,7 @@ const data = {
       },
       wolfGuardBattleLeaderInTerminatorArmour: {
         name: "Wolf Guard Battle Leader In Terminator Armour",
-        tags: ["Infantry", "Character", "Imperium", "Terminator,"],
+        tags: ["Infantry", "Character", "Imperium", "Terminator", "Wolf Guard Battle Leader In Terminator Armour"],
         t: 5,
         sv: 2,
         w: 5,
@@ -58215,7 +58442,7 @@ const data = {
       },
       wolfLordOnThunderwolf: {
         name: "Wolf Lord On Thunderwolf",
-        tags: ["Mounted", "Character", "Grenades", "Imperium", "Captain,"],
+        tags: ["Mounted", "Character", "Grenades", "Imperium", "Captain", "Wolf Lord On Thunderwolf"],
         t: 6,
         sv: 3,
         w: 6,
@@ -58351,7 +58578,13 @@ const data = {
       },
       wolfGuardBattleLeaderOnThunderwolf: {
         name: "Wolf Guard Battle Leader On Thunderwolf",
-        tags: ["Mounted", "Character", "Grenades", "Imperium,"],
+        tags: [
+          "Mounted",
+          "Character",
+          "Grenades",
+          "Imperium",
+          "Wolf Guard Battle Leader On Thunderwolf",
+        ],
         t: 6,
         sv: 3,
         w: 5,
@@ -58883,7 +59116,14 @@ const data = {
       },
       lukasTheTrickster: {
         name: "Lukas The Trickster",
-        tags: ["Infantry", "Character", "Epic Hero", "Grenades", "Imperium,"],
+        tags: [
+          "Infantry",
+          "Character",
+          "Epic Hero",
+          "Grenades",
+          "Imperium",
+          "Lukas The Trickster",
+        ],
         t: 4,
         sv: 3,
         w: 4,
@@ -58929,7 +59169,7 @@ const data = {
       },
       wolfGuardTerminators: {
         name: "Wolf Guard Terminators",
-        tags: ["Infantry", "Grenades", "Imperium", "Terminator,"],
+        tags: ["Infantry", "Grenades", "Imperium", "Terminator", "Wolf Guard Terminators"],
         t: 5,
         sv: 2,
         w: 3,
@@ -59856,7 +60096,7 @@ const data = {
       },
       wolfGuardPackLeader: {
         name: "Wolf Guard Pack Leader",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Pack Leader,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Pack Leader", "Wolf Guard Pack Leader"],
         t: 4,
         sv: 3,
         w: 2,
@@ -60115,7 +60355,7 @@ const data = {
       },
       wolfGuardPackLeaderInTerminatorArmour: {
         name: "Wolf Guard Pack Leader In Terminator Armour",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Terminator,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Terminator", "Wolf Guard Pack Leader In Terminator Armour"],
         t: 5,
         sv: 2,
         w: 3,
@@ -60242,7 +60482,7 @@ const data = {
       },
       ironPriest: {
         name: "Iron Priest",
-        tags: ["Infantry", "Character", "Grenades", "Imperium", "Techmarine,"],
+        tags: ["Infantry", "Character", "Grenades", "Imperium", "Techmarine", "Iron Priest"],
         t: 4,
         sv: 2,
         w: 4,
@@ -60504,7 +60744,7 @@ const data = {
       },
       spaceWolvesVenerableDreadnought: {
         name: "Space Wolves Venerable Dreadnought",
-        tags: ["Vehicle", "Walker Smoke", "Imperium", "Dreadnought,"],
+        tags: ["Vehicle", "Walker Smoke", "Imperium", "Dreadnought", "Space Wolves Venerable Dreadnought"],
         t: 9,
         sv: 2,
         w: 8,
@@ -60676,7 +60916,7 @@ const data = {
     units: {
       commanderShadowsun: {
         name: "Commander Shadowsun",
-        tags: ["Infantry", "Fly", "Character", "Epic Hero", "Battlesuit,"],
+        tags: ["Infantry", "Fly", "Character", "Epic Hero", "Battlesuit", "Commander Shadowsun"],
         t: 4,
         sv: 3,
         w: 6,
@@ -60795,7 +61035,7 @@ const data = {
       },
       commanderInCrisisBattlesuit: {
         name: "Commander In Crisis Battlesuit",
-        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit,"],
+        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit", "Commander In Crisis Battlesuit"],
         t: 5,
         sv: 3,
         w: 5,
@@ -60901,7 +61141,7 @@ const data = {
       },
       commanderInEnforcerBattlesuit: {
         name: "Commander In Enforcer Battlesuit",
-        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit,"],
+        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit", "Commander In Enforcer Battlesuit"],
         t: 5,
         sv: 2,
         w: 6,
@@ -61007,7 +61247,7 @@ const data = {
       },
       commanderInColdstarBattlesuit: {
         name: "Commander In Coldstar Battlesuit",
-        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit,"],
+        tags: ["Vehicle", "Walker", "Fly", "Character", "Battlesuit", "Commander In Coldstar Battlesuit"],
         t: 5,
         sv: 3,
         w: 6,
@@ -64113,13 +64353,7 @@ const data = {
       },
       thousandSonsRhino: {
         name: "Thousand Sons Rhino",
-        tags: [
-          "Vehicle",
-          "Transport",
-          "Dedicated Transport",
-          "Smoke",
-          "Chaos",
-        ],
+        tags: ["Vehicle", "Transport", "Dedicated Transport", "Smoke", "Chaos"],
         t: 9,
         sv: 3,
         w: 10,
@@ -64483,7 +64717,7 @@ const data = {
       },
       exaltedSorcererOnDiscOfTzeentch: {
         name: "Exalted Sorcerer On Disc Of Tzeentch",
-        tags: ["Infantry", "Character", "Fly", "Psyker", "Chaos", "Tzeentch,"],
+        tags: ["Infantry", "Character", "Fly", "Psyker", "Chaos", "Tzeentch", "Exalted Sorcerer On Disc Of Tzeentch"],
         t: 4,
         sv: 3,
         w: 6,
@@ -65084,7 +65318,7 @@ const data = {
       },
       rubricMarines: {
         name: "Rubric Marines",
-        tags: ["Infantry", "Battleline", "Chaos", "Tzeentch,"],
+        tags: ["Infantry", "Battleline", "Chaos", "Tzeentch", "Rubric Marines"],
         t: 4,
         sv: 3,
         w: 2,
@@ -65205,7 +65439,7 @@ const data = {
       },
       scarabOccultTerminators: {
         name: "Scarab Occult Terminators",
-        tags: ["Infantry", "Terminator", "Chaos", "Tzeentch,"],
+        tags: ["Infantry", "Terminator", "Chaos", "Tzeentch", "Scarab Occult Terminators"],
         t: 5,
         sv: 2,
         w: 3,
@@ -65533,14 +65767,7 @@ const data = {
       },
       thousandSonsDaemonPrince: {
         name: "Thousand Sons Daemon Prince",
-        tags: [
-          "Monster",
-          "Character",
-          "Daemon",
-          "Psyker",
-          "Chaos",
-          "Tzeentch",
-        ],
+        tags: ["Monster", "Character", "Daemon", "Psyker", "Chaos", "Tzeentch", "Daemon Prince"],
         t: 10,
         sv: 2,
         w: 10,
@@ -65594,6 +65821,7 @@ const data = {
           "Fly",
           "Chaos",
           "Tzeentch",
+          "Daemon Prince With Wings"
         ],
         t: 9,
         sv: 2,
@@ -65706,7 +65934,7 @@ const data = {
       },
       tzaangorShaman: {
         name: "Tzaangor Shaman",
-        tags: ["Mounted", "Character", "Fly", "Psyker", "Chaos", "Tzeentch,"],
+        tags: ["Mounted", "Character", "Fly", "Psyker", "Chaos", "Tzeentch", "Tzaangor Shaman"],
         t: 4,
         sv: 5,
         w: 4,
@@ -65866,7 +66094,7 @@ const data = {
       },
       hiveTyrant: {
         name: "Hive Tyrant",
-        tags: ["Monster", "Character", "Psyker", "Great Devourer", "Synapse,"],
+        tags: ["Monster", "Character", "Psyker", "Great Devourer", "Synapse", "Hive Tyrant"],
         t: 10,
         sv: 2,
         w: 10,
@@ -65922,13 +66150,7 @@ const data = {
       },
       theSwarmlord: {
         name: "The Swarmlord",
-        tags: [
-          "Monster",
-          "Character",
-          "Epic Hero",
-          "Psyker",
-          "Great Devourer",
-        ],
+        tags: ["Monster", "Character", "Epic Hero", "Psyker", "Great Devourer"],
         t: 10,
         sv: 2,
         w: 10,
@@ -65995,7 +66217,7 @@ const data = {
       },
       wingedTyranidPrime: {
         name: "Winged Tyranid Prime",
-        tags: ["Infantry", "Character", "Fly", "Great Devourer", "Synapse,"],
+        tags: ["Infantry", "Character", "Fly", "Great Devourer", "Synapse", "Winged Tyranid Prime"],
         t: 5,
         sv: 4,
         w: 6,
@@ -66233,12 +66455,7 @@ const data = {
       },
       termagants: {
         name: "Termagants",
-        tags: [
-          "Infantry",
-          "Battleline",
-          "Great Devourer",
-          "Endless Multitude",
-        ],
+        tags: ["Infantry", "Battleline", "Great Devourer", "Endless Multitude"],
         t: 3,
         sv: 5,
         w: 1,
@@ -66294,12 +66511,7 @@ const data = {
       },
       hormagaunts: {
         name: "Hormagaunts",
-        tags: [
-          "Infantry",
-          "Battleline",
-          "Great Devourer",
-          "Endless Multitude",
-        ],
+        tags: ["Infantry", "Battleline", "Great Devourer", "Endless Multitude"],
         t: 3,
         sv: 5,
         w: 1,
@@ -66507,6 +66719,31 @@ const data = {
               s: "7",
               ap: "-2",
               d: "2",
+              tags: ["precision"],
+              maxPerUnit: 1,
+            },
+          },
+        },
+      },
+      neurolictor: {
+        name: "Neurolictor",
+        tags: ["Infantry", "Great Devourer", "Vanguard Invader", "Neurolictor"],
+        t: 5,
+        sv: 4,
+        w: 7,
+        invSv: 4,
+        fnp: 0,
+        size: 1,
+        weapons: {
+          ranged: {},
+          melee: {
+            piercingClawsAndTalons: {
+              name: "Piercing Claws and Talons",
+              a: "6",
+              wbs: "2",
+              s: "6",
+              ap: "-2",
+              d: "1",
               tags: ["precision"],
               maxPerUnit: 1,
             },
@@ -67758,13 +67995,7 @@ const data = {
       },
       hierophant: {
         name: "Hierophant",
-        tags: [
-          "Monster",
-          "Titanic",
-          "Towering",
-          "Transport",
-          "Great Devourer",
-        ],
+        tags: ["Monster", "Titanic", "Towering", "Transport", "Great Devourer"],
         t: 14,
         sv: 2,
         w: 30,
@@ -67834,6 +68065,8 @@ const data = {
           "Chaos",
           "Khorne",
           "Daemon",
+          "Primarch",
+          "Angron"
         ],
         t: 11,
         sv: 2,
@@ -67876,6 +68109,7 @@ const data = {
           "Grenades",
           "Chaos",
           "Khorne",
+          "Khârn The Betrayer"
         ],
         t: 4,
         sv: 3,
@@ -67919,6 +68153,7 @@ const data = {
           "Grenades",
           "Chaos",
           "Khorne",
+          "Lord Invocatus"
         ],
         t: 6,
         sv: 2,
@@ -68025,7 +68260,7 @@ const data = {
           "Chaos",
           "Khorne",
           "Daemon",
-          "Daemon Prince",
+          "Daemon Prince With Wings",
         ],
         t: 9,
         sv: 2,
@@ -68072,7 +68307,7 @@ const data = {
       },
       worldEatersLordOnJuggernaut: {
         name: "World Eaters Lord On Juggernaut",
-        tags: ["Mounted", "Character", "Grenades", "Chaos", "Khorne,"],
+        tags: ["Mounted", "Character", "Grenades", "Chaos", "Khorne", "World Eaters Lord On Juggernaut"],
         t: 6,
         sv: 2,
         w: 7,
@@ -68127,7 +68362,7 @@ const data = {
         },
       },
       worldEatersMasterOfExecutions: {
-        name: "World Eaters Master Of Executions",
+        name: "World Eaters Master of Executions",
         tags: [
           "Infantry",
           "Character",
@@ -68309,7 +68544,7 @@ const data = {
       },
       worldEatersTerminatorSquad: {
         name: "World Eaters Terminator Squad",
-        tags: ["Infantry", "Chaos", "Khorne", "Daemon", "Eightbound"],
+        tags: ["Infantry", "Chaos", "Khorne", "Terminator", "Terminator Squad"],
         t: 5,
         sv: 2,
         w: 3,
@@ -69148,6 +69383,7 @@ const data = {
           "Smoke",
           "Chaos",
           "Khorne",
+          "Rhino"
         ],
         t: 9,
         sv: 3,
@@ -69229,7 +69465,7 @@ const data = {
       },
       khorneLordOfSkulls: {
         name: "Khorne Lord Of Skulls",
-        tags: ["Vehicle", "Titanic", "Towering", "Chaos", "Khorne", "Daemon,"],
+        tags: ["Vehicle", "Titanic", "Towering", "Chaos", "Khorne", "Daemon", "Khorne Lord Of Skulls"],
         t: 13,
         sv: 3,
         w: 24,
@@ -69506,7 +69742,14 @@ const data = {
       },
       warbringerNemesisTitan: {
         name: "Warbringer Nemesis Titan",
-        tags: ["Vehicle", "Walker", "Titanic", "Towering", "Imperium,"],
+        tags: [
+          "Vehicle",
+          "Walker",
+          "Titanic",
+          "Towering",
+          "Imperium",
+          "Warbringer Nemesis Titan",
+        ],
         t: 14,
         sv: 2,
         w: 80,
