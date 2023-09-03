@@ -178,7 +178,7 @@ function simulateAttackSequence() {
         return;
     }
 
-    let attackerTags = document.querySelector(`#attackerTags`).value.split(', ');
+    let attackerKeywords = document.querySelector(`#attackerTags`).value.split(', ');
 
     //defender variables, can all be grabbed now.
 
@@ -323,6 +323,9 @@ function simulateAttackSequence() {
     let orksWaaaghAttacker = document.getElementById("orksArmyRuleAttacker").checked;
     let orksWaaaghDefender = document.getElementById("orksArmyRuleDefender").checked;
     let orksGetStuckIn = document.getElementById("orksDetachmentGetStuckIn").checked;
+    let orksMekaniak = document.getElementById("orksUnitMekaniak").checked;
+    let orkStratagemCarnage = document.getElementById("orkStratagemCarnage").checked;
+    let orkStratagemArd = document.getElementById("orkStratagemArd").checked;
     let orksKillChoppa = document.getElementById("orksEnhancementKillchoppa").checked;
     let orksCybork = document.getElementById("orksEnhancementCybork").checked;
     let adeptusAstartesOath = document.getElementById("adeptusAstartesArmyRuleAttacker").checked;
@@ -1123,6 +1126,17 @@ function simulateAttackSequence() {
             weaponStats[chosenWeaponName].sustainedHitsCount = 1;
         }
 
+        if(orksMekaniak && attackerKeywords.includes('Vehicle')){
+            hitModifier += 1;
+        }
+
+        if(orkStratagemCarnage){
+            weaponStats[chosenWeaponName].criticalHit = 5;
+        }
+
+        if(orkStratagemArd && (!defenderKeywords.includes('Vehicle') && !defenderKeywords.includes('Gretchin'))){
+            woundModifier = woundModifier - 1;
+        }
 
         if(orksKillChoppa && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponName].extraAttacks){
             weaponStats[chosenWeaponName].devastatingWounds = true;
@@ -2278,7 +2292,7 @@ function simulateAttackSequence() {
         if(hazardous){
             for(let a=0,b=hazardousWeaponCount;a<b;a++){
                 if(rollDice6() === 1){
-                    if(attackerTags.includes('Character') || attackerTags.includes('Monster') || attackerTags.includes('Vehicle')){
+                    if(attackerKeywords.includes('Character') || attackerKeywords.includes('Monster') || attackerKeywords.includes('Vehicle')){
                         hazardousWounds += 3;
                     }else{
                         hazardousWounds += 1;
@@ -2420,7 +2434,7 @@ function simulateAttackSequence() {
 
     let hazardousString = '';
     if(hazardous){
-        if(attackerTags.includes('Character') || attackerTags.includes('Monster') || attackerTags.includes('Vehicle')){
+        if(attackerKeywords.includes('Character') || attackerKeywords.includes('Monster') || attackerKeywords.includes('Vehicle')){
             hazardousString = `<div class="simulation_hazardous">And does <span class="value">${hazardousAverage}</span> damage to itself on average</div>`;
         }else{
             hazardousString = `<div class="simulation_hazardous">And kills <span class="value">${hazardousAverage}</span> of its hazardous models on average</div>`;
@@ -2714,8 +2728,10 @@ function attackerUnitChange(){
     if(canHaveEnhancement){
         document.querySelector(`#attacker_enhancement-${selectedAttackerFaction}`).style.display = 'block';
     }
-    //stratagems
-    document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_container').forEach((element) => {
+    //generic stratagems
+    //hide all stratagems and untick all stratagem boxes
+    document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_sub_container').forEach((element) => {
+        element.style.display = 'none';
         element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
             el.style.display = 'none';
         });
@@ -2723,12 +2739,22 @@ function attackerUnitChange(){
             el.checked = false;
         });
     });
+
+    //reveal the faction stratagems
+    document.querySelector('.stratagemAttacker').querySelectorAll(`.faction_stratagem_sub_container-${selectedAttackerFaction}`).forEach((element) => {
+        element.style.display = 'block';
+        element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+            el.style.display = 'block';
+        });
+    })
+
+    //reveal relevant generic attacker stratagems
     if(selectedAttackerData.includes('Vehicle')){
-        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_sub_container-generic`).style.display = 'block';
         document.querySelector(`#genericStratagemTankShockCont`).style.display = 'block';
     };
     if(selectedAttackerData.includes('Grenades')){
-        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_container`).style.display = 'block';
+        document.querySelector('.stratagemAttacker').querySelector(`.faction_stratagem_sub_container-generic`).style.display = 'block';
         document.querySelector(`#genericStratagemGrenadeCont`).style.display = 'block';
     }
 }
@@ -2750,8 +2776,8 @@ function defenderUnitChange(){
     if(canHaveEnhancement){
         document.querySelector(`#defender_enhancement-${selectedDefenderFaction}`).style.display = 'block';
     }
-    //stratagems
-    document.querySelector('.stratagemDefender').querySelectorAll('.faction_stratagem_container').forEach((element) => {
+    //hide all stratagems and untick all stratagem boxes
+    document.querySelector('.stratagemDefender').querySelectorAll('.faction_stratagem_sub_container').forEach((element) => {
         element.style.display = 'none';
         element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
             el.style.display = 'none';
@@ -2760,6 +2786,15 @@ function defenderUnitChange(){
             el.checked = false;
         });
     });
+
+    //reveal the faction stratagems
+    document.querySelector('.stratagemDefender').querySelectorAll(`.faction_stratagem_sub_container-${selectedDefenderFaction}`).forEach((element) => {
+        element.style.display = 'block';
+        element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+            el.style.display = 'block';
+        });
+    })
+
     if(selectedDefenderData.includes('Infantry')){
         document.querySelector('.stratagemDefender').querySelector(`.faction_stratagem_container`).style.display = 'block';
         document.querySelector(`#genericStratagemGroundCont`).style.display = 'block';
@@ -2997,8 +3032,24 @@ document.querySelectorAll('.faction_modifier_container').forEach((element, index
 })
 
 //hide all stratagems
-document.querySelectorAll('.faction_stratagem_container').forEach((element) => {
+document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_sub_container').forEach((element) => {
     element.style.display = 'none';
+    element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+        el.style.display = 'none';
+    });
+    element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+        el.checked = false;
+    });
+});
+
+document.querySelector('.stratagemDefender').querySelectorAll('.faction_stratagem_sub_container').forEach((element) => {
+    element.style.display = 'none';
+    element.querySelectorAll('.faction_stratagem_container_element').forEach((el) => {
+        el.style.display = 'none';
+    });
+    element.querySelectorAll('input[type=checkbox]').forEach((el) => {
+        el.checked = false;
+    });
 });
 
 //hide all faction enhancement containers
