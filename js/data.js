@@ -68156,7 +68156,7 @@ const data = {
         t: 11,
         sv: 2,
         w: 16,
-        invSv: ,
+        invSv: 0,
         fnp: 0,
         size: 1,
         weapons: {
