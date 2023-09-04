@@ -56,7 +56,7 @@
                 <div class="scenario_modifier" id="halfRange"><input type="checkbox" id="halfRangeInput" /> Within Half Range?</div>
                 <div class="scenario_modifier" id="charged"><input type="checkbox" id="chargedInput" /> Attacker charged?</div>
                 <div class="scenario_modifier" id="los"><input type="checkbox" id="losInput" /> Has Line of Sight?</div>
-                <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker has moved?</div>
+                <div class="scenario_modifier" id="moved"><input type="checkbox" id="movedInput" /> Attacker hasn't moved?</div>
             </div>
             <div class="scenarioDefender defender">
                 <div class="title">Defender</div>
@@ -71,14 +71,41 @@
             <!-- <div class="toggle" id="stratagemToggle"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16.0686 9H7.9313C7.32548 9 7.02257 9 6.88231 9.1198C6.76061 9.22374 6.69602 9.37967 6.70858 9.53923C6.72305 9.72312 6.93724 9.93731 7.36561 10.3657L11.4342 14.4343C11.6322 14.6323 11.7313 14.7313 11.8454 14.7684C11.9458 14.8011 12.054 14.8011 12.1544 14.7684C12.2686 14.7313 12.3676 14.6323 12.5656 14.4343L16.6342 10.3657C17.0626 9.93731 17.2768 9.72312 17.2913 9.53923C17.3038 9.37967 17.2392 9.22374 17.1175 9.1198C16.9773 9 16.6744 9 16.0686 9Z" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></div> -->
             <div class="stratagemAttacker attacker">
                 <div class="faction_stratagem_container">
+                    <!-- <div class="faction_stratagem_sub_container faction_stratagem_sub_container-">
+                        <div class="title bold"></div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="Stratagem" /></div>
+                    </div> -->
                     <div class="faction_stratagem_sub_container faction_stratagem_sub_container-generic">
                         <div class="title bold">Generic</div>
                         <div class="faction_stratagem_container_element" id="genericStratagemTankShockCont"><input type="checkbox" id="genericStratagemTankShock" /> Tank Shock (will automatically pick the highest strength weapon that you are using in the attack)</div>
                         <div class="faction_stratagem_container_element" id="genericStratagemGrenadeCont"><input type="checkbox" id="genericStratagemGrenade" /> Grenade</div>
                     </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptaSororitas">
+                        <div class="title bold">Adepta Sororitas</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="sororitasStratagemLightAttacker" /> Light of the Emperor</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="sororitasStratagemRage" /> Holy Rage</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptusCustodes">
+                        <div class="title bold">Adeptus Custodes</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="custodesStratagemNightmares" /> Slayers of Nightmares</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="custodesStratagemFallen" /> Avenge the Fallen</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptusMechanicus">
+                        <div class="title bold">Adeptus Mechanicus</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="mechanicusStratagemDosage" /> Lethal Dosage</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-aeldari">
+                        <div class="title bold">Aeldari</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="aeldariStratagemBladestorm" /> Bladestorm</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-astraMilitarum">
+                        <div class="title bold">Astra Militarum</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="astraMilitarumStratagemFields" /> Fields of Fire (the defending unit has already been hit by Fields of Fire)</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="astraMilitarumStratagemBombadiers" /> Expert Bombadiers (the defending unit is the target of this stratagem)</div>
+                    </div>
                     <div class="faction_stratagem_sub_container faction_stratagem_sub_container-orks">
                         <div class="title bold">Orks</div>
-                        <div class="faction_stratagem_container_element" id="orkStratagemCarnageCont"><input type="checkbox" id="orkStratagemCarnage" /> Unbridled Carnage</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="orkStratagemCarnage" /> Unbridled Carnage</div>
                     </div>
                 </div>
             </div>
@@ -89,9 +116,30 @@
                         <div class="faction_stratagem_container_element" id="genericStratagemGroundCont"><input type="checkbox" id="genericStratagemGround" /> Go to Ground</div>
                         <div class="faction_stratagem_container_element" id="genericStratagemSmokeCont"><input type="checkbox" id="genericStratagemSmoke" /> Smokescreen</div>
                     </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptaSororitas">
+                        <div class="title bold">Adepta Sororitas</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="sororitasStratagemLightDefender" /> Light of the Emperor</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptusCustodes">
+                        <div class="title bold">Adeptus Custodes</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="custodesStratagemAlchemy" /> Arcane Genetic Alchemy</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-adeptusMechanicus">
+                        <div class="title bold">Adeptus Mechanicus</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="mechanicusStratagemHalo" /> Baleful Halo</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="mechanicusStratagemBulwark" /> Bulwark Imperative</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-aeldari">
+                        <div class="title bold">Aeldari</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="aeldariStratagemReactions" /> Lightning-Fast Reactions</div>
+                    </div>
+                    <div class="faction_stratagem_sub_container faction_stratagem_sub_container-astraMilitarum">
+                        <div class="title bold">Astra Militarum</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="astraMilitarumStratagemArmoured" /> Armoured Might</div>
+                    </div>
                     <div class="faction_stratagem_sub_container faction_stratagem_sub_container-orks">
                         <div class="title bold">Orks</div>
-                        <div class="faction_stratagem_container_element" id="orkStratagemArdCont"><input type="checkbox" id="orkStratagemArd" /> 'Ard as Nails</div>
+                        <div class="faction_stratagem_container_element"><input type="checkbox" id="orkStratagemArd" /> 'Ard as Nails</div>
                     </div>
                 </div>
             </div>

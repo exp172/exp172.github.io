@@ -154,6 +154,9 @@ function addToString(rollDice, string, numberToAdd){
         }
     }else{
         string += numberToAdd;
+        if(string < 1){
+            string = 1;
+        }
     }
     // console.log(`string: ${string}`);
     return string;
@@ -210,8 +213,11 @@ function simulateAttackSequence() {
     let halveDamage = false;
 
     let hazardous = false;
+    let hitModifierArr = [];
     let hitModifier = 0;
+    let woundModifierArr = [];
     let woundModifier = 0;
+    let saveModifierArr = [];
     let saveModifier = 0;
 
     let defenderKeywordsArray = defenderKeywords.split(', ');
@@ -242,16 +248,27 @@ function simulateAttackSequence() {
     let sororitasBoM = document.getElementById("adeptaSororitasDetachmentBoM").checked;
     let sororitasBlade = document.getElementById("adeptaSororitasEnhancementBlade").checked;
     let sororitasMantle = document.getElementById("adeptaSororitasEnhancementMantle").checked;
+    let sororitasStratagemLightAttacker = document.getElementById("sororitasStratagemLightAttacker").checked;
+    let sororitasStratagemRage = document.getElementById("sororitasStratagemRage").checked;
+    let sororitasStratagemLightDefender = document.getElementById("sororitasStratagemLightDefender").checked;
     let custodesDacatari = document.getElementById("custodesArmyRuleDacatari").checked;
     let custodesRendax = document.getElementById("custodesArmyRuleRendax").checked;
     let custodesKaptaris = document.getElementById("custodesArmyRuleKaptaris").checked;
     let custodesAegis = document.getElementById("custodesDetachmentRuleAegis").checked;
+    let custodesStratagemNightmares = document.getElementById("custodesStratagemNightmares").checked;
+    let custodesStratagemFallen = document.getElementById("custodesStratagemFallen").checked;
+    let custodesStratagemAlchemy = document.getElementById("custodesStratagemAlchemy").checked;
     let custodesBlade = document.getElementById("custodesEnhancementBlade").checked;
     let mechanicusAttackerProtector = mechanicusAttackerProtectorEl.checked;
     let mechanicusConqueror = document.getElementById("mechanicusArmyRuleConqueror").checked;
     let mechanicusDefenderProtector = document.getElementById("mechanicusArmyRuleDefenderProtector").checked;
+    let mechanicusStratagemDosage = document.getElementById("mechanicusStratagemDosage").checked;
+    let mechanicusStratagemHalo = document.getElementById("mechanicusStratagemHalo").checked;
+    let mechanicusStratagemBulwark = document.getElementById("mechanicusStratagemBulwark").checked;
     let mechanicusOmni = document.getElementById("adeptusMechanicusEnhancementOmni").checked;
     let aeldariUnparalleledForesight = document.getElementById("aeldariDetachmentUF").checked;
+    let aeldariStratagemBladestorm = document.getElementById("aeldariStratagemBladestorm").checked;
+    let aeldariStratagemReactions = document.getElementById("aeldariStratagemReactions").checked;
     let aeldariAttackerMessenger = document.getElementById("aeldariEnhancementAttackerMessenger").checked;
     let aeldariDefenderMessenger = document.getElementById("aeldariEnhancementDefenderMessenger").checked;
     let militarumBayonets = document.getElementById("astraMilitarumArmyRuleAttackerBayonets").checked;
@@ -259,6 +276,9 @@ function simulateAttackSequence() {
     let militarumFire = document.getElementById("astraMilitarumArmyRuleAttackerFire").checked;
     let militarumBornSoldiers = document.getElementById("astraMilitarumDetachmentBornSoldiers").checked;
     let militarumCover = document.getElementById("astraMilitarumArmyRuleAttackerCover").checked;
+    let militarumStratagemFields = document.getElementById("astraMilitarumStratagemFields").checked;
+    let militarumStratagemBombadiers = document.getElementById("astraMilitarumStratagemBombadiers").checked;
+    let militarumStratagemArmoured = document.getElementById("astraMilitarumStratagemArmoured").checked;
     let templarsUnclean = document.getElementById("blackTemplarsDetachmentTemplarVowsUnclean").checked;
     let templarsHonour = document.getElementById("blackTemplarsDetachmentTemplarVowsHonour").checked;
     let templarsWitchAttacker = document.getElementById("blackTemplarsDetachmentTemplarVowsWitchAttacker").checked;
@@ -370,7 +390,7 @@ function simulateAttackSequence() {
     let halfRange = halfRangeInput.checked;
     let rollRapidFire = false;
     let los = losInput.checked;
-    let moved = movedInput.checked;
+    let moved = !movedInput.checked;
     let generalFnp = parseInt(document.querySelector(`#fnp-${selectedDefenderUnit}`).value);
 
     let overAllResults = {
@@ -428,8 +448,14 @@ function simulateAttackSequence() {
         let chosenWeaponName = weaponEl.getAttribute('data-weapon');
         weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
 
+        let ignoreAttackerRollModifiers = false;
+        let ignoreDefenderRollModifiers = false;
+
+        hitModifierArr = [];
         hitModifier = 0;
+        woundModifierArr = [];
         woundModifier = 0;
+        saveModifierArr = [];
         saveModifier = 0;
 
         weaponStats[chosenWeaponName] = {
@@ -464,6 +490,7 @@ function simulateAttackSequence() {
             fnp: parseInt(document.querySelector(`#fnp-${selectedDefenderUnit}`).value),
             criticalHit: parseInt(document.querySelector('#criticalHit').value),
             criticalWound: parseInt(document.querySelector('#criticalWound').value),
+            criticalWoundAp: 0,
             worldEatersGlaiveCharged: false
         };
 
@@ -613,12 +640,21 @@ function simulateAttackSequence() {
         // console.log(`attackerBelowStartingStrength: ${attackerBelowStartingStrength}`)
 
         if(sororitasBoM && attackerBelowHalfStrength){
-            hitModifier += 1;
-            woundModifier += 1;
+            hitModifierArr.push(1);
+            woundModifierArr.push(1);
         }else if(sororitasBoM && attackerBelowStartingStrength){
-            hitModifier += 1;
+            hitModifierArr.push(1);
         }
 
+        if(sororitasStratagemLightAttacker && attackerBelowStartingStrength){
+            ignoreAttackerRollModifiers = true;
+        }
+        if(sororitasStratagemRage && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+            woundModifierArr.push(1);
+        }
+        if(sororitasStratagemLightDefender && defenderBelowStartingStrength){
+            ignoreDefenderRollModifiers = true;
+        }
 
         if(sororitasBlade && attackerBelowStartingStrength && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
             if(!weaponStats[chosenWeaponName].extraAttacks){
@@ -645,7 +681,22 @@ function simulateAttackSequence() {
         }
 
         if(custodesKaptaris && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            hitModifier = hitModifier - 1;
+            hitModifierArr.push(-1);
+        }
+
+
+        if(custodesStratagemNightmares && ( defenderKeywordsArray.includes('Vehicle') || defenderKeywordsArray.includes('Monster') && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' )){
+            woundModifierArr.push(1);
+        }  
+        if(custodesStratagemFallen){
+            if(attackerBelowHalfStrength){
+                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+            }else if(attackerBelowStartingStrength){
+                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            }
+        }
+        if(custodesStratagemAlchemy && defenderKeywordsArray.includes('Infantry') && !defenderKeywordsArray.includes('Anathema Psykana')){
+            weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, -1);
         }
 
 
@@ -672,6 +723,19 @@ function simulateAttackSequence() {
             }
         }
 
+
+        if(mechanicusStratagemDosage && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && !defenderKeywordsArray.includes('Vehicle')){
+            woundModifierArr.push(1);
+        }
+        if(mechanicusStratagemHalo && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !attackerKeywords.includes('Vehicle')){
+            woundModifierArr.push(-1);
+        }
+        if(mechanicusStratagemBulwark && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Skitarii') && mechanicusDefenderProtector){
+            if((weaponStats[chosenWeaponName].invul > 4 || weaponStats[chosenWeaponName].fnp == 0)){
+                weaponStats[chosenWeaponName].invul = 4;
+            }
+        }
+
         
         if(mechanicusOmni && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
             if(!weaponStats[chosenWeaponName].extraAttacks){
@@ -693,6 +757,14 @@ function simulateAttackSequence() {
         if(aeldariUnparalleledForesight){
             rerollSingleHit = true;
             rerollSingleWound = true;
+        }
+
+        
+        if(aeldariStratagemBladestorm && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponName].criticalWoundAp = 2;
+        }
+        if(aeldariStratagemReactions && !defenderKeywordsArray.includes('Wraith Construct')){
+            hitModifierArr.push(-1);
         }
 
 
@@ -728,6 +800,16 @@ function simulateAttackSequence() {
 
         if(militarumCover && weaponStats[chosenWeaponName].save > 3){
             weaponStats[chosenWeaponName].save = weaponStats[chosenWeaponName].save - 1;
+        }
+
+        if(militarumStratagemFields && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && !attackerBattleshocked){
+            weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap + 1;
+        }
+        if(militarumStratagemBombadiers && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponName].indirectFire && !attackerBattleshocked){
+            hitModifierArr.push(1);
+        }
+        if(militarumStratagemArmoured && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Vehicle')){
+            weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, -1);
         }
 
         //black templars
@@ -871,11 +953,11 @@ function simulateAttackSequence() {
         //chaos knights
 
         if(chaosKnightsAttackerDoom && defenderBattleshocked){
-            woundModifier += 1;
+            woundModifierArr.push(1);
         }
 
         if(chaosKnightsDefenderDoom && attackerBattleshocked){
-            hitModifier = hitModifier - 1;
+            hitModifierArr.push(-1);
         }
 
 
@@ -945,10 +1027,10 @@ function simulateAttackSequence() {
 
         if(darkAngelsStubborn/* && leadingUnit*/){
             if(attackerBelowStartingStrength){
-                hitModifier += 1;
+                hitModifierArr.push(1);
             }
             if(attackerBattleshocked){
-                woundModifier += 1;
+                woundModifierArr.push(1);
             }
 
         }
@@ -1051,9 +1133,9 @@ function simulateAttackSequence() {
 
         if(greyKnightsDaemonica && defenderKeywordsArray.includes('Daemon') && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
             weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 1);
-            woundModifier += 1
+            woundModifierArr.push(1);
         }else if(greyKnightsDaemonica && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            woundModifier += 1
+            woundModifierArr.push(1);
         }
 
         //Imperial Knights
@@ -1082,16 +1164,16 @@ function simulateAttackSequence() {
         //League of Votan
 
         if(leagueAncestorsTwo){
-            hitModifier += 1;
-            woundModifier += 1;
+            hitModifierArr.push(1);
+            woundModifierArr.push(1);
         }else if(leagueAncestorsOne){
-            hitModifier += 1;
+            hitModifierArr.push(1);
         }
 
         //necrons
 
         if(necronsCommand){
-            hitModifier += 1;
+            hitModifierArr.push(1);
         }
         
 
@@ -1127,7 +1209,7 @@ function simulateAttackSequence() {
         }
 
         if(orksMekaniak && attackerKeywords.includes('Vehicle')){
-            hitModifier += 1;
+            hitModifierArr.push(1);
         }
 
         if(orkStratagemCarnage){
@@ -1135,7 +1217,7 @@ function simulateAttackSequence() {
         }
 
         if(orkStratagemArd && (!defenderKeywords.includes('Vehicle') && !defenderKeywords.includes('Gretchin'))){
-            woundModifier = woundModifier - 1;
+            woundModifierArr.push(-1);
         }
 
         if(orksKillChoppa && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponName].extraAttacks){
@@ -1250,9 +1332,9 @@ function simulateAttackSequence() {
 
 
         if(tauPatient){
-            hitModifier += 1;
+            hitModifierArr.push(1);
             if(tauKauyon){
-                woundModifier += 1;
+                woundModifierArr.push(1);
             }
         }
 
@@ -1385,7 +1467,7 @@ function simulateAttackSequence() {
         
         //modifiers
         if(stealth && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            hitModifier = hitModifier - 1;
+            hitModifierArr.push(-1);
         }
 
         //rapid fire
@@ -1411,7 +1493,7 @@ function simulateAttackSequence() {
 
         //lance
         if(weaponStats[chosenWeaponName].lance && charged){
-            woundModifier += 1;
+            woundModifierArr.push(1);
             // console.log(`lance: ${lance}`)
             // console.log(`charged: ${charged}`)
             // console.log(`woundModifier: ${woundModifier}`)
@@ -1419,13 +1501,13 @@ function simulateAttackSequence() {
 
         //indirect fire
         if(weaponStats[chosenWeaponName].indirectFire && !los){
-            hitModifier = hitModifier - 1;
+            hitModifierArr.push(-1);
             cover = true;
         }
 
         //heavy
         if(weaponStats[chosenWeaponName].heavy && !moved){
-            hitModifier += 1;
+            hitModifierArr.push(1);
         }
 
         // calculating needed wound roll
@@ -1463,8 +1545,42 @@ function simulateAttackSequence() {
         //cover
         //defender has the benefit of cover as long as the attack isnt ap 0 while they have a save of 3+ or better
         if(cover && (weaponStats[chosenWeaponName].save > 3 || weaponStats[chosenWeaponName].ap > 0) && !weaponStats[chosenWeaponName].ignoresCover && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            saveModifier += 1;
+            saveModifierArr.push(1);
         }
+
+
+        //sort out what the actual modifier amounts are
+        // console.log(`hitModifierArr: ${hitModifierArr}`);
+        hitModifierArr.forEach(val => {
+            let actualVal = val;
+            if(ignoreAttackerRollModifiers && actualVal < 0){
+                actualVal = 0;
+            }
+            hitModifier = hitModifier + actualVal;
+        });
+        // console.log(`hitModifier: ${hitModifier}`)
+
+        // console.log(`woundModifierArr: ${woundModifierArr}`);
+        woundModifierArr.forEach(val => {
+            let actualVal = val;
+            if(ignoreAttackerRollModifiers && actualVal < 0){
+                actualVal = 0;
+            }
+            woundModifier = woundModifier + actualVal;
+        });
+        // console.log(`woundModifier: ${woundModifier}`)
+
+        // console.log(`saveModifierArr: ${saveModifierArr}`);
+        saveModifierArr.forEach(val => {
+            let actualVal = val;
+            if(ignoreDefenderRollModifiers && actualVal < 0){
+                actualVal = 0;
+            }
+            saveModifier = saveModifier + actualVal;
+        });
+        // console.log(`saveModifier: ${saveModifier}`)
+
+
 
         //capping hit roll modifiers
         if(hitModifier > 1){
@@ -1475,6 +1591,8 @@ function simulateAttackSequence() {
 
         weaponStats[chosenWeaponName].hitModifier = hitModifier;
 
+        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
+
         //capping wound roll modifiers
         if(woundModifier > 1){
             woundModifier = 1;
@@ -1484,7 +1602,6 @@ function simulateAttackSequence() {
 
         weaponStats[chosenWeaponName].woundModifier = woundModifier;
 
-        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
         // console.log(`woundModifier: ${weaponStats[chosenWeaponName].woundModifier}`);
 
         //can never be more than 1;
@@ -1600,7 +1717,12 @@ function simulateAttackSequence() {
                 // console.log('rolling')
                 // console.log(`attackerCount: ${attackerCount}`)
                 for(let i=0,j=chosenWeaponStats.attackerCount;i<j;i++){
-                    attacks += calcDiceRollsInString(chosenWeaponStats.attackString);
+                    let tempAttackRoll = calcDiceRollsInString(chosenWeaponStats.attackString);
+                    if(tempAttackRoll < 1){
+                        attacks += 1;
+                    }else{
+                        attacks += tempAttackRoll;
+                    }
                     // console.log(`attacks: ${attacks}`)
                 }
             }else{
@@ -1826,6 +1948,8 @@ function simulateAttackSequence() {
             let criticalWoundDice = diceResults.filter((result) => result >= chosenWeaponStats.criticalWound);
             // console.log(`critical wound dice: ${criticalWoundDice.slice()} length:${criticalWoundDice.length}`);
 
+            let criticalWoundDiceAmount = criticalWoundDice.length;
+
             // console.log(`critical wound: ${chosenWeaponStats.criticalWound}`)
 
             //remove the criticals from the dice pool
@@ -1933,10 +2057,14 @@ function simulateAttackSequence() {
                 //turn the critical wounds into mortal wounds
                 if(chosenWeaponStats.rollDamage){
                     for(let a=0,b=criticalWoundDice.length;a<b;a++){
+                        let tempDiceRoll = calcDiceRollsInString(chosenWeaponStats.damageString);
+                        if(tempDiceRoll < 1){
+                            tempDiceRoll = 1;
+                        }
                         if(chosenWeaponStats.halveDamage){
-                            mortalWounds += (Math.ceil(calcDiceRollsInString(chosenWeaponStats.damageString) / 2));
+                            mortalWounds += (Math.ceil(tempDiceRoll));
                         }else{
-                            mortalWounds += calcDiceRollsInString(chosenWeaponStats.damageString);
+                            mortalWounds += tempDiceRoll;
                         }
                     };
                 }else{
@@ -1955,8 +2083,8 @@ function simulateAttackSequence() {
             //remove any that failed to wound
             diceResults = diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) >= chosenWeaponStats.wound);
 
-            //add the critical back in unless devastating wounds
-            if(!chosenWeaponStats.devastatingWounds){
+            //add the criticals back in unless devastating wounds or critical ap stuff
+            if(!chosenWeaponStats.devastatingWounds && weaponStats[chosenWeaponName].criticalWoundAp == 0){
                 diceResults = diceResults.concat(criticalWoundDice);
             }
 
@@ -1972,11 +2100,17 @@ function simulateAttackSequence() {
             // console.log(`succesfull wounds: ${diceResults}`);
 
             //roll to save
-            rollDiceArray(diceResults)
+            rollDiceArray(diceResults);
+
+            //rolling save for the extra ap crit wound dice
+            if(weaponStats[chosenWeaponName].criticalWoundAp > 0){
+                rollDiceArray(criticalWoundDice);
+            }
 
             // console.log(`save rolls: ${diceResults}`);
             // console.log(`target save: ${chosenWeaponStats.save}`);
 
+            /* THERE IS A MINOR INACURACY WITH AELDARI STRATAGEM THAT ADDS AP ON CRITICAL WOUNDS AS THIS ISNT INCLUDED IN REROLLING AT THE MOMENT */
             if(rerollAllSaves){
                 //reroll all fails
 
@@ -2027,6 +2161,8 @@ function simulateAttackSequence() {
 
             }
 
+            weaponStats[chosenWeaponName].criticalWoundAp > 0
+
 
             // console.log(`after reroll saves: ${diceResults}`);
 
@@ -2035,7 +2171,19 @@ function simulateAttackSequence() {
             //remove any that were saved
             diceResults = diceResults.filter((result) => result < chosenWeaponStats.save);
 
-            // console.log(`failed saves: ${diceResults}`);
+            //
+            if(weaponStats[chosenWeaponName].criticalWoundAp > 0){
+
+                let tempRecalcedSave = chosenWeaponStats.save + weaponStats[chosenWeaponName].criticalWoundAp;
+
+                if(chosenWeaponStats.invul != 0 && (chosenWeaponStats.save + weaponStats[chosenWeaponName].criticalWoundAp > chosenWeaponStats.invul)){
+                    tempRecalcedSave = chosenWeaponStats.invul;
+                }
+                
+                criticalWoundDice = criticalWoundDice.filter((result) => result < (tempRecalcedSave));
+
+                diceResults = diceResults.concat(criticalWoundDice);
+            }
 
             //calculate number of wounds
             let numberOfWounds = 0;
@@ -2043,10 +2191,14 @@ function simulateAttackSequence() {
             for(let a=0,b=diceResults.length;a<b;a++){
                 let calcedDamage = 0;
                 if(chosenWeaponStats.rollDamage){
+                    let tempDiceRoll = calcDiceRollsInString(chosenWeaponStats.damageString);
+                    if(tempDiceRoll < 1){
+                        tempDiceRoll = 1;
+                    }
                     if(chosenWeaponStats.halveDamage){
-                        calcedDamage = (Math.ceil(calcDiceRollsInString(chosenWeaponStats.damageString) / 2));
+                        calcedDamage = (Math.ceil(tempDiceRoll));
                     }else{
-                        calcedDamage = calcDiceRollsInString(chosenWeaponStats.damageString);
+                        calcedDamage = tempDiceRoll;
                     }
                 }else{
                     calcedDamage = chosenWeaponStats.damageString;
@@ -2672,8 +2824,15 @@ function showSetUpFactionAbilities(){
             document.querySelector(`#attackerBelowStartingStrength`).style.display = 'block'
             document.querySelector(`#attackerBelowHalfStrength`).style.display = 'block'
             break;
+        case 'adeptusCustodes':
+            document.querySelector(`#attackerBelowStartingStrength`).style.display = 'block'
+            document.querySelector(`#attackerBelowHalfStrength`).style.display = 'block'
+            break;
         case 'aeldari':
             document.querySelector(`#aeldariDetachmentUF`).checked = true;
+            break;
+        case 'astraMilitarum':
+            document.querySelector(`#attackerBattleshocked`).style.display = 'block';
             break;
         case 'chaosKnights':
             document.querySelector(`#attackerBattleshocked`).style.display = 'block';
