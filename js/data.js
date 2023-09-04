@@ -44113,7 +44113,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 1,
+              maxPerUnit: 4,
             },
             kannonFrag: {
               name: "Kannon – Frag",
@@ -44222,7 +44222,7 @@ const data = {
         t: 5,
         sv: 5,
         w: 1,
-        extraUnit: { name: "Beast Snagga Nob", t: 5, sv: 5, w: 2 },
+        extraUnit: { name: "Beast Snagga Nob", t: 5, sv: 5, w: 2, inv: 0, fnp: 6, size: 1},
         invSv: 0,
         fnp: 6,
         size: 10,
@@ -44292,6 +44292,10 @@ const data = {
         invSv: 5,
         fnp: 6,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'beastSnaggaBoyz'
+        ],
         weapons: {
           ranged: {
             shoota: {
@@ -44404,6 +44408,10 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'meganobz'
+        ],
         weapons: {
           ranged: {
             kombiweapon: {
@@ -44485,6 +44493,14 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'burnaBoyz',
+          'tankbustas',
+          'lootas',
+          'nobz'
+        ],
         weapons: {
           ranged: {
             slugga: {
@@ -44526,6 +44542,12 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'lootas',
+          'mekGunz'
+        ],
         weapons: {
           ranged: {
             shokkAttackGun: {
@@ -44715,6 +44737,10 @@ const data = {
         invSv: 5,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'kommandos'
+        ],
         weapons: {
           ranged: {
             slugga: {
@@ -44758,6 +44784,10 @@ const data = {
         invSv: 5,
         fnp: 6,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'stormboyz'
+        ],
         weapons: {
           ranged: {
             slugga: {
@@ -44805,7 +44835,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             kombiweapon: {
               name: "Kombi-weapon",
@@ -44815,7 +44845,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["anti-Infantry-4", "devastatingWounds", "rapidFire-1"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             rokkitLauncha: {
               name: "Rokkit Launcha",
@@ -44825,7 +44855,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["blast"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             shoota: {
               name: "Shoota",
@@ -44857,7 +44887,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             choppa: {
               name: "Choppa",
@@ -44867,7 +44897,7 @@ const data = {
               ap: "-1",
               d: "1",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 9,
             },
             closeCombatWeapon: {
               name: "Close Combat Weapon",
@@ -44877,7 +44907,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 2,
             },
             powerKlaw: {
               name: "Power Klaw",
@@ -44887,7 +44917,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
           },
         },
@@ -44911,7 +44941,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             burna: {
               name: "Burna",
@@ -44921,7 +44951,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["ignoresCover", "torrent"],
-              maxPerUnit: 5,
+              maxPerUnit: 4,
             },
             kustomMegablasta: {
               name: "Kustom Mega-blasta",
@@ -44931,7 +44961,7 @@ const data = {
               ap: "-2",
               d: "D6",
               tags: ["hazardous"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             rokkitLauncha: {
               name: "Rokkit Launcha",
@@ -44941,7 +44971,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["blast"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -44953,7 +44983,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             cuttinFlames: {
               name: "Cuttin’ Flames",
@@ -44963,7 +44993,7 @@ const data = {
               ap: "-2",
               d: "1",
               tags: [],
-              maxPerUnit: 5,
+              maxPerUnit: 4,
             },
           },
         },
@@ -45145,6 +45175,10 @@ const data = {
         invSv: 5,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'warbikers'
+        ],
         weapons: {
           ranged: {
             deffkillaBoomstikks: {
@@ -45221,7 +45255,7 @@ const data = {
               ap: "-2",
               d: "D6",
               tags: ["hazardous"],
-              maxPerUnit: 3,
+              maxPerUnit: 1,
             },
             slugga: {
               name: "Slugga",
@@ -45293,6 +45327,10 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'meganobz'
+        ],
         weapons: {
           ranged: {
             morksRoar: {
@@ -45433,7 +45471,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["pistol"],
-              maxPerUnit: 11,
+              maxPerUnit: 10,
             },
             slugga: {
               name: "Slugga",
@@ -45443,7 +45481,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["pistol"],
-              maxPerUnit: 11,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -45455,7 +45493,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 11,
+              maxPerUnit: 10,
             },
             grotsmacka: {
               name: "Grot-smacka",
@@ -45465,7 +45503,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 11,
+              maxPerUnit: 1,
             },
           },
         },
@@ -45545,6 +45583,10 @@ const data = {
         invSv: 4,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'flashGitz'
+        ],
         weapons: {
           ranged: {
             daRippaStandard: {
@@ -45754,7 +45796,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["ignoresCover", "torrent"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             speshulKommandoShoota: {
               name: "Speshul Kommando Shoota",
@@ -45764,7 +45806,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 10,
+              maxPerUnit: 2,
             },
             rokkitLauncha: {
               name: "Rokkit Launcha",
@@ -45774,7 +45816,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["blast"],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             slugga: {
               name: "Slugga",
@@ -45796,7 +45838,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             breachaRam: {
               name: "Breacha Ram",
@@ -45806,7 +45848,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
             choppa: {
               name: "Choppa",
@@ -45826,7 +45868,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 4,
             },
             powerKlaw: {
               name: "Power Klaw",
@@ -45836,7 +45878,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: [],
-              maxPerUnit: 10,
+              maxPerUnit: 1,
             },
           },
         },
@@ -45916,7 +45958,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: ["rapidFire-2"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             deffgun: {
               name: "Deffgun",
@@ -45926,7 +45968,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: ["heavy", "rapidFire-1"],
-              maxPerUnit: 5,
+              maxPerUnit: 4,
             },
             kustomMegablasta: {
               name: "Kustom Mega-blasta",
@@ -45936,7 +45978,7 @@ const data = {
               ap: "-2",
               d: "D6",
               tags: ["hazardous"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             rokkitLauncha: {
               name: "Rokkit Launcha",
@@ -45946,7 +45988,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["blast"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
           },
           melee: {
@@ -45978,6 +46020,14 @@ const data = {
         invSv: 5,
         fnp: 5,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'burnaBoyz',
+          'tankbustas',
+          'lootas',
+          'nobz'
+        ],
         weapons: {
           ranged: {
             slugga: {
@@ -46146,6 +46196,14 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'lootas',
+          'mekGunz',
+          'nobz',
+          'tankbustas'
+        ],
         weapons: {
           ranged: {
             kustomMegaslugga: {
@@ -46413,6 +46471,10 @@ const data = {
         invSv: 0,
         fnp: 5,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'squighogBoyz'
+        ],
         weapons: {
           ranged: {
             slugga: {
@@ -46450,7 +46512,7 @@ const data = {
           },
         },
       },
-      "nobWithWaaagh!Banner": {
+      nobWithWaaaghBanner: {
         name: "Nob With Waaagh! Banner",
         tags: ["Infantry", "Character", "Nob with Waaagh! Banner"],
         t: 5,
@@ -46459,6 +46521,11 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'nobz'
+        ],
         weapons: {
           ranged: {
             kustomShoota: {
@@ -46561,6 +46628,10 @@ const data = {
         invSv: 0,
         fnp: 5,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'beastSnaggaBoyz'
+        ],
         weapons: {
           ranged: {},
           melee: {
@@ -46586,6 +46657,14 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'nobz',
+          'lootas',
+          'burnaBoyz',
+          'tankbustas'
+        ],
         weapons: {
           ranged: {},
           melee: {
@@ -46905,7 +46984,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: [],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
           },
         },
@@ -46930,7 +47009,7 @@ const data = {
               ap: "-1",
               d: "D3",
               tags: ["pistol", "twinLinked"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
             rokkitLauncha: {
               name: "Rokkit Launcha",
@@ -46940,7 +47019,7 @@ const data = {
               ap: "-2",
               d: "3",
               tags: ["blast"],
-              maxPerUnit: 5,
+              maxPerUnit: 3,
             },
           },
           melee: {
@@ -46952,7 +47031,7 @@ const data = {
               ap: "0",
               d: "1",
               tags: [],
-              maxPerUnit: 5,
+              maxPerUnit: 4,
             },
             tankhammer: {
               name: "Tankhammer",
@@ -46962,7 +47041,7 @@ const data = {
               ap: "-1",
               d: "D3",
               tags: ["anti-Vehicle-4", "devastatingWounds", "hazardous"],
-              maxPerUnit: 5,
+              maxPerUnit: 1,
             },
           },
         },
@@ -47055,7 +47134,7 @@ const data = {
               ap: "-1",
               d: "2",
               tags: [],
-              maxPerUnit: 3,
+              maxPerUnit: 1,
             },
             choppa: {
               name: "Choppa",
@@ -47085,7 +47164,7 @@ const data = {
               ap: "-2",
               d: "2",
               tags: [],
-              maxPerUnit: 3,
+              maxPerUnit: 1,
             },
           },
         },
@@ -47099,6 +47178,11 @@ const data = {
         invSv: 5,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz',
+          'nobz'
+        ],
         weapons: {
           ranged: {
             kombiweapon: {
@@ -47170,6 +47254,10 @@ const data = {
         invSv: 5,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'meganobz'
+        ],
         weapons: {
           ranged: {
             bigShoota: {
@@ -47272,6 +47360,10 @@ const data = {
         invSv: 0,
         fnp: 0,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'boyz'
+        ],
         weapons: {
           ranged: {
             Eadbanger: {
@@ -47308,6 +47400,10 @@ const data = {
         invSv: 0,
         fnp: 6,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'wurrboy'
+        ],
         weapons: {
           ranged: {
             eyezOfMork: {
@@ -47344,6 +47440,10 @@ const data = {
         invSv: 0,
         fnp: 6,
         size: 1,
+        leader: true,
+        leaderUnits: [
+          'gretchin'
+        ],
         weapons: {
           ranged: {
             slugga: {
