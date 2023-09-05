@@ -66,8 +66,13 @@ select{
         }
 
         .weapon_type_label{
-            padding-bottom: 10px;
-            margin-top:20px;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            padding-left: 23px;
+            margin-top: 20px;
+            font-family: 'PT Sans Narrow', sans-serif;
+            font-size: 22px;
+            border-bottom: 1px solid #444444;
         }
 
             .weapon{
@@ -75,10 +80,11 @@ select{
                 border: 1px solid #444444;
                 position:relative;
                 margin-left:23px;
+                font-family: 'PT Sans Narrow', sans-serif;
             }
 
                 .weapon input[type='text']{
-                    background-color: rgba(255, 255, 255, 0.9);
+                    background-color: rgba(255, 255, 255, 0.5);
                     border: 1px solid #444444;
                 }
 
@@ -103,6 +109,9 @@ select{
 
                     .weapon_label{
                         margin-bottom:5px;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        font-size:18px;
                     }
 
                     .weapon_attribute{
@@ -120,8 +129,13 @@ select{
                     }
 
                     .attacker_tags_label{
-                        padding-bottom: 10px;
+                        padding-bottom: 5px;
+                        margin-bottom: 10px;
+                        padding-left: 23px;
                         margin-top: 20px;
+                        font-family: 'PT Sans Narrow', sans-serif;
+                        font-size: 22px;
+                        border-bottom: 1px solid #444444;
                         font-weight:bold;
                     }
 
@@ -136,17 +150,23 @@ select{
         .defender_centered{
             width:100%;
             max-width:360px;
-            margin:48px auto 0 auto;
+            margin:64px auto 0 auto;
         }
 
             .defender_stats{
                 padding: 15px 10px 10px 10px;
                 border: 1px solid #444444;
                 position:relative;
+                font-family: 'PT Sans Narrow', sans-serif;
             }
 
             .defender_stats input[type='text']{
-                background-color: rgba(255, 255, 255, 0.9);
+                background-color: rgba(255, 255, 255, 0.5);
+                border: 1px solid #444444;
+            }
+
+            .defender_stats textarea{
+                background-color: rgba(255, 255, 255, 0.5);
                 border: 1px solid #444444;
             }
 
@@ -171,6 +191,9 @@ select{
 
                     .defender_label{
                         margin-bottom:5px;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                        font-size:18px;
                     }
 
                     .defender_attribute{
