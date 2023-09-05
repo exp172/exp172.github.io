@@ -1,6 +1,7 @@
 const modifiersEl = document.querySelector('#modifiers');
 
 const weaponContainer = document.querySelector('#weaponContainer');
+const extraWeaponContainer = document.querySelector('#weaponContainerExtra');
 
 const inputWeaponName = document.querySelector('#weaponName');
 const inputAttackerCount = document.querySelector('#attackerCount')
@@ -443,10 +444,16 @@ function simulateAttackSequence() {
     }
 
     weaponSelectEls.forEach( weaponEl => {
+
+        //weapon${weapon}-ranged-main
+
         let chosenWeaponFaction = weaponEl.getAttribute('data-faction');
         let chosenWeaponUnit = weaponEl.getAttribute('data-unit');
         let chosenWeaponName = weaponEl.getAttribute('data-weapon');
+        let chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
         weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+
+        let chosenWeaponParentElement = document.querySelector(`#weapon${chosenWeaponName}-${weaponMeleeRanged}-${weaponEl.getAttribute('data-weapon-extra')}`);
 
         let ignoreAttackerRollModifiers = false;
         let ignoreDefenderRollModifiers = false;
@@ -458,8 +465,10 @@ function simulateAttackSequence() {
         saveModifierArr = [];
         saveModifier = 0;
 
-        weaponStats[chosenWeaponName] = {
+        weaponStats[chosenWeaponNameDif] = {
             name: data[chosenWeaponFaction].units[chosenWeaponUnit].weapons[weaponMeleeRanged][chosenWeaponName].name,
+            unitName: data[chosenWeaponFaction].units[chosenWeaponUnit].name,
+            charactersWeapon: (weaponEl.getAttribute('data-weapon-extra') == 'main'),
             weaponMeleeRanged: weaponMeleeRanged,
             assault: false,
             rapidFire: false,
@@ -494,23 +503,26 @@ function simulateAttackSequence() {
             worldEatersGlaiveCharged: false
         };
 
-        // console.log(`initial save: ${weaponStats[chosenWeaponName].save}`);
+        // console.log('WeaponStats Prelim:');
+        // console.log(JSON.parse(JSON.stringify(weaponStats[chosenWeaponNameDif])))
+
+        // console.log(`initial save: ${weaponStats[chosenWeaponNameDif].save}`);
 
         //toughness
         
-        if(isNaN(weaponStats[chosenWeaponName].criticalHit)){
-            weaponStats[chosenWeaponName].criticalHit = 6;
+        if(isNaN(weaponStats[chosenWeaponNameDif].criticalHit)){
+            weaponStats[chosenWeaponNameDif].criticalHit = 6;
         }
         
-        if(isNaN(weaponStats[chosenWeaponName].criticalWound)){
-            weaponStats[chosenWeaponName].criticalWound = 6;
+        if(isNaN(weaponStats[chosenWeaponNameDif].criticalWound)){
+            weaponStats[chosenWeaponNameDif].criticalWound = 6;
         }
 
-        let weaponTags = document.querySelector(`#weaponTags${chosenWeaponName}-${weaponMeleeRanged}`).value.split(', ');
+        let weaponTags = chosenWeaponParentElement.querySelector(`#weaponTags${chosenWeaponName}-${weaponMeleeRanged}`).value.split(', ');
 
-        weaponOverallResultsObj[chosenWeaponName] = [];
-        weaponOverallDeadDefenderResultsObj[chosenWeaponName] = [];
-        weaponOverallDefenderWipedObj[chosenWeaponName] = [];
+        weaponOverallResultsObj[chosenWeaponNameDif] = [];
+        weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif] = [];
+        weaponOverallDefenderWipedObj[chosenWeaponNameDif] = [];
 
         // console.log(`chosenWeaponFaction: ${chosenWeaponFaction}`)
         // console.log(`chosenWeaponUnit: ${chosenWeaponUnit}`)
@@ -523,112 +535,112 @@ function simulateAttackSequence() {
         weaponTags.forEach( tag => {
             switch(tag.split('-')[0]){
                 case 'assault':
-                    weaponStats[chosenWeaponName].assault = true;
+                    weaponStats[chosenWeaponNameDif].assault = true;
                     break;
                 case 'rapidFire':
-                    weaponStats[chosenWeaponName].rapidFire = true;
-                    weaponStats[chosenWeaponName].rapidFireCount = tag.split('-')[1];
+                    weaponStats[chosenWeaponNameDif].rapidFire = true;
+                    weaponStats[chosenWeaponNameDif].rapidFireCount = tag.split('-')[1];
                     break;
                 case 'ignoresCover':
-                    weaponStats[chosenWeaponName].ignoresCover = true;
+                    weaponStats[chosenWeaponNameDif].ignoresCover = true;
                     break;
                 case 'twinLinked':
-                    weaponStats[chosenWeaponName].twinLinked = true;
+                    weaponStats[chosenWeaponNameDif].twinLinked = true;
                     break;
                 case 'torrent':
-                    weaponStats[chosenWeaponName].torrent = true;
+                    weaponStats[chosenWeaponNameDif].torrent = true;
                     break;
                 case 'lethalHits':
-                    weaponStats[chosenWeaponName].lethalHits = true;
+                    weaponStats[chosenWeaponNameDif].lethalHits = true;
                     break;
                 case 'lance':
-                    weaponStats[chosenWeaponName].lance = true;
+                    weaponStats[chosenWeaponNameDif].lance = true;
                     break;
                 case 'indirectFire':
-                    weaponStats[chosenWeaponName].indirectFire = true;
+                    weaponStats[chosenWeaponNameDif].indirectFire = true;
                     break;
                 case 'precision':
-                    weaponStats[chosenWeaponName].precision = true;
+                    weaponStats[chosenWeaponNameDif].precision = true;
                     break;
                 case 'psychic':
-                    weaponStats[chosenWeaponName].psychic = true;
+                    weaponStats[chosenWeaponNameDif].psychic = true;
                     break;
                 case 'blast':
-                    weaponStats[chosenWeaponName].blast = true;
+                    weaponStats[chosenWeaponNameDif].blast = true;
                     break;
                 case 'melta':
-                    weaponStats[chosenWeaponName].melta = true;
-                    weaponStats[chosenWeaponName].meltaCount = tag.split('-')[1];
+                    weaponStats[chosenWeaponNameDif].melta = true;
+                    weaponStats[chosenWeaponNameDif].meltaCount = tag.split('-')[1];
                     break;
                 case 'heavy':
-                    weaponStats[chosenWeaponName].heavy = true;
+                    weaponStats[chosenWeaponNameDif].heavy = true;
                     break;
                 case 'hazardous':
-                    weaponStats[chosenWeaponName].hazardous = true;
+                    weaponStats[chosenWeaponNameDif].hazardous = true;
                     hazardous = true;
                     break;
                 case 'devastatingWounds':
-                    weaponStats[chosenWeaponName].devastatingWounds = true;
+                    weaponStats[chosenWeaponNameDif].devastatingWounds = true;
                     break;
                 case 'sustainedHits':
-                    weaponStats[chosenWeaponName].sustainedHits = true;
-                    weaponStats[chosenWeaponName].sustainedHitsCount = tag.split('-')[1];
+                    weaponStats[chosenWeaponNameDif].sustainedHits = true;
+                    weaponStats[chosenWeaponNameDif].sustainedHitsCount = tag.split('-')[1];
                     break;
                 case 'extraAttacks':
-                    weaponStats[chosenWeaponName].extraAttacks = true;
+                    weaponStats[chosenWeaponNameDif].extraAttacks = true;
                     break;
                 case 'anti':
-                    if(!weaponStats[chosenWeaponName].anti){
-                        weaponStats[chosenWeaponName].anti = true;
-                        weaponStats[chosenWeaponName].antiType += tag.split('-')[1];
-                        weaponStats[chosenWeaponName].antiValue += tag.split('-')[2];
+                    if(!weaponStats[chosenWeaponNameDif].anti){
+                        weaponStats[chosenWeaponNameDif].anti = true;
+                        weaponStats[chosenWeaponNameDif].antiType += tag.split('-')[1];
+                        weaponStats[chosenWeaponNameDif].antiValue += tag.split('-')[2];
                     }else{
-                        weaponStats[chosenWeaponName].antiType += (', ' + tag.split('-')[1]);
-                        weaponStats[chosenWeaponName].antiValue += (', ' + tag.split('-')[2]);
+                        weaponStats[chosenWeaponNameDif].antiType += (', ' + tag.split('-')[1]);
+                        weaponStats[chosenWeaponNameDif].antiValue += (', ' + tag.split('-')[2]);
                     }
                     break;
             }
         })
 
         //number of attackers
-        weaponStats[chosenWeaponName].attackerCount = parseInt(document.querySelector(`#attackerCount${chosenWeaponName}-${weaponMeleeRanged}`).value);
+        weaponStats[chosenWeaponNameDif].attackerCount = parseInt(chosenWeaponParentElement.querySelector(`#attackerCount${chosenWeaponName}-${weaponMeleeRanged}`).value);
 
         //figure out how many hazardous rolls to make
-        if(weaponStats[chosenWeaponName].hazardous){
-            hazardousWeaponCount += weaponStats[chosenWeaponName].attackerCount;
+        if(weaponStats[chosenWeaponNameDif].hazardous){
+            hazardousWeaponCount += weaponStats[chosenWeaponNameDif].attackerCount;
         }
 
         //attacks
-        weaponStats[chosenWeaponName].attackString = document.querySelector(`#attacks${chosenWeaponName}-${weaponMeleeRanged}`).value;
-        weaponStats[chosenWeaponName].rollAttacks = false;
-        if(weaponStats[chosenWeaponName].attackString.includes("d") || weaponStats[chosenWeaponName].attackString.includes("D")){
-            weaponStats[chosenWeaponName].rollAttacks = true;
+        weaponStats[chosenWeaponNameDif].attackString = chosenWeaponParentElement.querySelector(`#attacks${chosenWeaponName}-${weaponMeleeRanged}`).value;
+        weaponStats[chosenWeaponNameDif].rollAttacks = false;
+        if(weaponStats[chosenWeaponNameDif].attackString.includes("d") || weaponStats[chosenWeaponNameDif].attackString.includes("D")){
+            weaponStats[chosenWeaponNameDif].rollAttacks = true;
         }else{
-            weaponStats[chosenWeaponName].attackString = parseInt(weaponStats[chosenWeaponName].attackString);
-            weaponStats[chosenWeaponName].rollAttacks = false;    
+            weaponStats[chosenWeaponNameDif].attackString = parseInt(weaponStats[chosenWeaponNameDif].attackString);
+            weaponStats[chosenWeaponNameDif].rollAttacks = false;    
         }
 
         //weapon/balistic skill
-        weaponStats[chosenWeaponName].hit = parseInt(document.querySelector(`#wbs${chosenWeaponName}-${weaponMeleeRanged}`).value);
+        weaponStats[chosenWeaponNameDif].hit = parseInt(chosenWeaponParentElement.querySelector(`#wbs${chosenWeaponName}-${weaponMeleeRanged}`).value);
 
         //strength
-        weaponStats[chosenWeaponName].strength = parseInt(document.querySelector(`#strength${chosenWeaponName}-${weaponMeleeRanged}`).value);
+        weaponStats[chosenWeaponNameDif].strength = parseInt(chosenWeaponParentElement.querySelector(`#strength${chosenWeaponName}-${weaponMeleeRanged}`).value);
 
         //armour piercing
-        weaponStats[chosenWeaponName].ap = parseInt(document.querySelector(`#ap${chosenWeaponName}-${weaponMeleeRanged}`).value);
-        if(weaponStats[chosenWeaponName].ap < 0){
-            weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap*-1;
+        weaponStats[chosenWeaponNameDif].ap = parseInt(chosenWeaponParentElement.querySelector(`#ap${chosenWeaponName}-${weaponMeleeRanged}`).value);
+        if(weaponStats[chosenWeaponNameDif].ap < 0){
+            weaponStats[chosenWeaponNameDif].ap = weaponStats[chosenWeaponNameDif].ap*-1;
         }
         // console.log(`ap: ${ap}`) 
 
         //damage
-        weaponStats[chosenWeaponName].damageString =  document.querySelector(`#damage${chosenWeaponName}-${weaponMeleeRanged}`).value;
-        weaponStats[chosenWeaponName].rollDamage = false;
-        if(weaponStats[chosenWeaponName].damageString.includes("d") || weaponStats[chosenWeaponName].damageString.includes("D")){
-            weaponStats[chosenWeaponName].rollDamage = true;
+        weaponStats[chosenWeaponNameDif].damageString =  chosenWeaponParentElement.querySelector(`#damage${chosenWeaponName}-${weaponMeleeRanged}`).value;
+        weaponStats[chosenWeaponNameDif].rollDamage = false;
+        if(weaponStats[chosenWeaponNameDif].damageString.includes("d") || weaponStats[chosenWeaponNameDif].damageString.includes("D")){
+            weaponStats[chosenWeaponNameDif].rollDamage = true;
         }else{
-            weaponStats[chosenWeaponName].damageString = parseInt(weaponStats[chosenWeaponName].damageString);
-            weaponStats[chosenWeaponName].rollDamage = false;    
+            weaponStats[chosenWeaponNameDif].damageString = parseInt(weaponStats[chosenWeaponNameDif].damageString);
+            weaponStats[chosenWeaponNameDif].rollDamage = false;    
         }
 
         //Adepta Sororitas
@@ -649,106 +661,106 @@ function simulateAttackSequence() {
         if(sororitasStratagemLightAttacker && attackerBelowStartingStrength){
             ignoreAttackerRollModifiers = true;
         }
-        if(sororitasStratagemRage && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+        if(sororitasStratagemRage && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             woundModifierArr.push(1);
         }
         if(sororitasStratagemLightDefender && defenderBelowStartingStrength){
             ignoreDefenderRollModifiers = true;
         }
 
-        if(sororitasBlade && attackerBelowStartingStrength && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+        if(sororitasBlade && attackerBelowStartingStrength && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }
-            weaponStats[chosenWeaponName].strength += 1;
-        }else if(sororitasBlade && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            weaponStats[chosenWeaponNameDif].strength += 1;
+        }else if(sororitasBlade && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
         //Adeptus Custodes
 
 
-        if(custodesDacatari && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(custodesDacatari && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
-        if(custodesRendax && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].lethalHits = true;
+        if(custodesRendax && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(custodesKaptaris && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+        if(custodesKaptaris && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             hitModifierArr.push(-1);
         }
 
 
-        if(custodesStratagemNightmares && ( defenderKeywordsArray.includes('Vehicle') || defenderKeywordsArray.includes('Monster') && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' )){
+        if(custodesStratagemNightmares && ( defenderKeywordsArray.includes('Vehicle') || defenderKeywordsArray.includes('Monster') && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' )){
             woundModifierArr.push(1);
         }  
         if(custodesStratagemFallen){
             if(attackerBelowHalfStrength){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }else if(attackerBelowStartingStrength){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
         }
         if(custodesStratagemAlchemy && defenderKeywordsArray.includes('Infantry') && !defenderKeywordsArray.includes('Anathema Psykana')){
-            weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, -1);
+            weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, -1);
         }
 
 
-        if(custodesBlade && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+        if(custodesBlade && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }
         }
 
         //Adeptus Mechanicus
         
-        if(mechanicusAttackerProtector && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].heavy = true;
+        if(mechanicusAttackerProtector && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].heavy = true;
         }
 
-        if(mechanicusConqueror && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].assault = true;
-            weaponStats[chosenWeaponName].ap += 1;
+        if(mechanicusConqueror && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].assault = true;
+            weaponStats[chosenWeaponNameDif].ap += 1;
         }
 
-        if(mechanicusDefenderProtector && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            if(weaponStats[chosenWeaponName].ap > 0){
-                weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap - 1;
+        if(mechanicusDefenderProtector && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            if(weaponStats[chosenWeaponNameDif].ap > 0){
+                weaponStats[chosenWeaponNameDif].ap = weaponStats[chosenWeaponNameDif].ap - 1;
             }
         }
 
 
-        if(mechanicusStratagemDosage && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && !defenderKeywordsArray.includes('Vehicle')){
+        if(mechanicusStratagemDosage && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && !defenderKeywordsArray.includes('Vehicle')){
             woundModifierArr.push(1);
         }
-        if(mechanicusStratagemHalo && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !attackerKeywords.includes('Vehicle')){
+        if(mechanicusStratagemHalo && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && !attackerKeywords.includes('Vehicle')){
             woundModifierArr.push(-1);
         }
-        if(mechanicusStratagemBulwark && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Skitarii') && mechanicusDefenderProtector){
-            if((weaponStats[chosenWeaponName].invul > 4 || weaponStats[chosenWeaponName].fnp == 0)){
-                weaponStats[chosenWeaponName].invul = 4;
+        if(mechanicusStratagemBulwark && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Skitarii') && mechanicusDefenderProtector){
+            if((weaponStats[chosenWeaponNameDif].invul > 4 || weaponStats[chosenWeaponNameDif].fnp == 0)){
+                weaponStats[chosenWeaponNameDif].invul = 4;
             }
         }
 
         
-        if(mechanicusOmni && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 3);
+        if(mechanicusOmni && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 3);
             }
             //add anti infantry 2 and anti monster 4
-            weaponStats[chosenWeaponName].anti = true;
-            if(weaponStats[chosenWeaponName].antiType == ''){
-                weaponStats[chosenWeaponName].antiType += 'Infantry, Monster';
-                weaponStats[chosenWeaponName].antiValue += '2, 4'
+            weaponStats[chosenWeaponNameDif].anti = true;
+            if(weaponStats[chosenWeaponNameDif].antiType == ''){
+                weaponStats[chosenWeaponNameDif].antiType += 'Infantry, Monster';
+                weaponStats[chosenWeaponNameDif].antiValue += '2, 4'
             }else{
-                weaponStats[chosenWeaponName].antiType += ', Infantry, Monster';
-                weaponStats[chosenWeaponName].antiValue += ', 2, 4'
+                weaponStats[chosenWeaponNameDif].antiType += ', Infantry, Monster';
+                weaponStats[chosenWeaponNameDif].antiValue += ', 2, 4'
             }
         }
 
@@ -760,8 +772,8 @@ function simulateAttackSequence() {
         }
 
         
-        if(aeldariStratagemBladestorm && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].criticalWoundAp = 2;
+        if(aeldariStratagemBladestorm && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].criticalWoundAp = 2;
         }
         if(aeldariStratagemReactions && !defenderKeywordsArray.includes('Wraith Construct')){
             hitModifierArr.push(-1);
@@ -778,113 +790,113 @@ function simulateAttackSequence() {
 
         //Astra Militarum
 
-        if(militarumBayonets && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponName].hit > 2){
-            weaponStats[chosenWeaponName].hit = weaponStats[chosenWeaponName].hit - 1;
+        if(militarumBayonets && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponNameDif].hit > 2){
+            weaponStats[chosenWeaponNameDif].hit = weaponStats[chosenWeaponNameDif].hit - 1;
         }
 
-        if(militarumAim && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponName].hit > 2){
-            weaponStats[chosenWeaponName].hit = weaponStats[chosenWeaponName].hit - 1;
+        if(militarumAim && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponNameDif].hit > 2){
+            weaponStats[chosenWeaponNameDif].hit = weaponStats[chosenWeaponNameDif].hit - 1;
         }
 
-        if(militarumFire && weaponStats[chosenWeaponName].rapidFire){
+        if(militarumFire && weaponStats[chosenWeaponNameDif].rapidFire){
             // console.log(`attack string before First Rank Fire: ${attackString}`);
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
             // console.log(`attack string after First Rank Fire: ${attackString}`);
         }
 
-        if(militarumBornSoldiers && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].lethalHits = true;
+        if(militarumBornSoldiers && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(militarumCover && weaponStats[chosenWeaponName].save > 3){
-            weaponStats[chosenWeaponName].save = weaponStats[chosenWeaponName].save - 1;
+        if(militarumCover && weaponStats[chosenWeaponNameDif].save > 3){
+            weaponStats[chosenWeaponNameDif].save = weaponStats[chosenWeaponNameDif].save - 1;
         }
 
-        if(militarumStratagemFields && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && !attackerBattleshocked){
-            weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap + 1;
+        if(militarumStratagemFields && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && !attackerBattleshocked){
+            weaponStats[chosenWeaponNameDif].ap = weaponStats[chosenWeaponNameDif].ap + 1;
         }
-        if(militarumStratagemBombadiers && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponName].indirectFire && !attackerBattleshocked){
+        if(militarumStratagemBombadiers && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponNameDif].indirectFire && !attackerBattleshocked){
             hitModifierArr.push(1);
         }
-        if(militarumStratagemArmoured && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Vehicle')){
-            weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, -1);
+        if(militarumStratagemArmoured && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && defenderKeywordsArray.includes('Vehicle')){
+            weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, -1);
         }
 
         //black templars
 
-        if(templarsUnclean && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].lethalHits = true;
+        if(templarsUnclean && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(templarsHonour && weaponStats[chosenWeaponName].psychic && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 5;
+        if(templarsHonour && weaponStats[chosenWeaponNameDif].psychic && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 5;
             generalFnp = 5;
         }
 
 
-        if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker') && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].anti = true;
-            if(weaponStats[chosenWeaponName].antiType == ''){
-                weaponStats[chosenWeaponName].antiType += 'Psyker';
-                weaponStats[chosenWeaponName].antiValue += '4'
+        if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker') && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].anti = true;
+            if(weaponStats[chosenWeaponNameDif].antiType == ''){
+                weaponStats[chosenWeaponNameDif].antiType += 'Psyker';
+                weaponStats[chosenWeaponNameDif].antiValue += '4'
             }else{
-                weaponStats[chosenWeaponName].antiType += ', Psyker';
-                weaponStats[chosenWeaponName].antiValue += ', 4'
+                weaponStats[chosenWeaponNameDif].antiType += ', Psyker';
+                weaponStats[chosenWeaponNameDif].antiValue += ', 4'
             }
         }
 
-        if(templarsWitchDefender && weaponStats[chosenWeaponName].psychic && (weaponStats[chosenWeaponName].invul == 0 || weaponStats[chosenWeaponName].invul > 4)){
-            weaponStats[chosenWeaponName].invul = 4;
+        if(templarsWitchDefender && weaponStats[chosenWeaponNameDif].psychic && (weaponStats[chosenWeaponNameDif].invul == 0 || weaponStats[chosenWeaponNameDif].invul > 4)){
+            weaponStats[chosenWeaponNameDif].invul = 4;
         }
 
-        if(templarsChallenge && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(templarsChallenge && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
 
-        if(templarsPerdition && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].ap += 1;
-            weaponStats[chosenWeaponName].strength += 1;
+        if(templarsPerdition && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].ap += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
 
-            if(templarsUnclean && !weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            if(templarsUnclean && !weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
         }
 
-        if(templarsWitchseeker && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].devastatingWounds = true;
-            weaponStats[chosenWeaponName].precision = true;
-            weaponStats[chosenWeaponName].anti = true;
-            if(weaponStats[chosenWeaponName].antiType == ''){
-                weaponStats[chosenWeaponName].antiType += 'Psyker';
-                weaponStats[chosenWeaponName].antiValue += '4'
+        if(templarsWitchseeker && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].devastatingWounds = true;
+            weaponStats[chosenWeaponNameDif].precision = true;
+            weaponStats[chosenWeaponNameDif].anti = true;
+            if(weaponStats[chosenWeaponNameDif].antiType == ''){
+                weaponStats[chosenWeaponNameDif].antiType += 'Psyker';
+                weaponStats[chosenWeaponNameDif].antiValue += '4'
             }else{
-                weaponStats[chosenWeaponName].antiType += ', Psyker';
-                weaponStats[chosenWeaponName].antiValue += ', 4'
+                weaponStats[chosenWeaponNameDif].antiType += ', Psyker';
+                weaponStats[chosenWeaponNameDif].antiValue += ', 4'
             }
 
             if(templarsWitchAttacker && defenderKeywordsArray.includes('Psyker')){
-                weaponStats[chosenWeaponName].rerollAllHits = true;
-                weaponStats[chosenWeaponName].rerollAllWounds = true;
+                weaponStats[chosenWeaponNameDif].rerollAllHits = true;
+                weaponStats[chosenWeaponNameDif].rerollAllWounds = true;
             }
         }
 
-        if(templarsSigismund && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+        if(templarsSigismund && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            if(templarsChallenge && weaponStats[chosenWeaponName].criticalHit > 5/* && leadingUnit*/){
-                weaponStats[chosenWeaponName].criticalHit = 5;
+            if(templarsChallenge && weaponStats[chosenWeaponNameDif].criticalHit > 5/* && leadingUnit*/){
+                weaponStats[chosenWeaponNameDif].criticalHit = 5;
             }
         }
 
         if(templarsTanhauser){
-            weaponStats[chosenWeaponName].halveDamage = true;
-            if(templarsHonour && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))/* && leadingUnit*/){
-                weaponStats[chosenWeaponName].fnp = 5;
+            weaponStats[chosenWeaponNameDif].halveDamage = true;
+            if(templarsHonour && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))/* && leadingUnit*/){
+                weaponStats[chosenWeaponNameDif].fnp = 5;
                 generalFnp = 5
             }
         }
@@ -893,59 +905,59 @@ function simulateAttackSequence() {
         //Blood Angels
 
         if(bloodAngelsThirst){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
 
         if(bloodAngelsArtisanAttacker){
-            weaponStats[chosenWeaponName].ap += 1;
+            weaponStats[chosenWeaponNameDif].ap += 1;
         }
 
-        if(bloodAngelsShard && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].lance = true;
-            weaponStats[chosenWeaponName]. anti = true;
-            if(weaponStats[chosenWeaponName].antiType == ''){
-                weaponStats[chosenWeaponName].antiType += 'Chaos';
-                weaponStats[chosenWeaponName].antiValue += '5'
+        if(bloodAngelsShard && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].lance = true;
+            weaponStats[chosenWeaponNameDif]. anti = true;
+            if(weaponStats[chosenWeaponNameDif].antiType == ''){
+                weaponStats[chosenWeaponNameDif].antiType += 'Chaos';
+                weaponStats[chosenWeaponNameDif].antiValue += '5'
             }else{
-                weaponStats[chosenWeaponName].antiType += ', Chaos';
-                weaponStats[chosenWeaponName].antiValue += ', 5'
+                weaponStats[chosenWeaponNameDif].antiType += ', Chaos';
+                weaponStats[chosenWeaponNameDif].antiValue += ', 5'
             }
         }
 
         if(bloodAngelsArtisanDefender){
-            weaponStats[chosenWeaponName].save = 2;
+            weaponStats[chosenWeaponNameDif].save = 2;
         }
 
         //Chaos Daemons
 
 
-        if(chaosDaemonsArgath && chaosDaemonsShadowAttacker && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+        if(chaosDaemonsArgath && chaosDaemonsShadowAttacker && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }
-            weaponStats[chosenWeaponName].strength += 2;
-        }else if(chaosDaemonsArgath && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            weaponStats[chosenWeaponNameDif].strength += 2;
+        }else if(chaosDaemonsArgath && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
-        if(chaosDaemonsEverstave && chaosDaemonsShadowAttacker && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].strength += 2;
-        }else if(chaosDaemonsEverstave && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].strength += 1;
+        if(chaosDaemonsEverstave && chaosDaemonsShadowAttacker && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].strength += 2;
+        }else if(chaosDaemonsEverstave && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
-        if(chaosDaemonsGift && chaosDaemonsShadowDefender && (weaponStats[chosenWeaponName].fnp > 4 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 4;
+        if(chaosDaemonsGift && chaosDaemonsShadowDefender && (weaponStats[chosenWeaponNameDif].fnp > 4 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 4;
             generalFnp = 4;
-        }else if(chaosDaemonsGift && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 5;
+        }else if(chaosDaemonsGift && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 5;
             generalFnp = 5;
         }
 
@@ -962,63 +974,63 @@ function simulateAttackSequence() {
 
 
         if(chaosKnightsPanoply){
-            if(weaponStats[chosenWeaponName].ap > 0){
-                weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap - 1;
+            if(weaponStats[chosenWeaponNameDif].ap > 0){
+                weaponStats[chosenWeaponNameDif].ap = weaponStats[chosenWeaponNameDif].ap - 1;
             }
         }
 
         //Chaos Space Marines
 
         if(CSMDarkPactLethal){
-            weaponStats[chosenWeaponName].lethalHits = true;
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(CSMDarkPactSustained && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(CSMDarkPactSustained && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
-        if(CSMDarkPactLethal && CSMMarkKhorne && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponName].criticalHit > 5){
-            weaponStats[chosenWeaponName].criticalHit = 5;
+        if(CSMDarkPactLethal && CSMMarkKhorne && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponNameDif].criticalHit > 5){
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
         }
 
-        if(CSMDarkPactLethal && CSMMarkTzeentch && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponName].criticalHit > 5){
-            weaponStats[chosenWeaponName].criticalHit = 5;
+        if(CSMDarkPactLethal && CSMMarkTzeentch && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponNameDif].criticalHit > 5){
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
         }
 
-        if(CSMDarkPactSustained && CSMMarkNurgle && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponName].criticalHit > 5){
-            weaponStats[chosenWeaponName].criticalHit = 5;
+        if(CSMDarkPactSustained && CSMMarkNurgle && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged' && weaponStats[chosenWeaponNameDif].criticalHit > 5){
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
         }
 
-        if(CSMDarkPactSustained && CSMMarkSlaanesh && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponName].criticalHit > 5){
-            weaponStats[chosenWeaponName].criticalHit = 5;
+        if(CSMDarkPactSustained && CSMMarkSlaanesh && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && weaponStats[chosenWeaponNameDif].criticalHit > 5){
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
         }
 
         if(CSMMarkUndivided){
             reroll1Hits = true;
         }
 
-        weaponStats[chosenWeaponName].addCSMTalismanAttacks = false;
-        if(CSMTalisman && (CSMDarkPactLethal || CSMDarkPactSustained) && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].addCSMTalismanAttacks = true;
-            weaponStats[chosenWeaponName].strength += 2;
-        }else if(CSMTalisman && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+        weaponStats[chosenWeaponNameDif].addCSMTalismanAttacks = false;
+        if(CSMTalisman && (CSMDarkPactLethal || CSMDarkPactSustained) && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].addCSMTalismanAttacks = true;
+            weaponStats[chosenWeaponNameDif].strength += 2;
+        }else if(CSMTalisman && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
         if(CSMLiber && (CSMDarkPactLethal || CSMDarkPactSustained)){
-            weaponStats[chosenWeaponName].lethalHits = true;
-            if(!weaponStats[chosenWeaponName].sustainedHits){
-                weaponStats[chosenWeaponName].sustainedHits = true;
-                weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
+            if(!weaponStats[chosenWeaponNameDif].sustainedHits){
+                weaponStats[chosenWeaponNameDif].sustainedHits = true;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
             }
         }
 
-        if(CSMElixir && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 5;
+        if(CSMElixir && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 5;
             generalFnp = 5;
         }
 
@@ -1037,26 +1049,26 @@ function simulateAttackSequence() {
 
         if(darkAngelsBlade){
             if(attackerBattleshocked){
-                if(!weaponStats[chosenWeaponName].extraAttacks){
-                    weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+                if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                    weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
                 }
-                weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].damageString, 2);
-                weaponStats[chosenWeaponName].strength += 2;
+                weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].damageString, 2);
+                weaponStats[chosenWeaponNameDif].strength += 2;
             }else{
-                if(!weaponStats[chosenWeaponName].extraAttacks){
-                    weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+                if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                    weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
                 }
-                weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].damageString, 1);
-                weaponStats[chosenWeaponName].strength += 1;
+                weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].damageString, 1);
+                weaponStats[chosenWeaponNameDif].strength += 1;
             }
         }
 
         if(darkAngelsRememberance/* && leadingUnit*/){
-            if(attackerBattleshocked && (weaponStats[chosenWeaponName].fnp > 4 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-                weaponStats[chosenWeaponName].fnp = 4;
+            if(attackerBattleshocked && (weaponStats[chosenWeaponNameDif].fnp > 4 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+                weaponStats[chosenWeaponNameDif].fnp = 4;
                 generalFnp = 4;
-            }else if(weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp)){
-                weaponStats[chosenWeaponName].fnp = 6;
+            }else if(weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp)){
+                weaponStats[chosenWeaponNameDif].fnp = 6;
                 generalFnp = 6;
             }
         }
@@ -1065,41 +1077,41 @@ function simulateAttackSequence() {
         //Death Guard
 
         if(deathGuardGift){
-            weaponStats[chosenWeaponName].toughness = weaponStats[chosenWeaponName].toughness - 1;
+            weaponStats[chosenWeaponNameDif].toughness = weaponStats[chosenWeaponNameDif].toughness - 1;
         }
 
 
-        if(deathGuardPathogenInRange && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+        if(deathGuardPathogenInRange && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }
-            weaponStats[chosenWeaponName].strength += 2;
-        }else if(deathGuardPathogen && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            weaponStats[chosenWeaponNameDif].strength += 2;
+        }else if(deathGuardPathogen && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
         //Death Watch
 
-        if(deathwatchFuror && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(deathwatchFuror && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
         if(deathwatchMalleus){
-            weaponStats[chosenWeaponName].lethalHits = true;
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
 
-        if(deathwatchSecretsKill && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].strength += 2;
-            weaponStats[chosenWeaponName].ap += 2;
-            weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 2);
-        }else if(deathwatchSecrets && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].strength += 1;
-            weaponStats[chosenWeaponName].ap += 1;
-            weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 1);
+        if(deathwatchSecretsKill && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].strength += 2;
+            weaponStats[chosenWeaponNameDif].ap += 2;
+            weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, 2);
+        }else if(deathwatchSecrets && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].strength += 1;
+            weaponStats[chosenWeaponNameDif].ap += 1;
+            weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, 1);
         }
 
         //Drukhari
@@ -1109,32 +1121,32 @@ function simulateAttackSequence() {
         }
 
 
-        if(drukhariDancer && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+        if(drukhariDancer && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             if(drukhariPower){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
-                weaponStats[chosenWeaponName].ap += 2;
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
+                weaponStats[chosenWeaponNameDif].ap += 2;
             }else{
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
-                weaponStats[chosenWeaponName].ap += 1;
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
+                weaponStats[chosenWeaponNameDif].ap += 1;
             }
         }
 
         //Genestealer Cults
 
         if(gscBelow){
-            if(!weaponStats[chosenWeaponName].sustainedHits){
-                weaponStats[chosenWeaponName].sustainedHits = true;
-                weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+            if(!weaponStats[chosenWeaponNameDif].sustainedHits){
+                weaponStats[chosenWeaponNameDif].sustainedHits = true;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
             }
-            weaponStats[chosenWeaponName].ignoresCover = true;
+            weaponStats[chosenWeaponNameDif].ignoresCover = true;
         }
 
         //Grey Knights
 
-        if(greyKnightsDaemonica && defenderKeywordsArray.includes('Daemon') && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 1);
+        if(greyKnightsDaemonica && defenderKeywordsArray.includes('Daemon') && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, 1);
             woundModifierArr.push(1);
-        }else if(greyKnightsDaemonica && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+        }else if(greyKnightsDaemonica && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             woundModifierArr.push(1);
         }
 
@@ -1145,19 +1157,19 @@ function simulateAttackSequence() {
             rerollSingleWound = true;
         }
 
-        if(impKnightsDefenderHonored && impKnightsIndomitable && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 5;
+        if(impKnightsDefenderHonored && impKnightsIndomitable && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 5;
             generalFnp = 5;
-        }else if(impKnightsIndomitable && (weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 6;
+        }else if(impKnightsIndomitable && (weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 6;
             generalFnp = 6;
         }
 
 
 
         if(impKnightsParagon){
-            if(weaponStats[chosenWeaponName].ap > 0){
-                weaponStats[chosenWeaponName].ap = weaponStats[chosenWeaponName].ap - 1;
+            if(weaponStats[chosenWeaponNameDif].ap > 0){
+                weaponStats[chosenWeaponNameDif].ap = weaponStats[chosenWeaponNameDif].ap - 1;
             }
         }
 
@@ -1184,28 +1196,28 @@ function simulateAttackSequence() {
             stealth = true;
         }
 
-        if(necronsWeave && (weaponStats[chosenWeaponName].fnp > 4 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 4;
+        if(necronsWeave && (weaponStats[chosenWeaponNameDif].fnp > 4 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 4;
             generalFnp = 4;
         }
 
 
         //orks
 
-        if(orksWaaaghAttacker && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+        if(orksWaaaghAttacker && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
-        if(orksWaaaghDefender && (weaponStats[chosenWeaponName].invul == 0 || weaponStats[chosenWeaponName].invul > 5)){
-            weaponStats[chosenWeaponName].invul = 5;
+        if(orksWaaaghDefender && (weaponStats[chosenWeaponNameDif].invul == 0 || weaponStats[chosenWeaponNameDif].invul > 5)){
+            weaponStats[chosenWeaponNameDif].invul = 5;
         }
 
-        if(orksGetStuckIn && !weaponStats[chosenWeaponName].sustainedHits && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(orksGetStuckIn && !weaponStats[chosenWeaponNameDif].sustainedHits && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
         if(orksMekaniak && attackerKeywords.includes('Vehicle')){
@@ -1213,19 +1225,24 @@ function simulateAttackSequence() {
         }
 
         if(orkStratagemCarnage){
-            weaponStats[chosenWeaponName].criticalHit = 5;
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
         }
 
         if(orkStratagemArd && (!defenderKeywords.includes('Vehicle') && !defenderKeywords.includes('Gretchin'))){
             woundModifierArr.push(-1);
         }
 
-        if(orksKillChoppa && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponName].extraAttacks){
-            weaponStats[chosenWeaponName].devastatingWounds = true;
+        // console.log(`orksKillChoppa: ${orksKillChoppa}`)
+        // console.log(`charactersWeapon: ${weaponStats[chosenWeaponNameDif].charactersWeapon}`)
+        // console.log(`weaponMeleeRanged: ${weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'}`)
+        // console.log(`extraAttacks: ${!weaponStats[chosenWeaponNameDif].extraAttacks}`)
+
+        if(orksKillChoppa && weaponStats[chosenWeaponNameDif].charactersWeapon && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee' && !weaponStats[chosenWeaponNameDif].extraAttacks){
+            weaponStats[chosenWeaponNameDif].devastatingWounds = true;
         }
 
-        if(orksCybork && (weaponStats[chosenWeaponName].fnp > 4 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 4;
+        if(orksCybork && (weaponStats[chosenWeaponNameDif].fnp > 4 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 4;
             generalFnp = 4;
         }
 
@@ -1239,35 +1256,35 @@ function simulateAttackSequence() {
         }
 
 
-        if(adeptusAstartesHonourAssault && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 2);
+        if(adeptusAstartesHonourAssault && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 2);
             }
-            weaponStats[chosenWeaponName].strength += 2;
-        }else if(adeptusAstartesHonour && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+            weaponStats[chosenWeaponNameDif].strength += 2;
+        }else if(adeptusAstartesHonour && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
-        if(adeptusAstartesBolterDevastator && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
-            if(!weaponStats[chosenWeaponName].sustainedHits){
-                weaponStats[chosenWeaponName].sustainedHits = true;
-                weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(adeptusAstartesBolterDevastator && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
+            if(!weaponStats[chosenWeaponNameDif].sustainedHits){
+                weaponStats[chosenWeaponNameDif].sustainedHits = true;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
             }
-            weaponStats[chosenWeaponName].criticalHit = 5;
-        }else if(adeptusAstartesBolter && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
-            if(!weaponStats[chosenWeaponName].sustainedHits){
-                weaponStats[chosenWeaponName].sustainedHits = true;
-                weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+            weaponStats[chosenWeaponNameDif].criticalHit = 5;
+        }else if(adeptusAstartesBolter && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'/* && leadingUnit*/){
+            if(!weaponStats[chosenWeaponNameDif].sustainedHits){
+                weaponStats[chosenWeaponNameDif].sustainedHits = true;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
             }
         }
 
         if(adeptusAstartesArtificer){
-            weaponStats[chosenWeaponName].save = 2;
-            if((weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-                weaponStats[chosenWeaponName].fnp = 5;
+            weaponStats[chosenWeaponNameDif].save = 2;
+            if((weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+                weaponStats[chosenWeaponNameDif].fnp = 5;
                 generalFnp = 5;
             }
         }
@@ -1276,57 +1293,57 @@ function simulateAttackSequence() {
         //Space Wolves
 
 
-        if(spaceWolvesSagaWarrior && !weaponStats[chosenWeaponName].sustainedHits && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(spaceWolvesSagaWarrior && !weaponStats[chosenWeaponNameDif].sustainedHits && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
-        if(spaceWolvesSagaSlayer && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].lethalHits = true;
+        if(spaceWolvesSagaSlayer && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(spaceWolvesSagaBear && (weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp)) ){
-            weaponStats[chosenWeaponName].fnp = 6;
+        if(spaceWolvesSagaBear && (weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp)) ){
+            weaponStats[chosenWeaponNameDif].fnp = 6;
             generalFnp = 6;
         }
 
 
 
-        if(spaceWolvesBlack && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].anti = true;
-            if(weaponStats[chosenWeaponName].antiType == ''){
-                weaponStats[chosenWeaponName].antiType += 'Monster, Vehicle';
-                weaponStats[chosenWeaponName].antiValue += '4, 4'
+        if(spaceWolvesBlack && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].anti = true;
+            if(weaponStats[chosenWeaponNameDif].antiType == ''){
+                weaponStats[chosenWeaponNameDif].antiType += 'Monster, Vehicle';
+                weaponStats[chosenWeaponNameDif].antiValue += '4, 4'
             }else{
-                weaponStats[chosenWeaponName].antiType += ', Monster, Vehicle';
-                weaponStats[chosenWeaponName].antiValue += ', 4, 4'
+                weaponStats[chosenWeaponNameDif].antiType += ', Monster, Vehicle';
+                weaponStats[chosenWeaponNameDif].antiValue += ', 4, 4'
             }
         }
 
-        if(spaceWolvesFrost && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            weaponStats[chosenWeaponName].strength += 1;
-            weaponStats[chosenWeaponName].ap += 1;
+        if(spaceWolvesFrost && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            weaponStats[chosenWeaponNameDif].strength += 1;
+            weaponStats[chosenWeaponNameDif].ap += 1;
         }
 
         if(spaceWolvesTalisman){
-            weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, -1);
+            weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, -1);
         }
 
 
         //tau
-        if(tauGuided && weaponStats[chosenWeaponName].hit > 2){
-            weaponStats[chosenWeaponName].hit = weaponStats[chosenWeaponName].hit -1 ;
+        if(tauGuided && weaponStats[chosenWeaponNameDif].hit > 2){
+            weaponStats[chosenWeaponNameDif].hit = weaponStats[chosenWeaponNameDif].hit -1 ;
             if(tauObserverMarkerlight){
-                weaponStats[chosenWeaponName].ignoresCover = true;
+                weaponStats[chosenWeaponNameDif].ignoresCover = true;
             }
         }
 
-        if(tauKauyon && (!weaponStats[chosenWeaponName].sustainedHits || weaponStats[chosenWeaponName].sustainedHitsCount < 2)){
-            weaponStats[chosenWeaponName].sustainedHits = true;
+        if(tauKauyon && (!weaponStats[chosenWeaponNameDif].sustainedHits || weaponStats[chosenWeaponNameDif].sustainedHitsCount < 2)){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
             if(tauGuided){
-                weaponStats[chosenWeaponName].sustainedHitsCount = 2;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 2;
             }else{
-                weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+                weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
             }
         }
 
@@ -1345,40 +1362,40 @@ function simulateAttackSequence() {
         }
 
         if(thousandSonsTwist){
-            weaponStats[chosenWeaponName].save = 10;
+            weaponStats[chosenWeaponNameDif].save = 10;
         }
 
-        if(thousandSonsMalevolent && weaponStats[chosenWeaponName].psychic){
-            weaponStats[chosenWeaponName].lethalHits = true;
+        if(thousandSonsMalevolent && weaponStats[chosenWeaponNameDif].psychic){
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
-        if(thousandSonsMaelstrom && weaponStats[chosenWeaponName].psychic && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(thousandSonsMaelstrom && weaponStats[chosenWeaponNameDif].psychic && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
-        if(thousandSonsImmaterium && weaponStats[chosenWeaponName].psychic){
-            weaponStats[chosenWeaponName].devastatingWounds = true;
+        if(thousandSonsImmaterium && weaponStats[chosenWeaponNameDif].psychic){
+            weaponStats[chosenWeaponNameDif].devastatingWounds = true;
         }
 
 
-        if(thousandSonsVortex && weaponStats[chosenWeaponName].psychic){
-            weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 1);
-            weaponStats[chosenWeaponName].strength += 1;
+        if(thousandSonsVortex && weaponStats[chosenWeaponNameDif].psychic){
+            weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, 1);
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
         //Tyranids
 
 
-        if( tyranidSwarming && (defenderKeywordsArray.includes('Infantry') || defenderKeywordsArray.includes('Swarm')) && !weaponStats[chosenWeaponName].sustainedHits){
+        if( tyranidSwarming && (defenderKeywordsArray.includes('Infantry') || defenderKeywordsArray.includes('Swarm')) && !weaponStats[chosenWeaponNameDif].sustainedHits){
             // console.log('swarming activate')
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
         if( tyranidAggression && (defenderKeywordsArray.includes('Monster') || defenderKeywordsArray.includes('Vehicle'))){
             // console.log('aggression activate')
-            weaponStats[chosenWeaponName].lethalHits = true;
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
 
@@ -1390,109 +1407,109 @@ function simulateAttackSequence() {
             rerollSingleSave = true;
         }
 
-        if(tyranidAdaptiveWounded && (weaponStats[chosenWeaponName].fnp > 4 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 4;
+        if(tyranidAdaptiveWounded && (weaponStats[chosenWeaponNameDif].fnp > 4 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 4;
             generalFnp = 4;
-        }else if(tyranidAdaptive && (weaponStats[chosenWeaponName].fnp > 5 || weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp))){
-            weaponStats[chosenWeaponName].fnp = 5;
+        }else if(tyranidAdaptive && (weaponStats[chosenWeaponNameDif].fnp > 5 || weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp))){
+            weaponStats[chosenWeaponNameDif].fnp = 5;
             generalFnp = 5;
         }
 
 
         //World Eaters
 
-        if(worldEatersMartial && !weaponStats[chosenWeaponName].sustainedHits){
-            weaponStats[chosenWeaponName].sustainedHits = true;
-            weaponStats[chosenWeaponName].sustainedHitsCount = 1;
+        if(worldEatersMartial && !weaponStats[chosenWeaponNameDif].sustainedHits){
+            weaponStats[chosenWeaponNameDif].sustainedHits = true;
+            weaponStats[chosenWeaponNameDif].sustainedHitsCount = 1;
         }
 
         if(worldEatersBlades){
-            weaponStats[chosenWeaponName].lethalHits = true;
+            weaponStats[chosenWeaponNameDif].lethalHits = true;
         }
 
         if(worldEatersDevotion){
-            if(weaponStats[chosenWeaponName].fnp == 0 || isNaN(weaponStats[chosenWeaponName].fnp)){
-                weaponStats[chosenWeaponName].fnp = 6;
+            if(weaponStats[chosenWeaponNameDif].fnp == 0 || isNaN(weaponStats[chosenWeaponNameDif].fnp)){
+                weaponStats[chosenWeaponNameDif].fnp = 6;
                 generalFnp = 6;
             }else{
-                weaponStats[chosenWeaponName].fnp = weaponStats[chosenWeaponName].fnp - 1;
+                weaponStats[chosenWeaponNameDif].fnp = weaponStats[chosenWeaponNameDif].fnp - 1;
                 generalFnp = generalFnp - 1;
             }
         }
 
 
-        if(worldEatersRelentless && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
-            if(!weaponStats[chosenWeaponName].extraAttacks){
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
+        if(worldEatersRelentless && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
+            if(!weaponStats[chosenWeaponNameDif].extraAttacks){
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
             }
-            weaponStats[chosenWeaponName].strength += 1;
+            weaponStats[chosenWeaponNameDif].strength += 1;
         }
 
-        weaponStats[chosenWeaponName].worldEatersGlaiveCharged = false;
-        if(worldEatersGlaive && weaponStats[chosenWeaponName].weaponMeleeRanged == 'melee'){
+        weaponStats[chosenWeaponNameDif].worldEatersGlaiveCharged = false;
+        if(worldEatersGlaive && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             if(charged){
-                weaponStats[chosenWeaponName].worldEatersGlaiveCharged = true;
+                weaponStats[chosenWeaponNameDif].worldEatersGlaiveCharged = true;
             }else{
-                weaponStats[chosenWeaponName].attackString = addToString(weaponStats[chosenWeaponName].rollAttacks, weaponStats[chosenWeaponName].attackString, 1);
-                weaponStats[chosenWeaponName].damageString = addToString(weaponStats[chosenWeaponName].rollDamage, weaponStats[chosenWeaponName].damageString, 1);
+                weaponStats[chosenWeaponNameDif].attackString = addToString(weaponStats[chosenWeaponNameDif].rollAttacks, weaponStats[chosenWeaponNameDif].attackString, 1);
+                weaponStats[chosenWeaponNameDif].damageString = addToString(weaponStats[chosenWeaponNameDif].rollDamage, weaponStats[chosenWeaponNameDif].damageString, 1);
             }
         }
 
         if(worldEatersHelm){
-            weaponStats[chosenWeaponName].halveDamage = true;
+            weaponStats[chosenWeaponNameDif].halveDamage = true;
         }
 
         //generic stratagems
 
         //grenade
-        // if(stratagemGrenade && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+        // if(stratagemGrenade && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
 
         // }else{
         //     stratagemGrenade = false;
         // }
 
         //Go to ground
-        if(stratagemGround && (weaponStats[chosenWeaponName].invul == 0 || isNaN(weaponStats[chosenWeaponName].invul)) && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
-            weaponStats[chosenWeaponName].invul = 6;
+        if(stratagemGround && (weaponStats[chosenWeaponNameDif].invul == 0 || isNaN(weaponStats[chosenWeaponNameDif].invul)) && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
+            weaponStats[chosenWeaponNameDif].invul = 6;
             cover = true;
-        }else if(stratagemGround && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+        }else if(stratagemGround && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
             cover = true;
         }
 
         //Smokescreen
-        if(stratagemSmoke && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+        if(stratagemSmoke && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
             stealth = true;
             cover = true;
         }
         
         //modifiers
-        if(stealth && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+        if(stealth && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
             hitModifierArr.push(-1);
         }
 
         //rapid fire
-        weaponStats[chosenWeaponName].rollRapidFire = false;
-        if(weaponStats[chosenWeaponName].rapidFireCount.toUpperCase().includes('D')){
-            weaponStats[chosenWeaponName].rollRapidFire = true;
+        weaponStats[chosenWeaponNameDif].rollRapidFire = false;
+        if(weaponStats[chosenWeaponNameDif].rapidFireCount.toUpperCase().includes('D')){
+            weaponStats[chosenWeaponNameDif].rollRapidFire = true;
         }
 
         //melta
-        if(weaponStats[chosenWeaponName].melta && halfRange){
-            if(weaponStats[chosenWeaponName].rollDamage){
-                let splitDamageString = weaponStats[chosenWeaponName].damageString.split('+');
+        if(weaponStats[chosenWeaponNameDif].melta && halfRange){
+            if(weaponStats[chosenWeaponNameDif].rollDamage){
+                let splitDamageString = weaponStats[chosenWeaponNameDif].damageString.split('+');
                 if(splitDamageString.length == 2){
-                    splitDamageString[1] = parseInt(splitDamageString[1]) + weaponStats[chosenWeaponName].meltaCount;
-                    weaponStats[chosenWeaponName].damageString = splitDamageString.join('+');
+                    splitDamageString[1] = parseInt(splitDamageString[1]) + weaponStats[chosenWeaponNameDif].meltaCount;
+                    weaponStats[chosenWeaponNameDif].damageString = splitDamageString.join('+');
                 }else{
-                    weaponStats[chosenWeaponName].damageString = splitDamageString[0] + '+' + weaponStats[chosenWeaponName].meltaCount;
+                    weaponStats[chosenWeaponNameDif].damageString = splitDamageString[0] + '+' + weaponStats[chosenWeaponNameDif].meltaCount;
                 }
             }else{
-                weaponStats[chosenWeaponName].damageString += weaponStats[chosenWeaponName].meltaCount;
+                weaponStats[chosenWeaponNameDif].damageString += weaponStats[chosenWeaponNameDif].meltaCount;
             }
         }
 
         //lance
-        if(weaponStats[chosenWeaponName].lance && charged){
+        if(weaponStats[chosenWeaponNameDif].lance && charged){
             woundModifierArr.push(1);
             // console.log(`lance: ${lance}`)
             // console.log(`charged: ${charged}`)
@@ -1500,28 +1517,28 @@ function simulateAttackSequence() {
         }
 
         //indirect fire
-        if(weaponStats[chosenWeaponName].indirectFire && !los){
+        if(weaponStats[chosenWeaponNameDif].indirectFire && !los){
             hitModifierArr.push(-1);
             cover = true;
         }
 
         //heavy
-        if(weaponStats[chosenWeaponName].heavy && !moved){
+        if(weaponStats[chosenWeaponNameDif].heavy && !moved){
             hitModifierArr.push(1);
         }
 
         // calculating needed wound roll
-        weaponStats[chosenWeaponName].wound = woundRollVal(weaponStats[chosenWeaponName].strength,weaponStats[chosenWeaponName].toughness);
+        weaponStats[chosenWeaponNameDif].wound = woundRollVal(weaponStats[chosenWeaponNameDif].strength,weaponStats[chosenWeaponNameDif].toughness);
 
         // console.log(`wound: ${wound}`)
 
         //checking if anti applies and if so adjusting critical wound value
-        if(weaponStats[chosenWeaponName].anti){
+        if(weaponStats[chosenWeaponNameDif].anti){
 
-            let antiArray = weaponStats[chosenWeaponName].antiType.split(', ');
-            let antiValuesArray = weaponStats[chosenWeaponName].antiValue.split(', ');
+            let antiArray = weaponStats[chosenWeaponNameDif].antiType.split(', ');
+            let antiValuesArray = weaponStats[chosenWeaponNameDif].antiValue.split(', ');
 
-            weaponStats[chosenWeaponName].criticalWound = 6;
+            weaponStats[chosenWeaponNameDif].criticalWound = 6;
             for(let a=0,b=antiArray.length;a<b;a++){
                 for(let c=0,d=defenderKeywordsArray.length;c<d;c++){
                     if(antiArray[a] == defenderKeywordsArray[c]){
@@ -1529,8 +1546,8 @@ function simulateAttackSequence() {
                         // console.log(`anti: ${antiArray[a]}`)
                         // console.log(`defender tag: ${defenderKeywordsArray[c]}`)
                         // console.log(`anti value: ${antiValuesArray[a]}`)
-                        if(antiValuesArray[a] < weaponStats[chosenWeaponName].criticalWound){
-                            weaponStats[chosenWeaponName].criticalWound = antiValuesArray[a];
+                        if(antiValuesArray[a] < weaponStats[chosenWeaponNameDif].criticalWound){
+                            weaponStats[chosenWeaponNameDif].criticalWound = antiValuesArray[a];
                         }
                     }
                 }
@@ -1544,7 +1561,7 @@ function simulateAttackSequence() {
 
         //cover
         //defender has the benefit of cover as long as the attack isnt ap 0 while they have a save of 3+ or better
-        if(cover && (weaponStats[chosenWeaponName].save > 3 || weaponStats[chosenWeaponName].ap > 0) && !weaponStats[chosenWeaponName].ignoresCover && weaponStats[chosenWeaponName].weaponMeleeRanged == 'ranged'){
+        if(cover && (weaponStats[chosenWeaponNameDif].save > 3 || weaponStats[chosenWeaponNameDif].ap > 0) && !weaponStats[chosenWeaponNameDif].ignoresCover && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'ranged'){
             saveModifierArr.push(1);
         }
 
@@ -1589,9 +1606,9 @@ function simulateAttackSequence() {
             hitModifier = -1;
         }
 
-        weaponStats[chosenWeaponName].hitModifier = hitModifier;
+        weaponStats[chosenWeaponNameDif].hitModifier = hitModifier;
 
-        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
+        // console.log(`hitModifier: ${weaponStats[chosenWeaponNameDif].hitModifier}`);
 
         //capping wound roll modifiers
         if(woundModifier > 1){
@@ -1600,9 +1617,9 @@ function simulateAttackSequence() {
             woundModifier = -1;
         }
 
-        weaponStats[chosenWeaponName].woundModifier = woundModifier;
+        weaponStats[chosenWeaponNameDif].woundModifier = woundModifier;
 
-        // console.log(`woundModifier: ${weaponStats[chosenWeaponName].woundModifier}`);
+        // console.log(`woundModifier: ${weaponStats[chosenWeaponNameDif].woundModifier}`);
 
         //can never be more than 1;
         if(saveModifier > 1){
@@ -1612,44 +1629,44 @@ function simulateAttackSequence() {
         }
 
         // console.log(`saveModifier: ${saveModifier}`);
-        // console.log(`ap: ${weaponStats[chosenWeaponName].ap}`)
+        // console.log(`ap: ${weaponStats[chosenWeaponNameDif].ap}`)
         // console.log(`saveModifier: ${saveModifier}`)
 
-        // console.log(`invul: ${weaponStats[chosenWeaponName].invul}`)
+        // console.log(`invul: ${weaponStats[chosenWeaponNameDif].invul}`)
 
-        weaponStats[chosenWeaponName].save = weaponStats[chosenWeaponName].save + weaponStats[chosenWeaponName].ap - saveModifier;
+        weaponStats[chosenWeaponNameDif].save = weaponStats[chosenWeaponNameDif].save + weaponStats[chosenWeaponNameDif].ap - saveModifier;
 
-        if(weaponStats[chosenWeaponName].invul != 0 && !isNaN(weaponStats[chosenWeaponName].invul)){
-            if(weaponStats[chosenWeaponName].save > weaponStats[chosenWeaponName].invul){
-                weaponStats[chosenWeaponName].save = weaponStats[chosenWeaponName].invul;
+        if(weaponStats[chosenWeaponNameDif].invul != 0 && !isNaN(weaponStats[chosenWeaponNameDif].invul)){
+            if(weaponStats[chosenWeaponNameDif].save > weaponStats[chosenWeaponNameDif].invul){
+                weaponStats[chosenWeaponNameDif].save = weaponStats[chosenWeaponNameDif].invul;
             }
         }
 
-        // console.log(`save: ${weaponStats[chosenWeaponName].save}`)
+        // console.log(`save: ${weaponStats[chosenWeaponNameDif].save}`)
 
-        // console.log(`defenders calced save: ${weaponStats[chosenWeaponName].save}`)
+        // console.log(`defenders calced save: ${weaponStats[chosenWeaponNameDif].save}`)
 
         //defender unit damage modifiers go down here so they dont get modified
         if(sororitasMantle){
-            weaponStats[chosenWeaponName].rollDamage = false;
-            weaponStats[chosenWeaponName].damageString = 1;
+            weaponStats[chosenWeaponNameDif].rollDamage = false;
+            weaponStats[chosenWeaponNameDif].damageString = 1;
         }
 
-        if(halveDamage && !weaponStats[chosenWeaponName].rollDamage){
-            weaponStats[chosenWeaponName].damageString = Math.ceil(damageString/2);
+        if(halveDamage && !weaponStats[chosenWeaponNameDif].rollDamage){
+            weaponStats[chosenWeaponNameDif].damageString = Math.ceil(damageString/2);
         }
 
-        weaponStats[chosenWeaponName].resultsArr = [];
-        weaponStats[chosenWeaponName].deadDefenderResultsArr = [];
-        weaponStats[chosenWeaponName].defenderWipedArr = [];
+        weaponStats[chosenWeaponNameDif].resultsArr = [];
+        weaponStats[chosenWeaponNameDif].deadDefenderResultsArr = [];
+        weaponStats[chosenWeaponNameDif].defenderWipedArr = [];
 
         //we need these saved for if the strings are modified during simulation
-        weaponStats[chosenWeaponName].originalAttackString = weaponStats[chosenWeaponName].attackString;
-        weaponStats[chosenWeaponName].originalDamageString = weaponStats[chosenWeaponName].damageString;
+        weaponStats[chosenWeaponNameDif].originalAttackString = weaponStats[chosenWeaponNameDif].attackString;
+        weaponStats[chosenWeaponNameDif].originalDamageString = weaponStats[chosenWeaponNameDif].damageString;
 
-        // console.log(`hitModifier: ${weaponStats[chosenWeaponName].hitModifier}`);
-        // console.log(`woundModifier: ${weaponStats[chosenWeaponName].woundModifier}`);
-        // console.log(weaponStats[chosenWeaponName])
+        // console.log(`hitModifier: ${weaponStats[chosenWeaponNameDif].hitModifier}`);
+        // console.log(`woundModifier: ${weaponStats[chosenWeaponNameDif].woundModifier}`);
+        // console.log(weaponStats[chosenWeaponNameDif])
 
     });
 
@@ -1667,9 +1684,6 @@ function simulateAttackSequence() {
 
         let mortalWounds = 0;
 
-        let tankSchockApplied = true;
-        let grenadesAppleied = true;
-
         deadDefenders = 0;
         remainingDefenderWounds = wounds;
 
@@ -1682,11 +1696,12 @@ function simulateAttackSequence() {
         weaponSelectEls.forEach( weaponEl => {
 
             chosenWeaponName = weaponEl.getAttribute('data-weapon');
-            let chosenWeaponStats = weaponStats[chosenWeaponName];
+            chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+            let chosenWeaponStats = weaponStats[chosenWeaponNameDif];
 
             // if(i == 0){
                 // console.log(chosenWeaponName)
-                // console.log(chosenWeaponStats);
+                // console.log(JSON.parse(JSON.stringify(chosenWeaponStats)))
             // }
 
             attackString = chosenWeaponStats.originalAttackString;
@@ -1695,17 +1710,13 @@ function simulateAttackSequence() {
             // console.log('');
             // console.log('NEW SIMULATION');
 
-            if(!tankSchockApplied && !grenadesAppleied){
-                mortalWounds = 0;
-            }else{
-                tankSchockApplied = true;
-                grenadesAppleied = true;
-            }            
+            mortalWounds = 0;
+                
             let diceResults = [];
             let attacks = 0;
             let lethalHitStorage = [];
 
-            if(worldEatersGlaiveCharged){
+            if(chosenWeaponStats.worldEatersGlaiveCharged){
                 let tempD3 = parseInt(rollDice3());
                 chosenWeaponStats.attackString = addToString(chosenWeaponStats.rollAttacks, chosenWeaponStats.attackString, tempD3);
                 chosenWeaponStats.damageString = addToString(chosenWeaponStats.rollDamage, chosenWeaponStats.damageString, tempD3);
@@ -1732,7 +1743,7 @@ function simulateAttackSequence() {
             }
 
             //adding the chaos space marine talisman D3 attacks if needed
-            if(addCSMTalismanAttacks){
+            if(chosenWeaponStats.addCSMTalismanAttacks){
                 attacks += calcDiceRollsInString('D3');
             }
 
@@ -2052,7 +2063,11 @@ function simulateAttackSequence() {
 
             //If we have devastating wounds
             if(chosenWeaponStats.devastatingWounds){
+
                 // console.log(`critical wound rolls: ${criticalWoundDice}`);
+                // if(i == 0){
+                    // console.log('devastatingWounds');
+                // }
 
                 //turn the critical wounds into mortal wounds
                 if(chosenWeaponStats.rollDamage){
@@ -2084,7 +2099,7 @@ function simulateAttackSequence() {
             diceResults = diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) >= chosenWeaponStats.wound);
 
             //add the criticals back in unless devastating wounds or critical ap stuff
-            if(!chosenWeaponStats.devastatingWounds && weaponStats[chosenWeaponName].criticalWoundAp == 0){
+            if(!chosenWeaponStats.devastatingWounds && weaponStats[chosenWeaponNameDif].criticalWoundAp == 0){
                 diceResults = diceResults.concat(criticalWoundDice);
             }
 
@@ -2103,7 +2118,7 @@ function simulateAttackSequence() {
             rollDiceArray(diceResults);
 
             //rolling save for the extra ap crit wound dice
-            if(weaponStats[chosenWeaponName].criticalWoundAp > 0){
+            if(weaponStats[chosenWeaponNameDif].criticalWoundAp > 0){
                 rollDiceArray(criticalWoundDice);
             }
 
@@ -2161,7 +2176,7 @@ function simulateAttackSequence() {
 
             }
 
-            weaponStats[chosenWeaponName].criticalWoundAp > 0
+            weaponStats[chosenWeaponNameDif].criticalWoundAp > 0
 
 
             // console.log(`after reroll saves: ${diceResults}`);
@@ -2172,11 +2187,11 @@ function simulateAttackSequence() {
             diceResults = diceResults.filter((result) => result < chosenWeaponStats.save);
 
             //
-            if(weaponStats[chosenWeaponName].criticalWoundAp > 0){
+            if(weaponStats[chosenWeaponNameDif].criticalWoundAp > 0){
 
-                let tempRecalcedSave = chosenWeaponStats.save + weaponStats[chosenWeaponName].criticalWoundAp;
+                let tempRecalcedSave = chosenWeaponStats.save + weaponStats[chosenWeaponNameDif].criticalWoundAp;
 
-                if(chosenWeaponStats.invul != 0 && (chosenWeaponStats.save + weaponStats[chosenWeaponName].criticalWoundAp > chosenWeaponStats.invul)){
+                if(chosenWeaponStats.invul != 0 && (chosenWeaponStats.save + weaponStats[chosenWeaponNameDif].criticalWoundAp > chosenWeaponStats.invul)){
                     tempRecalcedSave = chosenWeaponStats.invul;
                 }
                 
@@ -2275,7 +2290,7 @@ function simulateAttackSequence() {
             // console.log(`finalWoundsDealt: ${finalWoundsDealt}`);
             // console.log(`deadDefenders (after MW): ${deadDefenders}`);
 
-            weaponOverallResultsObj[chosenWeaponName].push(finalWoundsDealt);
+            weaponOverallResultsObj[chosenWeaponNameDif].push(finalWoundsDealt);
 
             if(overAllResults.combinedWounds[i] === undefined){
                 overAllResults.combinedWounds[i] = 0;
@@ -2284,7 +2299,7 @@ function simulateAttackSequence() {
 
             let defendersKilledByThisWeapon = deadDefenders - deadDefendersBeforeThisWeapon;
 
-            weaponOverallDeadDefenderResultsObj[chosenWeaponName].push(defendersKilledByThisWeapon);
+            weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif].push(defendersKilledByThisWeapon);
 
             if(overAllResults.combinedKills[i] === undefined){
                 overAllResults.combinedKills[i] = 0;
@@ -2296,9 +2311,9 @@ function simulateAttackSequence() {
 
             // console.log(' ')
 
-            // weaponOverallResultsObj[chosenWeaponName] = resultsArr;
-            // weaponOverallDeadDefenderResultsObj[chosenWeaponName] = deadDefenderResultsArr;
-            // weaponOverallDefenderWipedObj[chosenWeaponName] = defenderWipedArr;
+            // weaponOverallResultsObj[chosenWeaponNameDif] = resultsArr;
+            // weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif] = deadDefenderResultsArr;
+            // weaponOverallDefenderWipedObj[chosenWeaponNameDif] = defenderWipedArr;
 
         })
 
@@ -2313,7 +2328,6 @@ function simulateAttackSequence() {
             }
             // console.log(`mortal wounds after tank shock: ${extraMortalWounds}`)
             tankShockArr.push(tankShockDamage);
-            tankSchockApplied = false;
         }
 
         if(stratagemGrenade){
@@ -2324,7 +2338,6 @@ function simulateAttackSequence() {
                 }
             }
             grenadeArr.push(grenadeDamage);
-            grenadesAppleied = false;
         }
 
         finalWoundsDealt = 0;
@@ -2608,9 +2621,23 @@ function simulateAttackSequence() {
 
     let weaponsStrings = '';
     let weaponsBarString = '';
+
+    let unitName = '';
+    // weaponStats[chosenWeaponNameDif].unitName
+
+    // console.log(weaponStats);
+
     weaponSelectEls.forEach( weaponEl => {
+
         chosenWeaponName = weaponEl.getAttribute('data-weapon');
-        weaponsStrings += `<div class="simulation_title">${weaponStats[chosenWeaponName].name}</div><div>Average damage: <span class="value">${weaponOverallResultsObj[chosenWeaponName].average}</span></div><div>Average kills: <span class="value">${weaponOverallDeadDefenderResultsObj[chosenWeaponName].average}</span></div>`;
+        chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+
+        if(unitName != weaponStats[chosenWeaponNameDif].unitName){
+            unitName = weaponStats[chosenWeaponNameDif].unitName
+            weaponsStrings += `<div class="simulation_title">${unitName}</div>`;
+        }
+
+        weaponsStrings += `<div class="simulation_title">${weaponStats[chosenWeaponNameDif].name}</div><div>Average damage: <span class="value">${weaponOverallResultsObj[chosenWeaponNameDif].average}</span></div><div>Average kills: <span class="value">${weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif].average}</span></div>`;
         // weaponsBarString += `<div class="inner_bar inner_bar-${weaponStats[chosenWeaponName].name}-${weaponStats[chosenWeaponName].weaponMeleeRanged}"></div>`;
     });
 
@@ -2755,6 +2782,13 @@ function attackerFactionChange(){
 
     resetModifiers('attacker');
 
+    //hide the extra attacker select
+    document.querySelector('#attackers_extra_select').style.display = 'none';
+    document.querySelectorAll('.select_container').forEach(el => el.style.height = 'calc( 25px * 2 )');
+    //reet the attacker html bits
+    weaponContainer.innerHTML = '';
+    extraWeaponContainer.innerHTML = '';
+
     selectedAttackerFaction = attackerFactionSelectEl.value;
     attackerUnitSelectEl.innerHTML = generateUnitSelectHtml(selectedAttackerFaction);
     document.querySelector('.factionAttacker').querySelectorAll('.faction_modifier_container').forEach((element) => {
@@ -2802,6 +2836,9 @@ function attackerFactionChange(){
 function defenderFactionChange(){
 
     resetModifiers('defender');
+
+    //hide the defender html bits
+    document.querySelector('#defenderCont').innerHTML = '';
 
     selectedDefenderFaction = defenderFactionSelectEl.value;
     defenderUnitSelectEl.innerHTML = generateUnitSelectHtml(selectedDefenderFaction)
@@ -2870,6 +2907,8 @@ function attackerUnitChange(){
 
     resetModifiers('attacker');
 
+    extraWeaponContainer.innerHTML = '';
+
     selectedAttackerUnit = attackerUnitSelectEl.value;
     let selectedAttackerData = data[selectedAttackerFaction].units[selectedAttackerUnit].tags;
     // attackerWeaponSelectEl.innerHTML = generateWeaponSelectHtml(selectedAttackerFaction, selectedAttackerUnit);
@@ -2887,6 +2926,41 @@ function attackerUnitChange(){
     if(canHaveEnhancement){
         document.querySelector(`#attacker_enhancement-${selectedAttackerFaction}`).style.display = 'block';
     }
+
+    if(data[selectedAttackerFaction].units[selectedAttackerUnit].hasOwnProperty('leader')){
+        if(data[selectedAttackerFaction].units[selectedAttackerUnit].leader){
+
+            let extraAttackerHTML = '<option value="null">-</option>';
+            data[selectedAttackerFaction].units[selectedAttackerUnit].leaderUnits.forEach(unit => {
+                let extraUnitData = data[selectedAttackerFaction].units[unit];
+                extraAttackerHTML += `<option value="${unit}">${extraUnitData.name}</option>`;
+            })
+
+            document.querySelectorAll('.select_container').forEach(el => el.style.height = 'calc( 25px * 3 )');
+
+            document.querySelector('#attackers_extra_select').innerHTML = extraAttackerHTML;
+
+            //show a thing to turn on leader mode
+            document.querySelector('#attackers_extra_select').style.display = 'block';
+
+            //populate the weaponContainerExtra container with the led unit
+            document.querySelector('#attackers_extra_select').addEventListener("change", function(){
+                populateExtraWeaponContainer(selectedAttackerFaction, this.value)
+            });
+            document.querySelector('#weaponContainerExtra').style.display = 'block';
+            
+            
+        }else{
+            document.querySelectorAll('.select_container').forEach(el => el.style.height = 'calc( 25px * 2 )');
+            document.querySelector('#attackers_extra_select').style.display = 'none';
+            document.querySelector('#weaponContainerExtra').style.display = 'block';
+        }
+    }else{
+        document.querySelectorAll('.select_container').forEach(el => el.style.height = 'calc( 25px * 2 )');
+        document.querySelector('#attackers_extra_select').style.display = 'none';
+        document.querySelector('#weaponContainerExtra').style.display = 'block';
+    }
+
     //generic stratagems
     //hide all stratagems and untick all stratagem boxes
     document.querySelector('.stratagemAttacker').querySelectorAll('.faction_stratagem_sub_container').forEach((element) => {
@@ -2975,14 +3049,14 @@ function populateWeaponContainer(selectedFaction, selectedUnit){
     if(Object.keys(selectedUnitRangedWeapons).length > 0){
         weaponContainerHTML += '<div class="bold weapon_type_label">Ranged</div>'
         for(const weapon in selectedUnitRangedWeapons){
-            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-ranged"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-ranged" data-weapon-type="ranged" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" /> <div class="weapon_label">${selectedUnitRangedWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">BS</div><input type="text" id="wbs${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].tags.join(', ')}" /></div>`;
+            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-ranged-main"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-ranged" data-weapon-type="ranged" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" data-weapon-extra="main" /> <div class="weapon_label">${selectedUnitRangedWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">BS</div><input type="text" id="wbs${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].tags.join(', ')}" /></div>`;
         }
     }
 
     if(Object.keys(selectedUnitMeleeWeapons).length > 0){
         weaponContainerHTML += '<div class="bold weapon_type_label">Melee</div>'
         for(const weapon in selectedUnitMeleeWeapons){
-            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-melee"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-melee" data-weapon-type="melee" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" /> <div class="weapon_label">${selectedUnitMeleeWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">WS</div><input type="text" id="wbs${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].tags.join(', ')}" /></div>`;
+            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-melee-main"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-melee" data-weapon-type="melee" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" data-weapon-extra="main" /> <div class="weapon_label">${selectedUnitMeleeWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">WS</div><input type="text" id="wbs${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].tags.join(', ')}" /></div>`;
         }
     }
 
@@ -2990,6 +3064,43 @@ function populateWeaponContainer(selectedFaction, selectedUnit){
     weaponContainerHTML += `<div class="attacker_tags_label">Keywords</div><textarea class="attacker_tags" id="attackerTags">${data[selectedFaction].units[selectedUnit].tags.join(', ')}</textarea>`;
 
     weaponContainer.innerHTML = weaponContainerHTML;
+
+    registerWeaponClicks();
+    
+}
+
+function populateExtraWeaponContainer(selectedFaction, selectedUnit){
+
+    //populate the weapon container with options
+    // console.log(data[selectedFaction].units[selectedUnit]);
+    let weaponContainerHTML = '';
+    let selectedUnitRangedWeapons = data[selectedFaction].units[selectedUnit].weapons.ranged;
+    let selectedUnitMeleeWeapons = data[selectedFaction].units[selectedUnit].weapons.melee;
+
+    if(Object.keys(selectedUnitRangedWeapons).length > 0){
+        weaponContainerHTML += '<div class="bold weapon_type_label">Ranged</div>'
+        for(const weapon in selectedUnitRangedWeapons){
+            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-ranged-extra"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-ranged" data-weapon-type="ranged" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" data-weapon-extra="extra" /> <div class="weapon_label">${selectedUnitRangedWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">BS</div><input type="text" id="wbs${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-ranged" value="${selectedUnitRangedWeapons[weapon].tags.join(', ')}" /></div>`;
+        }
+    }
+
+    if(Object.keys(selectedUnitMeleeWeapons).length > 0){
+        weaponContainerHTML += '<div class="bold weapon_type_label">Melee</div>'
+        for(const weapon in selectedUnitMeleeWeapons){
+            weaponContainerHTML += `<div class="weapon" id="weapon${weapon}-melee-extra"> <input type="checkbox" class="weapon_select" id="weaponSelect${weapon}-melee" data-weapon-type="melee" data-faction="${selectedFaction}" data-unit="${selectedUnit}" data-weapon="${weapon}" data-weapon-extra="extra" /> <div class="weapon_label">${selectedUnitMeleeWeapons[weapon].name}</div><div class="weapon_attribute"> <div class="label">No.</div><input type="text" id="attackerCount${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].maxPerUnit}"/> </div><div class="weapon_attribute"> <div class="label">A</div><input type="text" id="attacks${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].a}"/> </div><div class="weapon_attribute"> <div class="label">WS</div><input type="text" id="wbs${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].wbs}"/> </div><div class="weapon_attribute"> <div class="label">S</div><input type="text" id="strength${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].s}"/> </div><div class="weapon_attribute"> <div class="label">AP</div><input type="text" id="ap${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].ap}"/> </div><div class="weapon_attribute"> <div class="label">D</div><input type="text" id="damage${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].d}"/> </div><div class="label weapon_tags_label">Tags</div><input type="text" class="weapon_tags" id="weaponTags${weapon}-melee" value="${selectedUnitMeleeWeapons[weapon].tags.join(', ')}" /></div>`;
+        }
+    }
+
+    //add the atacker unit tags
+    weaponContainerHTML += `<div class="attacker_tags_label">Keywords</div><textarea class="attacker_tags" id="attackerTags">${data[selectedFaction].units[selectedUnit].tags.join(', ')}</textarea>`;
+
+    extraWeaponContainer.innerHTML = weaponContainerHTML;
+
+    registerWeaponClicks();
+
+}
+
+function registerWeaponClicks(){
 
     let weaponSelectEls = document.querySelectorAll('.weapon_select');
 
@@ -3023,7 +3134,7 @@ function populateWeaponContainer(selectedFaction, selectedUnit){
             })
         });
     });
-    
+
 }
 
 function populateDefender(selectedFaction, selectedUnit){

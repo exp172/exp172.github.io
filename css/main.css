@@ -116,6 +116,10 @@ select{
                         width:100%;
                     }
 
+        .weapon_container_extra{
+            display:none;
+        }
+
         .defender_centered{
             width:100%;
             max-width:360px;
@@ -265,6 +269,10 @@ select{
 .select_container{
     height:calc(25px * 2);
     margin-top:5px;
+}
+
+#attackers_extra_select{
+    display:none;
 }
 
 .defender .select_container{
