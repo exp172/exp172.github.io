@@ -351,23 +351,43 @@ select{
         max-width:1000px;
         margin:0 auto;
         aspect-ratio: 8 / 5;
-        background-color: antiquewhite;
+        background-color: #fffaf3;
         padding:30px 10px 10px 10px;
         display:flex;
         align-items:flex-end;
+        position:relative;
     }
 
-    .bar{
-        background-color:darkgoldenrod;
-    }
-
-    .bar.average{
-        background-color:darkorange;
-    }
+        .chart_key{
+            display:flex;
+            flex-wrap:wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+            .chart_key_element{
+                margin-bottom:10px;
+                flex-grow: 1;
+                padding-right:10px;
+            }
+            .chart_key_element+.chart_key_element{
+                border-left: 1px solid #DDDDDD;
+                padding-left:10px;
+            }
+            .chart_key_element:last-child{
+                padding-right:0px;
+            }
+                .chart_key_label{
+                    text-align:center;
+                    color:#888888;
+                }
+                .chart_key_colour{
+                    height:25px;
+                    width:100%;
+                }
 
         .bar .label{
             text-align:center;
-            margin-top:-20px;
+            margin-top:-18px;
         }
 
         .bar .sublabel{

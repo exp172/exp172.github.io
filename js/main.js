@@ -69,6 +69,79 @@ let enhancementContainerExpanded = false;
 let factionModifiersContainerExpanded = false;
 let modifierContainerExpanded = false;
 
+//color vars
+const colours = {
+    adeptaSororitas: 'rgb(93 3 0)',
+    adeptusCustodes: 'rgb(117 92 66)',
+    adeptusMechanicus: 'rgb(159 50 42)',
+    aeldari: 'rgb(31 118 126)',
+    agentsoftheImperium: 'rgb(9 83 116)',
+    astraMilitarum: 'rgb(51 81 62)',
+    blackTemplars: 'rgb(0 46 64)',
+    bloodAngels: 'rgb(117 16 23)',
+    chaosDaemons: 'rgb(61 65 73)',
+    chaosKnights: 'rgb(62 92 88)',
+    chaosSpaceMarines: 'rgb(26 48 55)',
+    darkAngels: 'rgb(0 67 24)',
+    deathGuard: 'rgb(86 95 15)',
+    deathwatch: 'rgb(65 73 78)',
+    drukhari: 'rgb(0 73 80)',
+    genestealerCults: 'rgb(63 16 49)',
+    greyKnights: 'rgb(74 101 112)',
+    imperialKnights: 'rgb(0 73 96)',
+    leaguesofVotann: 'rgb(61 84 74)',
+    necrons: 'rgb(0 89 46)',
+    orks: 'rgb(77 99 32)',
+    adeptusAstartes: 'rgb(81 103 101)',
+    spaceWolves: 'rgb(64 102 109)',
+    tauEmpire: 'rgb(24 96 113)',
+    thousandSons: 'rgb(0 93 102)',
+    tyranids: 'rgb(62 24 68)',
+    worldEaters: 'rgb(83 20 21)',
+    adeptusTitanicus: 'rgb(81 103 101)'
+};
+
+function sortHTMLBars(a, b) {
+    return b.num - a.num;
+}
+
+//function that generates an array of colours based on an rgb start point
+function generateColours(colourStartPoint, coloursToGenerate){
+    let outColours = [];
+
+    if(coloursToGenerate > 1){
+        let splitColours = colourStartPoint.split('(')[1].split(')')[0].split(' ');
+
+        for(let a=0,b=coloursToGenerate;a<b;a++){
+
+            outColours[coloursToGenerate-(a+1)] = [];
+
+            splitColours.forEach((colour, index) => {
+                let range = 0;
+                if(255-parseInt(colour) <= 127){
+                    //closer to 255
+                    range =  parseInt(colour)/(coloursToGenerate+1);
+                    outColours[coloursToGenerate-(a+1)].push(Math.round(parseInt(colour) - (range*(a))));
+                }else{
+                    //closer to 0
+                    range = (255 - parseInt(colour))/(coloursToGenerate+1);
+                    outColours[coloursToGenerate-(a+1)].push(Math.round((range*(a)) + parseInt(colour)));
+                }
+            })
+
+        };
+
+        outColours.forEach((arr, index) => {
+            outColours[index] = `rgb(${arr[0]}, ${arr[1]}, ${arr[2]})`
+            // console.log("%c Colour", `background-color: ${outColours[index]}; font-weight:bold;`);
+        });
+    }else{
+        outColours.push(colourStartPoint);
+    }
+
+    return outColours;
+}
+
 //some dudes dice code so we can roll dice!
 function rollDice(min, max) {
     return min + Math.floor(Math.random() * (max - min + 1));
@@ -2620,7 +2693,6 @@ function simulateAttackSequence() {
     // console.log(weaponOverallDeadDefenderResultsObj)
 
     let weaponsStrings = '';
-    let weaponsBarString = '';
 
     let unitName = '';
     // weaponStats[chosenWeaponNameDif].unitName
@@ -2638,7 +2710,7 @@ function simulateAttackSequence() {
         }
 
         weaponsStrings += `<div class="simulation_title">${weaponStats[chosenWeaponNameDif].name}</div><div>Average damage: <span class="value">${weaponOverallResultsObj[chosenWeaponNameDif].average}</span></div><div>Average kills: <span class="value">${weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif].average}</span></div>`;
-        // weaponsBarString += `<div class="inner_bar inner_bar-${weaponStats[chosenWeaponName].name}-${weaponStats[chosenWeaponName].weaponMeleeRanged}"></div>`;
+        weaponStats[chosenWeaponNameDif].weaponsBarString = `<div class="inner_bar inner_bar-${weaponStats[chosenWeaponNameDif].name}-${weaponStats[chosenWeaponNameDif].weaponMeleeRanged}"></div>`;
     });
 
     informationHTML = `<div class="simulation_header">Over <span class="value">${simulations}</span> simulations:</div><div class="simulation_title">Total</div><div>Average damage (rounded): <span class="value">${Math.round(overAllResults.combinedWoundsAverage)}</span></div><div>Average kills (rounded): <span class="value">${Math.round(overAllResults.combinedKillsAverage)}</span></div>${weaponsStrings}${grenadeString}${tankShockString}${necronReanimationString}<div class="simulation_kill_perc">percentage chance to fully wipe the target unit: <span class="value">${overAllResults.combinedWipesAverage}%</span></div>${hazardousString}`;
@@ -2646,27 +2718,79 @@ function simulateAttackSequence() {
     informationContainer.innerHTML = informationHTML;
 
     //make the chart
-    counter = {};
-    for(const count in overAllResults.combinedWounds){
-        if (counter[overAllResults.combinedWounds[count]]) {
-            counter[overAllResults.combinedWounds[count]] += 1;
-        } else {
-            counter[overAllResults.combinedWounds[count]] = 1;
+    let chartCounter = {};
+    let chartTotal = {};
+    for(const weapon in weaponOverallResultsObj){
+        if(!chartCounter.hasOwnProperty(weapon)){
+            chartCounter[weapon] = {};
+        }
+        for(const count in weaponOverallResultsObj[weapon]){
+            if(count != 'average'){
+                // console.log(chartTotal[weaponOverallResultsObj[weapon][count]])
+                if (chartCounter[weapon][weaponOverallResultsObj[weapon][count]]) {
+                    chartCounter[weapon][weaponOverallResultsObj[weapon][count]] += 1;
+                } else {
+                    chartCounter[weapon][weaponOverallResultsObj[weapon][count]] = 1;
+                }
+
+                if (chartTotal.hasOwnProperty(weaponOverallResultsObj[weapon][count])) {
+                    chartTotal[weaponOverallResultsObj[weapon][count]] += 1;
+                } else {
+                    chartTotal[weaponOverallResultsObj[weapon][count]] = 1;
+                }
+            }
         }
     }
+
+    // console.log(`chartCounter:`);
+    // console.log(chartCounter);
+    // console.log(`chartTotal:`);
+    // console.log(chartTotal);
     // console.log(counter);
 
 
-
     let barHTML = '';
-    let maxMinArr = Object.values(counter);
+    let maxMinArr = Object.values(chartTotal);
     // let min = Math.min(...maxMinArr);
     let max = Math.max(...maxMinArr);
-    for (const count in counter) {
-        // console.log(`${count}: ${counter[count]}`);
-        barHTML += `<div class='bar' id='bar_${count}' style='height:${100/(max/counter[count])}%; width:calc(${100/maxMinArr.length}% - 10px); margin: 0px 5px;'><div class='label'>${count}<span class='sublabel'>${counter[count]}</span></div></div>`; 
+    let weaponBarFill = '';
+
+    let weaponColours = generateColours(colours[selectedAttackerFaction], Object.values(chartCounter).length);
+    
+    for (const count in chartTotal) {
+        // console.log(`${count}: ${chartTotal[count]}`);
+        weaponBarFill = '';
+        let sortingArr = [];
+        for(const weapon in chartCounter){
+            if(chartCounter[weapon].hasOwnProperty(count)){
+                // console.log(`${weapon} ${count}: ${chartCounter[weapon][count]}`)
+                sortingArr.push({num:chartCounter[weapon][count], html:`<div data-num="${chartCounter[weapon][count]}" style="width: 100%; height:${100/(chartTotal[count]/chartCounter[weapon][count])}%; background-color: ${weaponColours[Object.values(chartCounter).indexOf(chartCounter[weapon])]};"></div>`});
+            }
+        }
+
+        //this line here would sort the internal fill of the bars if we ever want that
+        // sortingArr.sort(sortHTMLBars)
+
+        sortingArr.forEach(entry => {
+            weaponBarFill += entry.html;
+        })
+
+        barHTML += `<div class='bar' id='bar_${count}' style='height:${100/(max/chartTotal[count])}%; width:calc(${100/maxMinArr.length}% - 10px); margin: 0px 5px;'><div class='label'>${count}<span class='sublabel'>${chartTotal[count]}</span></div>${weaponBarFill}</div>`; 
     }
 
+    let keyHTML = '';
+
+    weaponSelectEls.forEach( weaponEl => {
+
+        chosenWeaponName = weaponEl.getAttribute('data-weapon');
+        chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+
+        keyHTML += `<div class="chart_key_element"><div class="chart_key_label">${weaponStats[chosenWeaponNameDif].name}</div><div class="chart_key_colour" style="background-color:${weaponColours[Object.values(chartCounter).indexOf(chartCounter[chosenWeaponNameDif])]};"></div></div>`;
+
+    });
+
+    
+    document.querySelector('#chartKey').innerHTML = keyHTML;
     document.querySelector('#chart').innerHTML = barHTML;
 
     let closestBarNum = 0;
@@ -3425,4 +3549,13 @@ console.log(data);
 //     }
 //     outHTML += `,`
 // }
+// document.querySelector('#testOut').innerText = outHTML;
+
+// let outHTML = '';
+
+// for(const colour in colours){
+    // console.log(colour)
+    // generateColours(colours[colour], 5);
+// }
+
 // document.querySelector('#testOut').innerText = outHTML;
