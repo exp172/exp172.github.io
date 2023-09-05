@@ -2634,7 +2634,7 @@ function simulateAttackSequence() {
 
         if(unitName != weaponStats[chosenWeaponNameDif].unitName){
             unitName = weaponStats[chosenWeaponNameDif].unitName
-            weaponsStrings += `<div class="simulation_title">${unitName}</div>`;
+            weaponsStrings += `<div class="simulation_title simulation_unit_name">${unitName}</div>`;
         }
 
         weaponsStrings += `<div class="simulation_title">${weaponStats[chosenWeaponNameDif].name}</div><div>Average damage: <span class="value">${weaponOverallResultsObj[chosenWeaponNameDif].average}</span></div><div>Average kills: <span class="value">${weaponOverallDeadDefenderResultsObj[chosenWeaponNameDif].average}</span></div>`;

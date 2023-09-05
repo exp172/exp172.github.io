@@ -318,6 +318,8 @@ select{
 
 .simulation_header{
     margin-bottom:10px;
+    padding-bottom:10px;
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .simulation_title{
@@ -327,10 +329,17 @@ select{
 
 .simulation_kill_perc{
     margin-top:10px;
+    border-top: 1px solid #DDDDDD;
+    padding-top:10px;
 }
 
 .simulation_hazardous{
     margin-top:10px;
+}
+
+.simulation_unit_name{
+    border-top: 1px solid #DDDDDD;
+    padding-top:10px;
 }
 
 .chart_container{
