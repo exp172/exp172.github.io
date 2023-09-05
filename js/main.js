@@ -101,8 +101,6 @@ const colours = {
     adeptusTitanicus: 'rgb(81 103 101)'
 };
 
-tempMakeTransparent(colours.orks)
-
 function tempMakeTransparent(string){
 
     let stringArr =string.split('(');
@@ -539,13 +537,16 @@ function simulateAttackSequence() {
         let chosenWeaponFaction = weaponEl.getAttribute('data-faction');
         let chosenWeaponUnit = weaponEl.getAttribute('data-unit');
         let chosenWeaponName = weaponEl.getAttribute('data-weapon');
-        let chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
         weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+        let chosenWeaponNameDif = chosenWeaponName + '-' + weaponMeleeRanged + '-' + weaponEl.getAttribute('data-weapon-extra');
 
         let chosenWeaponParentElement = document.querySelector(`#weapon${chosenWeaponName}-${weaponMeleeRanged}-${weaponEl.getAttribute('data-weapon-extra')}`);
 
         let ignoreAttackerRollModifiers = false;
         let ignoreDefenderRollModifiers = false;
+
+        //have to reset cover here as it gets modified by indirect fire weapons
+        cover = document.getElementById("cover").checked;
 
         hitModifierArr = [];
         hitModifier = 0;
@@ -1785,7 +1786,8 @@ function simulateAttackSequence() {
         weaponSelectEls.forEach( weaponEl => {
 
             chosenWeaponName = weaponEl.getAttribute('data-weapon');
-            chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+            weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+            chosenWeaponNameDif = chosenWeaponName + '-' + weaponMeleeRanged + '-' + weaponEl.getAttribute('data-weapon-extra');
             let chosenWeaponStats = weaponStats[chosenWeaponNameDif];
 
             // if(i == 0){
@@ -2718,7 +2720,8 @@ function simulateAttackSequence() {
     weaponSelectEls.forEach( weaponEl => {
 
         chosenWeaponName = weaponEl.getAttribute('data-weapon');
-        chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+        weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+        chosenWeaponNameDif = chosenWeaponName + '-' + weaponMeleeRanged + '-' + weaponEl.getAttribute('data-weapon-extra');
 
         if(unitName != weaponStats[chosenWeaponNameDif].unitName){
             unitName = weaponStats[chosenWeaponNameDif].unitName
@@ -2733,31 +2736,58 @@ function simulateAttackSequence() {
 
     informationContainer.innerHTML = informationHTML;
 
-    //make the chart
+
+    let originalChart = false;
+
     let chartCounter = {};
     let chartTotal = {};
-    for(const weapon in weaponOverallResultsObj){
-        if(!chartCounter.hasOwnProperty(weapon)){
-            chartCounter[weapon] = {};
-        }
-        for(const count in weaponOverallResultsObj[weapon]){
-            if(count != 'average'){
-                // console.log(chartTotal[weaponOverallResultsObj[weapon][count]])
-                if (chartCounter[weapon][weaponOverallResultsObj[weapon][count]]) {
-                    chartCounter[weapon][weaponOverallResultsObj[weapon][count]] += 1;
-                } else {
-                    chartCounter[weapon][weaponOverallResultsObj[weapon][count]] = 1;
-                }
 
-                if (chartTotal.hasOwnProperty(weaponOverallResultsObj[weapon][count])) {
-                    chartTotal[weaponOverallResultsObj[weapon][count]] += 1;
-                } else {
-                    chartTotal[weaponOverallResultsObj[weapon][count]] = 1;
+    if(originalChart){
+
+        //make the chart
+        for(const weapon in weaponOverallResultsObj){
+            if(!chartCounter.hasOwnProperty(weapon)){
+                chartCounter[weapon] = {};
+            }
+            for(const count in weaponOverallResultsObj[weapon]){
+                if(count != 'average'){
+                    // console.log(chartTotal[weaponOverallResultsObj[weapon][count]])
+                    if (chartCounter[weapon][weaponOverallResultsObj[weapon][count]]) {
+                        chartCounter[weapon][weaponOverallResultsObj[weapon][count]] += 1;
+                    } else {
+                        chartCounter[weapon][weaponOverallResultsObj[weapon][count]] = 1;
+                    }
+
+                    if (chartTotal[weaponOverallResultsObj[weapon][count]]) {
+                        chartTotal[weaponOverallResultsObj[weapon][count]] += 1;
+                    } else {
+                        chartTotal[weaponOverallResultsObj[weapon][count]] = 1;
+                    }
                 }
             }
         }
+
+    }else{
+
+        //make the chart total object
+        for(count in overAllResults.combinedWounds){
+
+            // console.log(count);
+            // console.log(overAllResults.combinedWounds[count]);
+
+            if (chartTotal.hasOwnProperty( overAllResults.combinedWounds[count])) {
+                chartTotal[overAllResults.combinedWounds[count]] += 1;
+            } else {
+                chartTotal[overAllResults.combinedWounds[count]] = 1;
+            }
+        }
+
     }
 
+    // console.log('overAllResults:')
+    // console.log(overAllResults)
+    // console.log(`weaponOverallResultsObj:`)
+    // console.log(weaponOverallResultsObj);
     // console.log(`chartCounter:`);
     // console.log(chartCounter);
     // console.log(`chartTotal:`);
@@ -2771,27 +2801,35 @@ function simulateAttackSequence() {
     let max = Math.max(...maxMinArr);
     let weaponBarFill = '';
 
-    let weaponColours = generateColours(colours[selectedAttackerFaction], Object.values(chartCounter).length);
+    let weaponColours = generateColours(colours[selectedAttackerFaction], Object.values(weaponOverallResultsObj).length);
+
+    // let weaponColours = generateColours(colours[selectedAttackerFaction], Object.values(chartCounter).length);
     
     for (const count in chartTotal) {
         // console.log(`${count}: ${chartTotal[count]}`);
         weaponBarFill = '';
         let sortingArr = [];
-        for(const weapon in chartCounter){
-            if(chartCounter[weapon].hasOwnProperty(count)){
-                // console.log(`${weapon} ${count}: ${chartCounter[weapon][count]}`)
-                sortingArr.push({num:chartCounter[weapon][count], html:`<div data-num="${chartCounter[weapon][count]}" style="width: 100%; height:${100/(chartTotal[count]/chartCounter[weapon][count])}%; background-color: ${weaponColours[Object.values(chartCounter).indexOf(chartCounter[weapon])]};"></div>`});
-            }
+
+        for(const weapon in weaponOverallResultsObj){
+            // console.log(`${weapon} ${count}: ${chartCounter[weapon][count]}`)
+            weaponBarFill += `<div style="width: 100%; height:${100/(overAllResults.combinedWoundsAverage/weaponOverallResultsObj[weapon].average)}%; background-color: ${weaponColours[Object.values(weaponOverallResultsObj).indexOf(weaponOverallResultsObj[weapon])]};"></div>`;
         }
+
+        // for(const weapon in chartCounter){
+        //     if(chartCounter[weapon].hasOwnProperty(count)){
+        //         // console.log(`${weapon} ${count}: ${chartCounter[weapon][count]}`)
+        //         sortingArr.push({num:chartCounter[weapon][count], html:`<div data-num="${chartCounter[weapon][count]}" style="width: 100%; height:${100/(chartTotal[count]/chartCounter[weapon][count])}%; background-color: ${weaponColours[Object.values(chartCounter).indexOf(chartCounter[weapon])]};"></div>`});
+        //     }
+        // }
 
         //this line here would sort the internal fill of the bars if we ever want that
         // sortingArr.sort(sortHTMLBars)
 
-        sortingArr.forEach(entry => {
-            weaponBarFill += entry.html;
-        })
+        // sortingArr.forEach(entry => {
+        //     weaponBarFill += entry.html;
+        // })
 
-        barHTML += `<div class='bar' id='bar_${count}' style='height:${100/(max/chartTotal[count])}%; width:calc(${100/maxMinArr.length}% - 10px); margin: 0px 5px;'><div class='label'>${count}<span class='sublabel'>${chartTotal[count]}</span></div>${weaponBarFill}</div>`; 
+        barHTML += `<div class='bar' id='bar_${count}' style='height:${100/(max/chartTotal[count])}%; width:calc(${100/maxMinArr.length}% - 2px); margin: 0px 1px;'><div class='label'>${count}<span class='sublabel'>${chartTotal[count]}</span></div>${weaponBarFill}</div>`; 
     }
 
     let keyHTML = '';
@@ -2799,9 +2837,12 @@ function simulateAttackSequence() {
     weaponSelectEls.forEach( weaponEl => {
 
         chosenWeaponName = weaponEl.getAttribute('data-weapon');
-        chosenWeaponNameDif = chosenWeaponName + '-' + weaponEl.getAttribute('data-weapon-extra');
+        weaponMeleeRanged = weaponEl.getAttribute('data-weapon-type');
+        chosenWeaponNameDif = chosenWeaponName + '-' + weaponMeleeRanged + '-' + weaponEl.getAttribute('data-weapon-extra');
 
-        keyHTML += `<div class="chart_key_element"><div class="chart_key_label">${weaponStats[chosenWeaponNameDif].name}</div><div class="chart_key_colour" style="background-color:${weaponColours[Object.values(chartCounter).indexOf(chartCounter[chosenWeaponNameDif])]};"></div></div>`;
+        keyHTML += `<div class="chart_key_element"><div class="chart_key_label">${weaponStats[chosenWeaponNameDif].name}</div><div class="chart_key_colour" style="background-color:${weaponColours[Object.values(weaponOverallResultsObj).indexOf(weaponOverallResultsObj[chosenWeaponNameDif])]};"></div></div>`;
+
+        // keyHTML += `<div class="chart_key_element"><div class="chart_key_label">${weaponStats[chosenWeaponNameDif].name}</div><div class="chart_key_colour" style="background-color:${weaponColours[Object.values(chartCounter).indexOf(chartCounter[chosenWeaponNameDif])]};"></div></div>`;
 
     });
 
@@ -2809,37 +2850,37 @@ function simulateAttackSequence() {
     document.querySelector('#chartKey').innerHTML = keyHTML;
     document.querySelector('#chart').innerHTML = barHTML;
 
-    let closestBarNum = 0;
-    let closestBarNumPos = 0;
-    let closestBarNumNeg = 0;
-    // if(rollDamage){
-    closestBarNum = Math.round(overAllResults.combinedWoundsAverage);
-    closestBarNumPos = Math.ceil(overAllResults.combinedWoundsAverage);
-    closestBarNumNeg = Math.floor(overAllResults.combinedWoundsAverage);
-    if(document.querySelector(`#bar_${closestBarNum}`) === null){
-        let searching = true;
-        while(searching){
-            if(document.querySelector(`#bar_${closestBarNumPos}`) !== null && document.querySelector(`#bar_${closestBarNumNeg}`) !== null){
-                if((closestBarNumPos - closestBarNum) < (closestBarNum - closestBarNumNeg)){
-                    closestBarNum = closestBarNumPos;
-                }else{
-                    closestBarNum =  closestBarNumNeg;
-                }
-                searching = false;
-            }else if(document.querySelector(`#bar_${closestBarNumPos}`) !== null){
-                closestBarNum = closestBarNumPos;
-                searching = false;
-            }else if(document.querySelector(`#bar_${closestBarNumNeg}`) !== null){
-                closestBarNum = closestBarNumNeg;
-                searching = false;
-            }else{
-                closestBarNumPos = closestBarNumPos + 1;
-                closestBarNumNeg = closestBarNumNeg - 1;
-            }
-        }
-    }
+    // let closestBarNum = 0;
+    // let closestBarNumPos = 0;
+    // let closestBarNumNeg = 0;
+    // // if(rollDamage){
+    // closestBarNum = Math.round(overAllResults.combinedWoundsAverage);
+    // closestBarNumPos = Math.ceil(overAllResults.combinedWoundsAverage);
+    // closestBarNumNeg = Math.floor(overAllResults.combinedWoundsAverage);
+    // if(document.querySelector(`#bar_${closestBarNum}`) === null){
+    //     let searching = true;
+    //     while(searching){
+    //         if(document.querySelector(`#bar_${closestBarNumPos}`) !== null && document.querySelector(`#bar_${closestBarNumNeg}`) !== null){
+    //             if((closestBarNumPos - closestBarNum) < (closestBarNum - closestBarNumNeg)){
+    //                 closestBarNum = closestBarNumPos;
+    //             }else{
+    //                 closestBarNum =  closestBarNumNeg;
+    //             }
+    //             searching = false;
+    //         }else if(document.querySelector(`#bar_${closestBarNumPos}`) !== null){
+    //             closestBarNum = closestBarNumPos;
+    //             searching = false;
+    //         }else if(document.querySelector(`#bar_${closestBarNumNeg}`) !== null){
+    //             closestBarNum = closestBarNumNeg;
+    //             searching = false;
+    //         }else{
+    //             closestBarNumPos = closestBarNumPos + 1;
+    //             closestBarNumNeg = closestBarNumNeg - 1;
+    //         }
+    //     }
+    // }
 
-    document.querySelector(`#bar_${closestBarNum}`).classList.add('average');
+    // document.querySelector(`#bar_${closestBarNum}`).classList.add('average');
 
 }
 

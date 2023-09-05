@@ -434,6 +434,10 @@ select{
                     width:100%;
                 }
 
+        .bar{
+            background-color:#888888;
+        }
+
         .bar .label{
             text-align:center;
             margin-top:-18px;
