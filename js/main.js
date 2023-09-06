@@ -116,7 +116,7 @@ function tempMakeTransparent(string){
 }
 
 function sortHTMLBars(a, b) {
-    return b.num - a.num;
+    return a.num - b.num;
 }
 
 //function that generates an array of colours based on an rgb start point
@@ -2812,7 +2812,8 @@ function simulateAttackSequence() {
 
         for(const weapon in weaponOverallResultsObj){
             // console.log(`${weapon} ${count}: ${chartCounter[weapon][count]}`)
-            weaponBarFill += `<div style="width: 100%; height:${100/(overAllResults.combinedWoundsAverage/weaponOverallResultsObj[weapon].average)}%; background-color: ${weaponColours[Object.values(weaponOverallResultsObj).indexOf(weaponOverallResultsObj[weapon])]};"></div>`;
+            sortingArr.push({num: 100/(overAllResults.combinedWoundsAverage/weaponOverallResultsObj[weapon].average), html:`<div style="width: 100%; height:${100/(overAllResults.combinedWoundsAverage/weaponOverallResultsObj[weapon].average)}%; background-color: ${weaponColours[Object.values(weaponOverallResultsObj).indexOf(weaponOverallResultsObj[weapon])]};"></div>`})
+            // weaponBarFill += `<div style="width: 100%; height:${100/(overAllResults.combinedWoundsAverage/weaponOverallResultsObj[weapon].average)}%; background-color: ${weaponColours[Object.values(weaponOverallResultsObj).indexOf(weaponOverallResultsObj[weapon])]};"></div>`;
         }
 
         // for(const weapon in chartCounter){
@@ -2825,9 +2826,9 @@ function simulateAttackSequence() {
         //this line here would sort the internal fill of the bars if we ever want that
         // sortingArr.sort(sortHTMLBars)
 
-        // sortingArr.forEach(entry => {
-        //     weaponBarFill += entry.html;
-        // })
+        sortingArr.forEach(entry => {
+            weaponBarFill += entry.html;
+        })
 
         barHTML += `<div class='bar' id='bar_${count}' style='height:${100/(max/chartTotal[count])}%; width:calc(${100/maxMinArr.length}% - 2px); margin: 0px 1px;'><div class='label'>${count}<span class='sublabel'>${chartTotal[count]}</span></div>${weaponBarFill}</div>`; 
     }
