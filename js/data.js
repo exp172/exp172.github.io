@@ -4886,9 +4886,9 @@ const data = {
         name: "Skitarii Rangers",
         tags: ["Infantry", "Battleline", "Imperium", "Skitarii", "Rangers"],
         t: 3,
-        sv: 5,
+        sv: 4,
         w: 1,
-        invSv: 6,
+        invSv: 5,
         fnp: 0,
         size: 10,
         weapons: {
@@ -4982,9 +4982,9 @@ const data = {
         name: "Skitarii Vanguard",
         tags: ["Infantry", "Battleline", "Imperium", "Skitarii", "Vanguard"],
         t: 3,
-        sv: 5,
+        sv: 4,
         w: 1,
-        invSv: 6,
+        invSv: 5,
         fnp: 0,
         size: 10,
         weapons: {

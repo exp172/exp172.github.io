@@ -403,6 +403,8 @@ function simulateAttackSequence() {
     let darkAngelsBlade = document.getElementById("darkAngelsEnhancementBlade").checked;
     let darkAngelsRememberance = document.getElementById("darkAngelsEnhancementRememberance").checked;
     let deathGuardGift = document.getElementById("deathGuardArmyRuleGift").checked;
+    let deathGuardSSAttacker = document.getElementById("deathGuardDetachmentSSAttacker").checked;
+    let deathGuardSSDefender = document.getElementById("deathGuardDetachmentSSDefender").checked;
     let deathGuardPathogen = document.getElementById("deathGuardEnhancementPathogen").checked;
     let deathGuardPathogenInRange = document.getElementById("deathGuardEnhancementPathogenInRange").checked;
     let deathwatchFuror = document.getElementById("deathwatchDetachmentFuror").checked;
@@ -1170,6 +1172,13 @@ function simulateAttackSequence() {
             weaponStats[chosenWeaponNameDif].toughness = weaponStats[chosenWeaponNameDif].toughness - 1;
         }
 
+        if(deathGuardSSAttacker){
+            weaponStats[chosenWeaponNameDif].save = weaponStats[chosenWeaponNameDif].save + 1;
+        }
+
+        if(deathGuardSSDefender){
+            weaponStats[chosenWeaponNameDif].hit = weaponStats[chosenWeaponNameDif].hit + 1;
+        }
 
         if(deathGuardPathogenInRange && weaponStats[chosenWeaponNameDif].weaponMeleeRanged == 'melee'){
             if(!weaponStats[chosenWeaponNameDif].extraAttacks){
