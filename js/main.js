@@ -1766,6 +1766,8 @@ function simulateAttackSequence() {
 
         // console.log('NEW SIMULATION')
 
+        let devastatingWoundsDiceArr = [];
+
         let chosenWeaponName;
         let usedSingleReroll = false;
 
@@ -2152,32 +2154,6 @@ function simulateAttackSequence() {
                 // console.log(`dice pool after rerolls and new criticals removed: ${diceResults} length:${diceResults.length}`);
             }
 
-            //If we have devastating wounds
-            if(chosenWeaponStats.devastatingWounds){
-
-                // console.log(`critical wound rolls: ${criticalWoundDice}`);
-                // if(i == 0){
-                    // console.log('devastatingWounds');
-                // }
-
-                //turn the critical wounds into mortal wounds
-                if(chosenWeaponStats.rollDamage){
-                    for(let a=0,b=criticalWoundDice.length;a<b;a++){
-                        let tempDiceRoll = calcDiceRollsInString(chosenWeaponStats.damageString);
-                        if(tempDiceRoll < 1){
-                            tempDiceRoll = 1;
-                        }
-                        if(chosenWeaponStats.halveDamage){
-                            mortalWounds += (Math.ceil(tempDiceRoll));
-                        }else{
-                            mortalWounds += tempDiceRoll;
-                        }
-                    };
-                }else{
-                    mortalWounds = criticalWoundDice.length * chosenWeaponStats.damageString;
-                }
-            }
-
             // console.log(`woundModifier applied:`)
             // console.log(diceResults.filter((result) => (result + chosenWeaponStats.woundModifier) >= chosenWeaponStats.wound))
             // console.log(`woundModifier not applied`)
@@ -2267,8 +2243,6 @@ function simulateAttackSequence() {
 
             }
 
-            weaponStats[chosenWeaponNameDif].criticalWoundAp > 0
-
 
             // console.log(`after reroll saves: ${diceResults}`);
 
@@ -2278,7 +2252,7 @@ function simulateAttackSequence() {
             diceResults = diceResults.filter((result) => result < chosenWeaponStats.save);
 
             //
-            if(weaponStats[chosenWeaponNameDif].criticalWoundAp > 0){
+            if(weaponStats[chosenWeaponNameDif].criticalWoundAp > 0 && !weaponStats[chosenWeaponNameDif].devastatingWounds){
 
                 let tempRecalcedSave = chosenWeaponStats.save + weaponStats[chosenWeaponNameDif].criticalWoundAp;
 
@@ -2288,6 +2262,10 @@ function simulateAttackSequence() {
                 
                 criticalWoundDice = criticalWoundDice.filter((result) => result < (tempRecalcedSave));
 
+                diceResults = diceResults.concat(criticalWoundDice);
+            }
+
+            if(chosenWeaponStats.devastatingWounds){
                 diceResults = diceResults.concat(criticalWoundDice);
             }
 
